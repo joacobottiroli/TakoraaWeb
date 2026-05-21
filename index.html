@@ -473,21 +473,181 @@
     opacity: 0.7;
   }
 
+  /* ── Hamburger / mobile menu ── */
+  .hamburger {
+    display: none;
+    align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: border-color .15s, background .15s;
+    flex-shrink: 0;
+  }
+  .hamburger:hover { border-color: var(--ink); background: var(--off-white); }
+  .hamburger svg { display: block; }
+
+  .mobile-overlay {
+    position: fixed; inset: 0;
+    z-index: 200;
+    display: flex; flex-direction: column;
+    background: #fff;
+    transform: translateY(-100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    will-change: transform;
+  }
+  .mobile-overlay.open { transform: translateY(0); }
+
+  .mobile-overlay-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .mobile-close {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: border-color .15s, background .15s;
+  }
+  .mobile-close:hover { border-color: var(--ink); background: var(--off-white); }
+
+  .mobile-nav-links {
+    flex: 1;
+    display: flex; flex-direction: column;
+    padding: 24px 20px;
+    overflow-y: auto;
+    gap: 4px;
+  }
+  .mobile-nav-links a {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    transition: color .15s;
+  }
+  .mobile-nav-links a:last-child { border-bottom: none; }
+  .mobile-nav-links a:hover { color: var(--primary); }
+
+  .mobile-overlay-foot {
+    padding: 20px;
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 10px;
+    flex-shrink: 0;
+  }
+  .mobile-overlay-foot .btn {
+    width: 100%; justify-content: center;
+    font-size: 15px; padding: 14px 18px; border-radius: 8px;
+  }
+
+  /* ── 1024px: medium – compress nav ── */
+  @media (max-width: 1024px) {
+    .nav-menu a { padding: 7px 9px; font-size: 13px; }
+    h1.hero-title { font-size: 52px; }
+    .bento { padding: 28px 24px 72px; }
+  }
+
+  /* ── 860px: tablet – stack hero, 2-col bento ── */
   @media (max-width: 860px) {
-    .hero { background: #fff; min-height: auto; }
+    .nav { padding: 12px 20px; }
+    .nav-menu { display: none; }
+    .hamburger { display: flex; }
+    .nav-cta .btn-ghost { display: none; }
+
+    .hero { background: #ffffff; min-height: auto; }
     .hero::before, .hero::after, .hero-divider { display: none; }
     .hero-inner { grid-template-columns: 1fr; min-height: auto; padding: 0 20px; }
-    .hero-left { padding: 56px 0; border-bottom: 1px solid var(--line); }
-    .hero-right { padding: 40px 0; margin: 0 -20px; padding-left: 20px; padding-right: 20px; background: var(--off-white); }
-    h1.hero-title { font-size: 48px; }
-    .section-head { grid-template-columns: 1fr; padding: 56px 20px 20px; }
-    .bento { grid-template-columns: repeat(2, 1fr); padding: 28px 20px 64px; grid-template-rows: unset; grid-auto-rows: minmax(190px, auto); }
-    .b-routing, .b-insights { grid-column: span 2; grid-row: unset; }
-    .b-cache, .b-pruning, .b-keys { grid-column: span 1; grid-row: unset; }
-    .integrate { grid-template-columns: 1fr; padding: 64px 20px; gap: 32px; }
+    .hero-left { padding: 52px 0 40px; border-bottom: 1px solid var(--line); }
+    .hero-right { padding: 36px 20px 48px; margin: 0 -20px; background: var(--off-white); justify-content: center; }
+    h1.hero-title { font-size: 44px; }
+    .hero-sub { font-size: 16px; max-width: 100%; }
+    .hero-meta { flex-wrap: wrap; gap: 10px; }
+
+    .section-head { grid-template-columns: 1fr; padding: 52px 20px 20px; }
+    .section-title { font-size: 32px; }
+
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: unset;
+      grid-auto-rows: auto;
+      padding: 20px 20px 48px;
+      gap: 12px;
+    }
+    .card { overflow: hidden; }
+    .b-routing  { grid-column: span 2; grid-row: unset; min-height: 320px; }
+    .b-cache    { grid-column: span 1; grid-row: unset; min-height: 200px; }
+    .b-pruning  { grid-column: span 1; grid-row: unset; min-height: 200px; }
+    .b-insights { grid-column: span 2; grid-row: unset; min-height: 340px; }
+    .b-keys     { grid-column: span 2; grid-row: unset; min-height: 220px; }
+    .b-routing .card-body  { min-height: 160px; }
+    .b-insights .card-body { min-height: 180px; }
+
+    .integrate { grid-template-columns: 1fr; padding: 56px 20px; gap: 32px; }
+    .integrate-copy h2 { font-size: 34px; }
+
     .foot-inner { padding: 0 20px; }
-    .foot-grid { grid-template-columns: 1fr 1fr; }
-    .logos { flex-direction: column; align-items: flex-start; padding: 28px 20px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+
+    .logos { flex-direction: column; align-items: flex-start; padding: 24px 20px; gap: 14px; }
+    .logos-row { gap: 20px; }
+  }
+
+  /* ── 600px: phone – single column ── */
+  @media (max-width: 600px) {
+    .nav { padding: 12px 16px; }
+
+    .hero-inner { padding: 0 16px; }
+    .hero-left { padding: 44px 0 36px; }
+    .hero-right { padding: 32px 16px 44px; margin: 0 -16px; }
+    h1.hero-title { font-size: 36px; }
+    .hero-cta { flex-direction: column; align-items: stretch; }
+    .hero-cta .btn { justify-content: center; }
+    .hero-meta { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+    .section-head { padding: 44px 16px 16px; }
+    .section-title { font-size: 28px; }
+
+    .bento { grid-template-columns: 1fr; padding: 16px 16px 40px; gap: 10px; }
+    .b-routing, .b-cache, .b-pruning, .b-insights, .b-keys { grid-column: span 1; }
+    .b-routing  { min-height: 280px; }
+    .b-cache    { min-height: 0; }
+    .b-pruning  { min-height: 0; }
+    .b-insights { min-height: 280px; }
+    .b-keys     { min-height: 0; }
+    .card { padding: 18px 18px 20px; }
+
+    .integrate { padding: 44px 16px; }
+    .integrate-copy h2 { font-size: 28px; }
+    .integrate-stats { flex-wrap: wrap; gap: 16px; }
+    .diff-body { font-size: 11.5px; }
+    .diff-tabs { flex-wrap: wrap; }
+    .diff-tab { font-size: 10.5px; padding: 4px 8px; }
+
+    .foot-inner { padding: 0 16px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .foot-bottom { flex-direction: column; gap: 10px; align-items: flex-start; }
+
+    .logos { padding: 20px 16px; }
+    .logos-row { gap: 14px; }
+    .logos-row span { font-size: 14px; }
+  }
+
+  /* ── 420px: very small phones ── */
+  @media (max-width: 420px) {
+    h1.hero-title { font-size: 30px; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .nav-cta .btn:not(.btn-primary) { display: none; }
   }
 </style>
 </head>
@@ -873,7 +1033,8 @@ function RouterDemo() {
         .rd-badge-pct{font-family:'Montserrat',sans-serif;font-weight:700;font-size:30px;color:var(--green-deep);letter-spacing:-.02em;line-height:1}
         .rd-badge-title{font-size:12px;color:var(--ink);font-weight:600}
         .rd-badge-sub{font-size:10.5px;color:var(--ink-mute);margin-top:2px}
-        @media(max-width:860px){.rd-badge{right:0;bottom:-16px}.rd-url-path{display:none}.rd-models{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:860px){.rd-badge{right:0;bottom:-16px}.rd-url-path{display:none}}
+        @media(max-width:600px){.rd-models{grid-template-columns:repeat(2,1fr)}.rd-model-name{font-size:10.5px}.rd-wrap{max-width:100%}}
       `}</style>
     </div>
   );
@@ -1094,22 +1255,90 @@ function Logo({ size = 26 }) {
   );
 }
 
+const NAV_LINKS = [
+  { href: "#product",     label: "Product" },
+  { href: "#routing",     label: "Routing" },
+  { href: "#integration", label: "Docs" },
+  { href: "#pricing",     label: "Pricing" },
+  { href: "#customers",   label: "Customers" },
+  { href: "#changelog",   label: "Changelog" },
+];
+
 function NavBar() {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const close = () => setMenuOpen(false);
+
+  React.useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
   return (
-    <div className="nav-wrap">
-      <nav className="nav">
-        <a className="logo" href="#"><Logo /><span className="logo-word">Takoraa</span></a>
-        <div className="nav-menu">
-          <a href="#product">Product</a><a href="#routing">Routing</a>
-          <a href="#integration">Docs</a><a href="#pricing">Pricing</a>
-          <a href="#customers">Customers</a><a href="#changelog">Changelog</a>
+    <>
+      <div className="nav-wrap">
+        <nav className="nav">
+          <a className="logo" href="#" onClick={close}>
+            <Logo /><span className="logo-word">Takoraa</span>
+          </a>
+
+          {/* Desktop menu */}
+          <div className="nav-menu">
+            {NAV_LINKS.map(l => <a key={l.href} href={l.href}>{l.label}</a>)}
+          </div>
+
+          <div className="nav-cta">
+            <a className="btn btn-ghost" href="#">Sign in</a>
+            <a className="btn" href="#">
+              Deploy
+              <svg className="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none">
+                <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
+            {/* Hamburger — visible only on mobile via CSS */}
+            <button className="hamburger" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+              <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+                <path d="M0 1 H18 M0 7 H18 M0 13 H18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      {/* Full-screen mobile overlay */}
+      <div className={`mobile-overlay ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
+        <div className="mobile-overlay-head">
+          <a className="logo" href="#" onClick={close}>
+            <Logo /><span className="logo-word">Takoraa</span>
+          </a>
+          <button className="mobile-close" aria-label="Close menu" onClick={close}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 1 L13 13 M13 1 L1 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
-        <div className="nav-cta">
-          <a className="btn btn-ghost" href="#">Sign in</a>
-          <a className="btn" href="#">Deploy<svg className="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg></a>
+
+        <div className="mobile-nav-links">
+          {NAV_LINKS.map(l => (
+            <a key={l.href} href={l.href} onClick={close}>{l.label}</a>
+          ))}
         </div>
-      </nav>
-    </div>
+
+        <div className="mobile-overlay-foot">
+          <a className="btn btn-primary btn-lg" href="#" onClick={close}>
+            Start routing free
+            <svg className="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+          <a className="btn btn-lg" href="#" onClick={close}>Sign in</a>
+        </div>
+      </div>
+    </>
   );
 }
 
