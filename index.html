@@ -41,12 +41,10 @@
   .display { font-family: 'Montserrat', sans-serif; letter-spacing: -0.025em; }
 
   .page {
-    max-width: 1240px;
-    margin: 0 auto;
-    border-left: 1px solid var(--line);
-    border-right: 1px solid var(--line);
     position: relative;
     background: var(--bg);
+    width: 100%;
+    overflow-x: hidden;
   }
   section { border-bottom: 1px solid var(--line); }
 
@@ -61,9 +59,7 @@
   .nav {
     max-width: 1240px; margin: 0 auto;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 28px;
-    border-left: 1px solid var(--line);
-    border-right: 1px solid var(--line);
+    padding: 14px 32px;
   }
   .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
   .logo-word { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
@@ -104,16 +100,48 @@
   .btn .arrow { transition: transform .2s; }
   .btn:hover .arrow { transform: translateX(2px); }
 
-  /* Hero */
+  /* Hero — full-width split background */
   .hero {
+    position: relative;
+    min-height: calc(100vh - 57px);
+    background: linear-gradient(to right, #ffffff 0%, #ffffff 50%, var(--off-white) 50%, var(--off-white) 100%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 50%;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(0,159,227,0.06), transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(151,215,0,0.07), transparent 55%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 50%;
+    background-image: radial-gradient(circle, rgba(55,58,60,0.09) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 78%);
+    pointer-events: none;
+  }
+  .hero-divider {
+    position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 1px; background: var(--line);
+    pointer-events: none;
+    transform: translateX(-0.5px);
+    z-index: 1;
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1240px; width: 100%;
+    margin: 0 auto;
+    padding: 0 32px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 640px;
+    min-height: calc(100vh - 57px);
+    align-items: stretch;
   }
   .hero-left {
-    padding: 88px 56px 88px 28px;
+    padding: 80px 56px 80px 0;
     display: flex; flex-direction: column; justify-content: center;
-    border-right: 1px solid var(--line);
   }
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -164,27 +192,17 @@
   .hero-meta-item { display: inline-flex; align-items: center; }
 
   .hero-right {
-    padding: 56px 28px 56px 56px;
+    padding: 56px 0 56px 56px;
     display: flex; align-items: center; justify-content: center;
-    background:
-      radial-gradient(circle at 20% 0%, rgba(0,159,227,0.05), transparent 60%),
-      radial-gradient(circle at 100% 100%, rgba(151,215,0,0.06), transparent 50%),
-      var(--off-white);
     position: relative;
-    overflow: hidden;
-  }
-  .hero-right::before {
-    content: ""; position: absolute; inset: 0;
-    background-image: radial-gradient(circle, rgba(55,58,60,0.08) 1px, transparent 1px);
-    background-size: 22px 22px;
-    mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
-    pointer-events: none;
   }
 
   /* Section header */
   .section-head {
-    padding: 88px 28px 28px;
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 88px 32px 28px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -222,21 +240,25 @@
   /* Bento */
   .features { background: var(--off-white); }
   .bento {
-    padding: 36px 28px 96px;
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 36px 32px 96px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 170px;
+    grid-template-rows: 290px 290px 290px 290px;
     gap: 14px;
   }
   .card {
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 8px;
-    padding: 22px;
+    padding: 24px 24px 28px;
     display: flex; flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: border-color .15s, transform .2s;
+    min-height: 0;
   }
   .card:hover { border-color: var(--line-strong); }
   .card-kicker {
@@ -262,16 +284,19 @@
     margin: 0;
     max-width: 380px;
   }
-  .card-body { flex: 1; margin-top: 18px; position: relative; }
-  .b-routing   { grid-column: span 4; grid-row: span 2; }
-  .b-cache     { grid-column: span 2; grid-row: span 1; }
-  .b-pruning   { grid-column: span 2; grid-row: span 1; }
-  .b-insights  { grid-column: span 4; grid-row: span 2; }
-  .b-keys      { grid-column: span 2; grid-row: span 2; }
+  .card-body { flex: 1; margin-top: 16px; position: relative; min-height: 0; }
+  .b-routing  { grid-column: span 4; grid-row: 1 / span 2; }
+  .b-cache    { grid-column: span 2; grid-row: 1 / span 1; }
+  .b-pruning  { grid-column: span 2; grid-row: 2 / span 1; }
+  .b-insights { grid-column: span 4; grid-row: 3 / span 2; }
+  .b-keys     { grid-column: span 2; grid-row: 3 / span 2; }
 
   /* Integration */
   .integrate {
-    padding: 96px 28px;
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 96px 32px;
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: 56px;
@@ -357,8 +382,14 @@
 
   /* Footer */
   footer.foot {
-    padding: 64px 28px 28px;
+    padding: 64px 0 28px;
     background: #fff;
+  }
+  .foot-inner {
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 32px;
   }
   .foot-grid {
     display: grid;
@@ -415,12 +446,14 @@
   .foot-bottom a { color: var(--ink-mute); text-decoration: none; }
   .foot-bottom a:hover { color: var(--ink); }
 
-  /* Marquee logos */
+  /* Logo / Metrics strips */
+  .logo-strip { background: #fff; border-bottom: 1px solid var(--line); }
   .logos {
-    padding: 32px 28px;
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
-    border-bottom: 1px solid var(--line);
-    background: #fff;
   }
   .logos-label {
     font-family: 'JetBrains Mono', monospace;
@@ -440,18 +473,21 @@
     opacity: 0.7;
   }
 
-  @media (max-width: 1100px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-left { border-right: none; border-bottom: 1px solid var(--line); padding: 56px 24px; }
-    .hero-right { padding: 40px 24px; }
+  @media (max-width: 860px) {
+    .hero { background: #fff; min-height: auto; }
+    .hero::before, .hero::after, .hero-divider { display: none; }
+    .hero-inner { grid-template-columns: 1fr; min-height: auto; padding: 0 20px; }
+    .hero-left { padding: 56px 0; border-bottom: 1px solid var(--line); }
+    .hero-right { padding: 40px 0; margin: 0 -20px; padding-left: 20px; padding-right: 20px; background: var(--off-white); }
     h1.hero-title { font-size: 48px; }
-    .section-head { grid-template-columns: 1fr; padding: 56px 24px 20px; }
-    .bento { grid-template-columns: repeat(2, 1fr); padding: 28px 24px 64px; }
-    .b-routing, .b-insights { grid-column: span 2; }
-    .b-cache, .b-pruning, .b-keys { grid-column: span 1; }
-    .integrate { grid-template-columns: 1fr; padding: 64px 24px; gap: 32px; }
+    .section-head { grid-template-columns: 1fr; padding: 56px 20px 20px; }
+    .bento { grid-template-columns: repeat(2, 1fr); padding: 28px 20px 64px; grid-template-rows: unset; grid-auto-rows: minmax(190px, auto); }
+    .b-routing, .b-insights { grid-column: span 2; grid-row: unset; }
+    .b-cache, .b-pruning, .b-keys { grid-column: span 1; grid-row: unset; }
+    .integrate { grid-template-columns: 1fr; padding: 64px 20px; gap: 32px; }
+    .foot-inner { padding: 0 20px; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
-    .logos { flex-direction: column; align-items: flex-start; }
+    .logos { flex-direction: column; align-items: flex-start; padding: 28px 20px; }
   }
 </style>
 </head>
@@ -470,7 +506,7 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
   <script type="text/babel">
-// ─── Tweaks Panel ────────────────────────────────────────────────────────────
+// ─── Tweaks Panel ─────────────────────────────────────────────────────────────
 
 const __TWEAKS_STYLE = `
   .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
@@ -490,16 +526,9 @@ const __TWEAKS_STYLE = `
   .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
     overflow-y:auto;overflow-x:hidden;min-height:0;
     scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
-  .twk-body::-webkit-scrollbar{width:8px}
-  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
-  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
-    border:2px solid transparent;background-clip:content-box}
-  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
-    border:2px solid transparent;background-clip:content-box}
   .twk-row{display:flex;flex-direction:column;gap:5px}
   .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
-  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
-    color:rgba(41,38,27,.72)}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
   .twk-lbl>span:first-child{font-weight:500}
   .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
   .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
@@ -512,13 +541,6 @@ const __TWEAKS_STYLE = `
   select.twk-field{padding-right:22px;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
     background-repeat:no-repeat;background-position:right 8px center}
-  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
-    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
-  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-    width:14px;height:14px;border-radius:50%;background:#fff;
-    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
-  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
-    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
   .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
     background:rgba(0,0,0,.06);user-select:none}
   .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
@@ -527,36 +549,20 @@ const __TWEAKS_STYLE = `
   .twk-seg.dragging .twk-seg-thumb{transition:none}
   .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
     background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
-    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
-    overflow-wrap:anywhere}
-  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
-    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
-  .twk-toggle[data-on="1"]{background:#34c759}
-  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
-    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
-  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;overflow-wrap:anywhere}
   .twk-chips{display:flex;gap:6px}
   .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
     padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
     box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
     transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
-  .twk-chip:hover{transform:translateY(-1px);
-    box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
-  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),
-    0 2px 6px rgba(0,0,0,.15)}
-  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;
-    display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
-  .twk-chip>span>i{flex:1;box-shadow:0 -1px 0 rgba(0,0,0,.1)}
-  .twk-chip>span>i:first-child{box-shadow:none}
-  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
-    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+  .twk-chip:hover{transform:translateY(-1px);box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),0 2px 6px rgba(0,0,0,.15)}
 `;
 
 function useTweaks(defaults) {
   const [values, setValues] = React.useState(defaults);
   const setTweak = React.useCallback((keyOrEdits, val) => {
-    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
-      ? keyOrEdits : { [keyOrEdits]: val };
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
     setValues((prev) => ({ ...prev, ...edits }));
     window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
     window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
@@ -569,21 +575,15 @@ function TweaksPanel({ title = 'Tweaks', children }) {
   const dragRef = React.useRef(null);
   const offsetRef = React.useRef({ x: 16, y: 16 });
   const PAD = 16;
-
   const clampToViewport = React.useCallback(() => {
     const panel = dragRef.current;
     if (!panel) return;
-    const w = panel.offsetWidth, h = panel.offsetHeight;
-    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
-    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
-    offsetRef.current = {
-      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
-      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
-    };
+    const maxRight = Math.max(PAD, window.innerWidth - panel.offsetWidth - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - panel.offsetHeight - PAD);
+    offsetRef.current = { x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)), y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)) };
     panel.style.right = offsetRef.current.x + 'px';
     panel.style.bottom = offsetRef.current.y + 'px';
   }, []);
-
   React.useEffect(() => {
     if (!open) return;
     clampToViewport();
@@ -592,39 +592,21 @@ function TweaksPanel({ title = 'Tweaks', children }) {
     window.addEventListener('resize', clampToViewport);
     return () => window.removeEventListener('resize', clampToViewport);
   }, [open, clampToViewport]);
-
   React.useEffect(() => {
-    const onMsg = (e) => {
-      const t = e?.data?.type;
-      if (t === '__activate_edit_mode') setOpen(true);
-      else if (t === '__deactivate_edit_mode') setOpen(false);
-    };
+    const onMsg = (e) => { const t = e?.data?.type; if (t === '__activate_edit_mode') setOpen(true); else if (t === '__deactivate_edit_mode') setOpen(false); };
     window.addEventListener('message', onMsg);
     window.parent.postMessage({ type: '__edit_mode_available' }, '*');
     return () => window.removeEventListener('message', onMsg);
   }, []);
-
-  const dismiss = () => {
-    setOpen(false);
-    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
-  };
-
+  const dismiss = () => { setOpen(false); window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); };
   const onDragStart = (e) => {
-    const panel = dragRef.current;
-    if (!panel) return;
+    const panel = dragRef.current; if (!panel) return;
     const r = panel.getBoundingClientRect();
-    const sx = e.clientX, sy = e.clientY;
-    const startRight = window.innerWidth - r.right;
-    const startBottom = window.innerHeight - r.bottom;
-    const move = (ev) => {
-      offsetRef.current = { x: startRight - (ev.clientX - sx), y: startBottom - (ev.clientY - sy) };
-      clampToViewport();
-    };
+    const sx = e.clientX, startRight = window.innerWidth - r.right, startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => { offsetRef.current = { x: startRight - (ev.clientX - sx), y: startBottom - (ev.clientY - e.clientY) }; clampToViewport(); };
     const up = () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); };
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', up);
+    window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
   };
-
   if (!open) return null;
   return (
     <>
@@ -640,37 +622,12 @@ function TweaksPanel({ title = 'Tweaks', children }) {
   );
 }
 
-function TweakSection({ label, children }) {
-  return <><div className="twk-sect">{label}</div>{children}</>;
-}
-
+function TweakSection({ label, children }) { return <><div className="twk-sect">{label}</div>{children}</>; }
 function TweakRow({ label, value, children, inline = false }) {
   return (
     <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
-      <div className="twk-lbl">
-        <span>{label}</span>
-        {value != null && <span className="twk-val">{value}</span>}
-      </div>
+      <div className="twk-lbl"><span>{label}</span>{value != null && <span className="twk-val">{value}</span>}</div>
       {children}
-    </div>
-  );
-}
-
-function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
-  return (
-    <TweakRow label={label} value={`${value}${unit}`}>
-      <input type="range" className="twk-slider" min={min} max={max} step={step}
-             value={value} onChange={(e) => onChange(Number(e.target.value))} />
-    </TweakRow>
-  );
-}
-
-function TweakToggle({ label, value, onChange }) {
-  return (
-    <div className="twk-row twk-row-h">
-      <div className="twk-lbl"><span>{label}</span></div>
-      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
-              role="switch" aria-checked={!!value} onClick={() => onChange(!value)}><i /></button>
     </div>
   );
 }
@@ -679,11 +636,7 @@ function TweakSelect({ label, value, options, onChange }) {
   return (
     <TweakRow label={label}>
       <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
-        {options.map((o) => {
-          const v = typeof o === 'object' ? o.value : o;
-          const l = typeof o === 'object' ? o.label : o;
-          return <option key={v} value={v}>{l}</option>;
-        })}
+        {options.map((o) => { const v = typeof o === 'object' ? o.value : o; const l = typeof o === 'object' ? o.label : o; return <option key={v} value={v}>{l}</option>; })}
       </select>
     </TweakRow>
   );
@@ -692,95 +645,49 @@ function TweakSelect({ label, value, options, onChange }) {
 function TweakRadio({ label, value, options, onChange }) {
   const trackRef = React.useRef(null);
   const [dragging, setDragging] = React.useState(false);
-  const valueRef = React.useRef(value);
-  valueRef.current = value;
-
+  const valueRef = React.useRef(value); valueRef.current = value;
   const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
   const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
   const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
-
   if (!fitsAsSegments) {
-    const resolve = (s) => {
-      const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s);
-      return m === undefined ? s : typeof m === 'object' ? m.value : m;
-    };
+    const resolve = (s) => { const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s); return m === undefined ? s : typeof m === 'object' ? m.value : m; };
     return <TweakSelect label={label} value={value} options={options} onChange={(s) => onChange(resolve(s))} />;
   }
-
   const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
   const idx = Math.max(0, opts.findIndex((o) => o.value === value));
   const n = opts.length;
-
-  const segAt = (clientX) => {
-    const r = trackRef.current.getBoundingClientRect();
-    const inner = r.width - 4;
-    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
-    return opts[Math.max(0, Math.min(n - 1, i))].value;
-  };
-
+  const segAt = (clientX) => { const r = trackRef.current.getBoundingClientRect(); const i = Math.floor(((clientX - r.left - 2) / (r.width - 4)) * n); return opts[Math.max(0, Math.min(n - 1, i))].value; };
   const onPointerDown = (e) => {
     setDragging(true);
-    const v0 = segAt(e.clientX);
-    if (v0 !== valueRef.current) onChange(v0);
+    const v0 = segAt(e.clientX); if (v0 !== valueRef.current) onChange(v0);
     const move = (ev) => { if (!trackRef.current) return; const v = segAt(ev.clientX); if (v !== valueRef.current) onChange(v); };
     const up = () => { setDragging(false); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
-    window.addEventListener('pointermove', move);
-    window.addEventListener('pointerup', up);
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
   };
-
   return (
     <TweakRow label={label}>
-      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
-           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
-        <div className="twk-seg-thumb"
-             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`, width: `calc((100% - 4px) / ${n})` }} />
-        {opts.map((o) => (
-          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>{o.label}</button>
-        ))}
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown} className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb" style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`, width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>{o.label}</button>)}
       </div>
     </TweakRow>
   );
 }
 
-function __twkIsLight(hex) {
-  const h = String(hex).replace('#', '');
-  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
-  const n = parseInt(x.slice(0, 6), 16);
-  if (Number.isNaN(n)) return true;
-  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
-  return r * 299 + g * 587 + b * 114 > 148000;
-}
-
 function TweakColor({ label, value, options, onChange }) {
-  if (!options || !options.length) {
-    return (
-      <div className="twk-row twk-row-h">
-        <div className="twk-lbl"><span>{label}</span></div>
-        <input type="color" className="twk-swatch" value={value} onChange={(e) => onChange(e.target.value)} />
-      </div>
-    );
-  }
+  if (!options || !options.length) return (
+    <div className="twk-row twk-row-h"><div className="twk-lbl"><span>{label}</span></div><input type="color" value={value} onChange={(e) => onChange(e.target.value)} /></div>
+  );
   const key = (o) => String(JSON.stringify(o)).toLowerCase();
   const cur = key(value);
   return (
     <TweakRow label={label}>
       <div className="twk-chips" role="radiogroup">
         {options.map((o, i) => {
-          const colors = Array.isArray(o) ? o : [o];
-          const [hero, ...rest] = colors;
-          const sup = rest.slice(0, 4);
-          const on = key(o) === cur;
+          const colors = Array.isArray(o) ? o : [o]; const [hero] = colors; const on = key(o) === cur;
           return (
-            <button key={i} type="button" className="twk-chip" role="radio"
-                    aria-checked={on} data-on={on ? '1' : '0'}
-                    style={{ background: hero }} onClick={() => onChange(o)}>
-              {sup.length > 0 && <span>{sup.map((c, j) => <i key={j} style={{ background: c }} />)}</span>}
-              {on && (
-                <svg viewBox="0 0 14 14" aria-hidden="true" style={{ position: 'absolute', top: 6, left: 6, width: 13, height: 13 }}>
-                  <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
-                        stroke={__twkIsLight(hero) ? 'rgba(0,0,0,.78)' : '#fff'} />
-                </svg>
-              )}
+            <button key={i} type="button" className="twk-chip" role="radio" aria-checked={on} data-on={on ? '1' : '0'} style={{ background: hero }} onClick={() => onChange(o)}>
+              {on && <svg viewBox="0 0 14 14" aria-hidden="true" style={{ position:'absolute',top:6,left:6,width:13,height:13 }}><path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" stroke="#fff"/></svg>}
             </button>
           );
         })}
@@ -789,50 +696,13 @@ function TweakColor({ label, value, options, onChange }) {
   );
 }
 
-// ─── Router Demo ─────────────────────────────────────────────────────────────
+// ─── Router Demo ──────────────────────────────────────────────────────────────
 
 const SCENARIOS = [
-  {
-    prompt: "Summarize this 3-line email in one sentence.",
-    tokensIn: 86,
-    classification: "Simple · low complexity",
-    pickedKey: "haiku",
-    rejected: ["gpt-4o", "claude-sonnet"],
-    fromModel: "GPT-4o",
-    toModel: "Haiku 4.5",
-    fromCost: 0.084,
-    toCost: 0.007,
-    latency: "412ms",
-    quality: "98%"
-  },
-  {
-    prompt: "Refactor this 240-line TypeScript module for readability.",
-    tokensIn: 3120,
-    classification: "Code · medium-high complexity",
-    pickedKey: "sonnet",
-    rejected: ["opus", "gpt-4o"],
-    fromModel: "Claude Opus 4",
-    toModel: "Sonnet 4.5",
-    fromCost: 0.612,
-    toCost: 0.118,
-    latency: "1.2s",
-    quality: "99%"
-  },
-  {
-    prompt: "Extract entities and sentiment from 12 customer reviews.",
-    tokensIn: 1840,
-    classification: "Extraction · structured output",
-    pickedKey: "haiku",
-    rejected: ["gpt-4o", "sonnet"],
-    fromModel: "GPT-4o",
-    toModel: "Haiku 4.5",
-    fromCost: 0.244,
-    toCost: 0.021,
-    latency: "680ms",
-    quality: "97%"
-  }
+  { prompt: "Summarize this 3-line email in one sentence.", tokensIn: 86, classification: "Simple · low complexity", pickedKey: "haiku", rejected: ["gpt-4o", "claude-sonnet"], fromModel: "GPT-4o", toModel: "Haiku 4.5", fromCost: 0.084, toCost: 0.007, latency: "412ms", quality: "98%" },
+  { prompt: "Refactor this 240-line TypeScript module for readability.", tokensIn: 3120, classification: "Code · medium-high complexity", pickedKey: "sonnet", rejected: ["opus", "gpt-4o"], fromModel: "Claude Opus 4", toModel: "Sonnet 4.5", fromCost: 0.612, toCost: 0.118, latency: "1.2s", quality: "99%" },
+  { prompt: "Extract entities and sentiment from 12 customer reviews.", tokensIn: 1840, classification: "Extraction · structured output", pickedKey: "haiku", rejected: ["gpt-4o", "sonnet"], fromModel: "GPT-4o", toModel: "Haiku 4.5", fromCost: 0.244, toCost: 0.021, latency: "680ms", quality: "97%" }
 ];
-
 const MODELS = [
   { key: "opus",   label: "Opus 4",        tier: "Premium",   cost: "$15 / 1M" },
   { key: "gpt-4o", label: "GPT-4o",        tier: "Premium",   cost: "$10 / 1M" },
@@ -846,21 +716,13 @@ function RouterDemo() {
   const [phase, setPhase] = React.useState(0);
   const [typed, setTyped] = React.useState("");
   const timersRef = React.useRef([]);
-
   const scenario = SCENARIOS[scIdx];
-
   const clearTimers = () => { timersRef.current.forEach(t => clearTimeout(t)); timersRef.current = []; };
   const push = (fn, ms) => { const id = setTimeout(fn, ms); timersRef.current.push(id); };
-
   React.useEffect(() => {
-    clearTimers();
-    setTyped("");
-    setPhase(0);
-    const text = scenario.prompt;
-    const charMs = 22;
-    for (let i = 1; i <= text.length; i++) {
-      push(() => setTyped(text.slice(0, i)), i * charMs);
-    }
+    clearTimers(); setTyped(""); setPhase(0);
+    const text = scenario.prompt; const charMs = 22;
+    for (let i = 1; i <= text.length; i++) push(() => setTyped(text.slice(0, i)), i * charMs);
     const typeDone = text.length * charMs;
     push(() => setPhase(1), typeDone + 380);
     push(() => setPhase(2), typeDone + 1500);
@@ -868,10 +730,8 @@ function RouterDemo() {
     push(() => setScIdx((scIdx + 1) % SCENARIOS.length), typeDone + 6200);
     return clearTimers;
   }, [scIdx]);
-
   const saved = scenario.fromCost - scenario.toCost;
   const savedPct = Math.round((saved / scenario.fromCost) * 100);
-
   return (
     <div className="rd-wrap">
       <div className="rd-card">
@@ -887,7 +747,6 @@ function RouterDemo() {
             {phase < 3 ? "routing" : "200 OK"}
           </div>
         </div>
-
         <div className="rd-body">
           <div className="rd-section">
             <div className="rd-section-head">
@@ -895,13 +754,11 @@ function RouterDemo() {
               <span className="rd-section-meta mono">{scenario.tokensIn.toLocaleString()} tokens</span>
             </div>
             <div className="rd-prompt mono">
-              <span className="rd-quote">"</span>
-              <span className="rd-prompt-text">{typed}</span>
+              <span className="rd-quote">"</span><span>{typed}</span>
               {phase === 0 && <span className="rd-caret"></span>}
               <span className="rd-quote">"</span>
             </div>
           </div>
-
           <div className={`rd-section rd-analysis ${phase >= 1 ? 'is-active' : ''}`}>
             <div className="rd-section-head">
               <span className="rd-section-label mono">router.classify</span>
@@ -913,21 +770,16 @@ function RouterDemo() {
                 const isRejected = phase >= 2 && scenario.rejected.includes(m.key);
                 const isEvaluating = phase === 1;
                 return (
-                  <div key={m.key}
-                       className={`rd-model ${isPicked ? 'picked' : ''} ${isRejected ? 'rejected' : ''} ${isEvaluating ? 'evaluating' : ''}`}>
+                  <div key={m.key} className={`rd-model ${isPicked ? 'picked' : ''} ${isRejected ? 'rejected' : ''} ${isEvaluating ? 'evaluating' : ''}`}>
                     <div className="rd-model-tier mono">{m.tier}</div>
                     <div className="rd-model-name">{m.label}</div>
                     <div className="rd-model-cost mono">{m.cost}</div>
-                    <div className="rd-model-bar">
-                      <div className="rd-model-fill"
-                           style={{ width: phase >= 1 ? (isPicked ? '100%' : isRejected ? '32%' : '70%') : '0%' }}></div>
-                    </div>
+                    <div className="rd-model-bar"><div className="rd-model-fill" style={{ width: phase >= 1 ? (isPicked ? '100%' : isRejected ? '32%' : '70%') : '0%' }}></div></div>
                   </div>
                 );
               })}
             </div>
           </div>
-
           <div className={`rd-section rd-decision ${phase >= 2 ? 'is-active' : ''}`}>
             <div className="rd-decision-row">
               <div className="rd-decision-cell from">
@@ -950,7 +802,6 @@ function RouterDemo() {
           </div>
         </div>
       </div>
-
       <div className={`rd-badge ${phase >= 3 ? 'show' : ''}`}>
         <div className="rd-badge-row">
           <div className="rd-badge-pct mono">−{savedPct}%</div>
@@ -960,77 +811,69 @@ function RouterDemo() {
           </div>
         </div>
       </div>
-
       <style>{`
-        .rd-wrap { width: 100%; max-width: 560px; position: relative; z-index: 1; }
-        .rd-card {
-          background: #ffffff; border: 1px solid var(--line); border-radius: 12px;
-          box-shadow: 0 1px 0 rgba(15,76,129,0.04), 0 30px 60px -30px rgba(15,76,129,0.25), 0 12px 28px -16px rgba(0,0,0,0.18);
-          overflow: hidden;
-        }
-        .rd-chrome { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #fafbf7; }
-        .rd-dots { display: flex; gap: 5px; }
-        .rd-dots span { width: 9px; height: 9px; border-radius: 50%; background: #e2e3dd; border: 1px solid #d4d5cf; }
-        .rd-dots span:nth-child(1) { background: #f1d3b8; border-color: #e6b78d; }
-        .rd-dots span:nth-child(2) { background: #f5e7a8; border-color: #e6cf75; }
-        .rd-dots span:nth-child(3) { background: #c9e2a3; border-color: #a8c97a; }
-        .rd-url { font-size: 11.5px; display: inline-flex; align-items: center; gap: 8px; flex: 1; color: var(--ink-soft); background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; }
-        .rd-url-tag { font-size: 9.5px; font-weight: 600; color: var(--primary); letter-spacing: 0.06em; }
-        .rd-url-host { color: var(--ink); }
-        .rd-url-path { color: var(--ink-mute); }
-        .rd-status { font-size: 11px; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 6px; }
-        .rd-pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-mute); }
-        .rd-pulse.live { background: var(--cyan); box-shadow: 0 0 0 0 rgba(0,159,227,0.5); animation: rdPulse 1.4s ease-out infinite; }
-        @keyframes rdPulse { 0% { box-shadow: 0 0 0 0 rgba(0,159,227,0.5); } 80% { box-shadow: 0 0 0 8px rgba(0,159,227,0); } 100% { box-shadow: 0 0 0 0 rgba(0,159,227,0); } }
-        .rd-body { padding: 16px 16px 18px; }
-        .rd-section { padding: 12px 0; }
-        .rd-section + .rd-section { border-top: 1px dashed var(--line); }
-        .rd-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-        .rd-section-label { font-size: 10.5px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; }
-        .rd-section-meta { font-size: 11px; color: var(--ink-mute); }
-        .rd-tag { font-size: 10.5px; padding: 2px 8px; border-radius: 999px; background: rgba(0,159,227,0.08); color: var(--primary); border: 1px solid rgba(0,159,227,0.18); }
-        .rd-prompt { font-size: 13.5px; line-height: 1.5; color: var(--ink); background: var(--off-white); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; min-height: 50px; }
-        .rd-quote { color: var(--ink-mute); }
-        .rd-caret { display: inline-block; width: 7px; height: 14px; background: var(--primary); margin-left: 1px; vertical-align: -2px; animation: rdBlink 1s steps(2) infinite; }
-        @keyframes rdBlink { 50% { opacity: 0; } }
-        .rd-models { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-        .rd-model { border: 1px solid var(--line); border-radius: 6px; padding: 8px 8px 7px; background: #fff; position: relative; transition: all .35s cubic-bezier(.2,.7,.2,1); opacity: 0.55; }
-        .rd-analysis.is-active .rd-model { opacity: 1; }
-        .rd-model-tier { font-size: 9px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; }
-        .rd-model-name { font-size: 11.5px; font-weight: 600; color: var(--ink); margin-top: 2px; line-height: 1.1; }
-        .rd-model-cost { font-size: 9.5px; color: var(--ink-mute); margin-top: 4px; }
-        .rd-model-bar { height: 2px; background: var(--off-white); border-radius: 2px; margin-top: 8px; overflow: hidden; }
-        .rd-model-fill { height: 100%; width: 0%; background: var(--ink-mute); transition: width .8s cubic-bezier(.2,.7,.2,1), background .3s; }
-        .rd-model.evaluating .rd-model-fill { background: var(--cyan); animation: rdScan 1.2s ease-in-out infinite alternate; }
-        @keyframes rdScan { from { width: 30%; } to { width: 90%; } }
-        .rd-model.picked { border-color: var(--green-deep); background: rgba(151,215,0,0.07); box-shadow: 0 0 0 3px rgba(151,215,0,0.12); }
-        .rd-model.picked .rd-model-fill { background: var(--green-deep); }
-        .rd-model.rejected { opacity: 0.45; }
-        .rd-model.rejected .rd-model-fill { background: var(--ink-mute); }
-        .rd-decision { padding-bottom: 0; }
-        .rd-decision-row { display: grid; grid-template-columns: 1fr 56px 1fr; align-items: center; gap: 10px; opacity: 0; transform: translateY(6px); transition: opacity .4s, transform .4s; }
-        .rd-decision.is-active .rd-decision-row { opacity: 1; transform: translateY(0); }
-        .rd-decision-cell { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; background: #fff; }
-        .rd-decision-cell.from { opacity: 0.6; }
-        .rd-decision-cell.from .rd-cell-name { text-decoration: line-through; text-decoration-color: rgba(232,80,80,0.5); }
-        .rd-decision-cell.to { border-color: var(--green-deep); background: rgba(151,215,0,0.06); }
-        .rd-cell-kicker { font-size: 9.5px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; }
-        .rd-cell-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-top: 3px; }
-        .rd-cell-cost { font-size: 11.5px; color: var(--ink-soft); margin-top: 3px; }
-        .rd-decision-cell.to .rd-cell-cost { color: var(--green-deep); font-weight: 600; }
-        .rd-arrow { display: flex; align-items: center; justify-content: center; color: var(--ink-mute); }
-        .rd-decision.is-active .rd-arrow { color: var(--green-deep); }
-        .rd-arrow-path { stroke-dasharray: 50; stroke-dashoffset: 50; }
-        .rd-decision.is-active .rd-arrow-path { animation: rdDraw .6s ease-out forwards; }
-        @keyframes rdDraw { to { stroke-dashoffset: 0; } }
-        .rd-badge { position: absolute; bottom: -22px; right: -22px; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--green-deep); border-radius: 10px; padding: 12px 14px; box-shadow: 0 18px 40px -18px rgba(15,76,129,0.35), 0 6px 16px -8px rgba(0,0,0,0.18); opacity: 0; transform: translate(8px, 8px) scale(0.96); transition: opacity .4s, transform .4s cubic-bezier(.2,.7,.2,1); z-index: 2; }
-        .rd-badge.show { opacity: 1; transform: translate(0,0) scale(1); }
-        .rd-badge-row { display: flex; align-items: center; gap: 12px; }
-        .rd-badge-pct { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 30px; color: var(--green-deep); letter-spacing: -0.02em; line-height: 1; }
-        .rd-badge-title { font-size: 12px; color: var(--ink); font-weight: 600; }
-        .rd-badge-sub { font-size: 10.5px; color: var(--ink-mute); margin-top: 2px; }
-        @media (max-width: 1100px) { .rd-badge { right: 0; bottom: -16px; } }
-        @media (max-width: 640px) { .rd-models { grid-template-columns: repeat(2, 1fr); } .rd-url-path { display: none; } }
+        .rd-wrap{width:100%;max-width:560px;position:relative;z-index:1}
+        .rd-card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 0 rgba(15,76,129,.04),0 30px 60px -30px rgba(15,76,129,.25),0 12px 28px -16px rgba(0,0,0,.18);overflow:hidden}
+        .rd-chrome{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fafbf7}
+        .rd-dots{display:flex;gap:5px}
+        .rd-dots span{width:9px;height:9px;border-radius:50%;background:#e2e3dd;border:1px solid #d4d5cf}
+        .rd-dots span:nth-child(1){background:#f1d3b8;border-color:#e6b78d}
+        .rd-dots span:nth-child(2){background:#f5e7a8;border-color:#e6cf75}
+        .rd-dots span:nth-child(3){background:#c9e2a3;border-color:#a8c97a}
+        .rd-url{font-size:11.5px;display:inline-flex;align-items:center;gap:8px;flex:1;color:var(--ink-soft);background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 9px}
+        .rd-url-tag{font-size:9.5px;font-weight:600;color:var(--primary);letter-spacing:.06em}
+        .rd-url-host{color:var(--ink)}.rd-url-path{color:var(--ink-mute)}
+        .rd-status{font-size:11px;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px}
+        .rd-pulse{width:6px;height:6px;border-radius:50%;background:var(--ink-mute)}
+        .rd-pulse.live{background:var(--cyan);box-shadow:0 0 0 0 rgba(0,159,227,.5);animation:rdPulse 1.4s ease-out infinite}
+        @keyframes rdPulse{0%{box-shadow:0 0 0 0 rgba(0,159,227,.5)}80%{box-shadow:0 0 0 8px rgba(0,159,227,0)}100%{box-shadow:0 0 0 0 rgba(0,159,227,0)}}
+        .rd-body{padding:16px 16px 18px}
+        .rd-section{padding:12px 0}
+        .rd-section+.rd-section{border-top:1px dashed var(--line)}
+        .rd-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+        .rd-section-label{font-size:10.5px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.1em}
+        .rd-section-meta{font-size:11px;color:var(--ink-mute)}
+        .rd-tag{font-size:10.5px;padding:2px 8px;border-radius:999px;background:rgba(0,159,227,.08);color:var(--primary);border:1px solid rgba(0,159,227,.18)}
+        .rd-prompt{font-size:13.5px;line-height:1.5;color:var(--ink);background:var(--off-white);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-height:50px}
+        .rd-quote{color:var(--ink-mute)}
+        .rd-caret{display:inline-block;width:7px;height:14px;background:var(--primary);margin-left:1px;vertical-align:-2px;animation:rdBlink 1s steps(2) infinite}
+        @keyframes rdBlink{50%{opacity:0}}
+        .rd-models{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+        .rd-model{border:1px solid var(--line);border-radius:6px;padding:8px 8px 7px;background:#fff;transition:all .35s cubic-bezier(.2,.7,.2,1);opacity:.55}
+        .rd-analysis.is-active .rd-model{opacity:1}
+        .rd-model-tier{font-size:9px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.08em}
+        .rd-model-name{font-size:11.5px;font-weight:600;color:var(--ink);margin-top:2px;line-height:1.1}
+        .rd-model-cost{font-size:9.5px;color:var(--ink-mute);margin-top:4px}
+        .rd-model-bar{height:2px;background:var(--off-white);border-radius:2px;margin-top:8px;overflow:hidden}
+        .rd-model-fill{height:100%;width:0%;background:var(--ink-mute);transition:width .8s cubic-bezier(.2,.7,.2,1),background .3s}
+        .rd-model.evaluating .rd-model-fill{background:var(--cyan);animation:rdScan 1.2s ease-in-out infinite alternate}
+        @keyframes rdScan{from{width:30%}to{width:90%}}
+        .rd-model.picked{border-color:var(--green-deep);background:rgba(151,215,0,.07);box-shadow:0 0 0 3px rgba(151,215,0,.12)}
+        .rd-model.picked .rd-model-fill{background:var(--green-deep)}
+        .rd-model.rejected{opacity:.45}
+        .rd-decision{padding-bottom:0}
+        .rd-decision-row{display:grid;grid-template-columns:1fr 56px 1fr;align-items:center;gap:10px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
+        .rd-decision.is-active .rd-decision-row{opacity:1;transform:translateY(0)}
+        .rd-decision-cell{border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:#fff}
+        .rd-decision-cell.from{opacity:.6}
+        .rd-decision-cell.from .rd-cell-name{text-decoration:line-through;text-decoration-color:rgba(232,80,80,.5)}
+        .rd-decision-cell.to{border-color:var(--green-deep);background:rgba(151,215,0,.06)}
+        .rd-cell-kicker{font-size:9.5px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.1em}
+        .rd-cell-name{font-size:14px;font-weight:600;color:var(--ink);margin-top:3px}
+        .rd-cell-cost{font-size:11.5px;color:var(--ink-soft);margin-top:3px}
+        .rd-decision-cell.to .rd-cell-cost{color:var(--green-deep);font-weight:600}
+        .rd-arrow{display:flex;align-items:center;justify-content:center;color:var(--ink-mute)}
+        .rd-decision.is-active .rd-arrow{color:var(--green-deep)}
+        .rd-arrow-path{stroke-dasharray:50;stroke-dashoffset:50}
+        .rd-decision.is-active .rd-arrow-path{animation:rdDraw .6s ease-out forwards}
+        @keyframes rdDraw{to{stroke-dashoffset:0}}
+        .rd-badge{position:absolute;bottom:-22px;right:-22px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--green-deep);border-radius:10px;padding:12px 14px;box-shadow:0 18px 40px -18px rgba(15,76,129,.35),0 6px 16px -8px rgba(0,0,0,.18);opacity:0;transform:translate(8px,8px) scale(.96);transition:opacity .4s,transform .4s cubic-bezier(.2,.7,.2,1);z-index:2}
+        .rd-badge.show{opacity:1;transform:translate(0,0) scale(1)}
+        .rd-badge-row{display:flex;align-items:center;gap:12px}
+        .rd-badge-pct{font-family:'Montserrat',sans-serif;font-weight:700;font-size:30px;color:var(--green-deep);letter-spacing:-.02em;line-height:1}
+        .rd-badge-title{font-size:12px;color:var(--ink);font-weight:600}
+        .rd-badge-sub{font-size:10.5px;color:var(--ink-mute);margin-top:2px}
+        @media(max-width:860px){.rd-badge{right:0;bottom:-16px}.rd-url-path{display:none}.rd-models{grid-template-columns:repeat(2,1fr)}}
       `}</style>
     </div>
   );
@@ -1039,15 +882,10 @@ function RouterDemo() {
 // ─── Bento Feature Cards ──────────────────────────────────────────────────────
 
 function MiniChart() {
-  const points = [
-    [0,30],[10,32],[20,28],[30,34],[40,30],[50,33],[60,29],[70,31],[80,28],[90,32],[100,30]
-  ];
-  const optimizedRaw = [
-    [0,30],[10,24],[20,22],[30,18],[40,14],[50,16],[60,12],[70,10],[80,8],[90,9],[100,7]
-  ];
-  const toPath = (pts) => pts.map((p,i) => (i===0 ? `M${p[0]},${p[1]}` : `L${p[0]},${p[1]}`)).join(" ");
+  const points = [[0,15],[10,13],[20,16],[30,12],[40,15],[50,13],[60,16],[70,14],[80,17],[90,13],[100,15]];
+  const optimizedRaw = [[0,15],[10,22],[20,28],[30,34],[40,38],[50,42],[60,45],[70,48],[80,51],[90,52],[100,53]];
+  const toPath = (pts) => pts.map((p,i) => (i===0?`M${p[0]},${p[1]}`:`L${p[0]},${p[1]}`)).join(" ");
   const toArea = (pts) => `${toPath(pts)} L100,60 L0,60 Z`;
-
   return (
     <svg className="mini-chart" viewBox="0 0 100 60" preserveAspectRatio="none">
       <defs>
@@ -1055,19 +893,17 @@ function MiniChart() {
           <stop offset="0%" stopColor="#97d700" stopOpacity="0.22"/>
           <stop offset="100%" stopColor="#97d700" stopOpacity="0"/>
         </linearGradient>
-        <pattern id="bento-grid" width="10" height="10" patternUnits="userSpaceOnUse">
+        <pattern id="bento-grid-pat" width="10" height="10" patternUnits="userSpaceOnUse">
           <path d="M10 0 L0 0 0 10" fill="none" stroke="#e7e8e2" strokeWidth="0.3"/>
         </pattern>
       </defs>
-      <rect width="100" height="60" fill="url(#bento-grid)"/>
-      <path d={toPath(points)} fill="none" stroke="#8a8f93" strokeWidth="0.6" strokeDasharray="1.4 1.4" />
-      <path d={toArea(optimizedRaw)} fill="url(#bento-area-green)" />
-      <path d={toPath(optimizedRaw)} fill="none" stroke="#6fa300" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" className="mini-chart-line" />
-      <circle cx="100" cy="7" r="1.6" fill="#6fa300"/>
-      <circle cx="100" cy="7" r="3" fill="#6fa300" opacity="0.18"/>
-      <g transform="translate(56,40)">
-        <line x1="0" y1="-12" x2="0" y2="-30" stroke="#0f4c81" strokeWidth="0.4" strokeDasharray="1 1"/>
-      </g>
+      <rect width="100" height="60" fill="url(#bento-grid-pat)"/>
+      <path d={toPath(points)} fill="none" stroke="#8a8f93" strokeWidth="0.6" strokeDasharray="1.4 1.4"/>
+      <path d={toArea(optimizedRaw)} fill="url(#bento-area-green)"/>
+      <path d={toPath(optimizedRaw)} fill="none" stroke="#6fa300" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" className="mini-chart-line"/>
+      <circle cx="100" cy="53" r="1.6" fill="#6fa300"/>
+      <circle cx="100" cy="53" r="3" fill="#6fa300" opacity="0.18"/>
+      <g transform="translate(56,40)"><line x1="0" y1="-12" x2="0" y2="-30" stroke="#0f4c81" strokeWidth="0.4" strokeDasharray="1 1"/></g>
     </svg>
   );
 }
@@ -1079,7 +915,7 @@ function CacheVisual() {
         <div className="cache-cell hit"><span className="mono">cache.hit</span><strong>74%</strong></div>
         <div className="cache-cell"><span className="mono">edge p50</span><strong>38ms</strong></div>
       </div>
-      <div className="cache-bar"><div className="cache-fill" style={{ width: '74%' }}></div></div>
+      <div className="cache-bar"><div className="cache-fill"></div></div>
     </div>
   );
 }
@@ -1089,12 +925,12 @@ function PruningVisual() {
     <div className="prune-visual">
       <div className="prune-line">
         <div className="prune-num mono before">12,480</div>
-        <div className="prune-bar before"><span style={{ width: '100%' }}></span></div>
+        <div className="prune-bar before"><span style={{width:'100%'}}></span></div>
         <div className="prune-lbl mono">raw context</div>
       </div>
       <div className="prune-line">
         <div className="prune-num mono after">3,210</div>
-        <div className="prune-bar after"><span style={{ width: '26%' }}></span></div>
+        <div className="prune-bar after"><span style={{width:'26%'}}></span></div>
         <div className="prune-lbl mono">after pruning</div>
       </div>
     </div>
@@ -1113,29 +949,15 @@ function InsightsVisual() {
         <div className="ins-range mono">last 7d</div>
       </div>
       <div className="ins-stats">
-        <div className="ins-stat">
-          <div className="ins-stat-lbl mono">SPEND</div>
-          <div className="ins-stat-val">$1,284<span className="ins-delta down">−63%</span></div>
-        </div>
-        <div className="ins-stat">
-          <div className="ins-stat-lbl mono">REQUESTS</div>
-          <div className="ins-stat-val">182,402</div>
-        </div>
-        <div className="ins-stat">
-          <div className="ins-stat-lbl mono">AVG LATENCY</div>
-          <div className="ins-stat-val">486<span className="ins-unit">ms</span></div>
-        </div>
+        <div className="ins-stat"><div className="ins-stat-lbl mono">SPEND</div><div className="ins-stat-val">$1,284<span className="ins-delta">−63%</span></div></div>
+        <div className="ins-stat"><div className="ins-stat-lbl mono">REQUESTS</div><div className="ins-stat-val">182,402</div></div>
+        <div className="ins-stat"><div className="ins-stat-lbl mono">AVG LATENCY</div><div className="ins-stat-val">486<span className="ins-unit">ms</span></div></div>
       </div>
       <div className="ins-bars">
-        {Array.from({ length: 24 }).map((_, i) => {
-          const h = 22 + Math.round(Math.abs(Math.sin(i * 0.7)) * 36 + (i % 3) * 6);
-          const h2 = Math.max(6, Math.round(h * (0.35 - Math.min(0.28, i * 0.012))));
-          return (
-            <div className="ins-bar" key={i}>
-              <span className="ins-bar-base" style={{ height: h + 'px' }}></span>
-              <span className="ins-bar-saved" style={{ height: h2 + 'px' }}></span>
-            </div>
-          );
+        {Array.from({length:24}).map((_,i) => {
+          const h = 22 + Math.round(Math.abs(Math.sin(i*.7))*36+(i%3)*6);
+          const h2 = Math.max(6, Math.round(h*(0.35-Math.min(0.28,i*.012))));
+          return <div className="ins-bar" key={i}><span className="ins-bar-base" style={{height:h+'px'}}></span><span className="ins-bar-saved" style={{height:h2+'px'}}></span></div>;
         })}
       </div>
       <div className="ins-legend">
@@ -1154,18 +976,14 @@ function KeysVisual() {
   ];
   return (
     <div className="keys-visual">
-      {keys.map((k, i) => (
+      {keys.map((k,i) => (
         <div className="key-row" key={i}>
           <div className="key-name">{k.name}</div>
           <div className="key-hash mono">{k.hash}</div>
           <div className={`key-env mono ${k.env}`}>{k.env}</div>
         </div>
       ))}
-      <div className="key-rules mono">
-        <span>↳ rule</span>
-        <span>cost ≤ $0.02/req</span>
-        <span className="ok">enforced</span>
-      </div>
+      <div className="key-rules mono"><span>↳ rule</span><span>cost ≤ $0.02/req</span><span className="ok">enforced</span></div>
     </div>
   );
 }
@@ -1177,98 +995,87 @@ function FeatureBento() {
         <span className="card-kicker">01 · Routing</span>
         <h3 className="card-title">Intelligent routing across every major model.</h3>
         <p className="card-desc">Each prompt is scored on complexity, modality and required reasoning depth, then dispatched to the most efficient model that meets your quality bar.</p>
-        <div className="card-body">
-          <MiniChart />
-          <div className="chart-legend">
-            <span><i className="dot base"></i> Baseline cost (single premium model)</span>
-            <span><i className="dot green"></i> Takoraa routed</span>
-          </div>
-        </div>
+        <div className="card-body"><MiniChart /><div className="chart-legend"><span><i className="dot base"></i> Baseline cost (single premium model)</span><span><i className="dot green"></i> Takoraa routed</span></div></div>
       </article>
-
       <article className="card b-cache">
         <span className="card-kicker">02 · Cache</span>
         <h3 className="card-title">Response caching.</h3>
         <p className="card-desc">Deterministic and semantic caches deduplicate repeated work at the edge.</p>
         <div className="card-body"><CacheVisual /></div>
       </article>
-
       <article className="card b-pruning">
         <span className="card-kicker">03 · Context</span>
         <h3 className="card-title">Context pruning.</h3>
         <p className="card-desc">Strip dead tokens before they hit the model. Same answer, fraction of the spend.</p>
         <div className="card-body"><PruningVisual /></div>
       </article>
-
       <article className="card b-insights">
         <span className="card-kicker">04 · Insights</span>
         <h3 className="card-title">A dashboard that speaks in dollars, not tokens.</h3>
         <p className="card-desc">Per-team budgets, per-route quality scores, anomaly alerts, and side-by-side model comparisons — without instrumenting a thing.</p>
         <div className="card-body"><InsightsVisual /></div>
       </article>
-
       <article className="card b-keys">
         <span className="card-kicker">05 · Governance</span>
         <h3 className="card-title">Keys, scopes & policy.</h3>
         <p className="card-desc">Scope keys to apps, environments and spend ceilings.</p>
         <div className="card-body"><KeysVisual /></div>
       </article>
-
       <style>{`
-        .mini-chart { width: 100%; height: 100%; display: block; }
-        .mini-chart-line { stroke-dasharray: 220; stroke-dashoffset: 220; animation: bentoDraw 2.4s ease-out forwards; }
-        @keyframes bentoDraw { to { stroke-dashoffset: 0; } }
-        .chart-legend { position: absolute; left: 0; right: 0; bottom: -4px; display: flex; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-mute); }
-        .chart-legend .dot { display: inline-block; width: 8px; height: 2px; vertical-align: middle; margin-right: 6px; background: var(--ink-mute); }
-        .chart-legend .dot.green { background: var(--green-deep); height: 2px; }
-        .chart-legend .dot.base { background: transparent; border-top: 1.4px dashed var(--ink-mute); height: 0; width: 12px; }
-        .cache-visual { width: 100%; }
-        .cache-row { display: flex; gap: 10px; margin-bottom: 12px; }
-        .cache-cell { flex: 1; border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; background: var(--off-white); }
-        .cache-cell.hit { background: rgba(151,215,0,0.08); border-color: rgba(151,215,0,0.3); }
-        .cache-cell span { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; display: block; }
-        .cache-cell strong { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 22px; color: var(--ink); display: block; margin-top: 4px; letter-spacing: -0.02em; }
-        .cache-cell.hit strong { color: var(--green-deep); }
-        .cache-bar { height: 6px; background: var(--off-white); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
-        .cache-fill { height: 100%; background: linear-gradient(90deg, var(--green) 0%, var(--green-deep) 100%); animation: cacheFill 1.6s cubic-bezier(.2,.7,.2,1) forwards; width: 0; }
-        @keyframes cacheFill { to { width: 74%; } }
-        .prune-visual { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-        .prune-line { display: grid; grid-template-columns: 70px 1fr 90px; align-items: center; gap: 8px; }
-        .prune-num { font-size: 12px; font-weight: 600; }
-        .prune-num.before { color: var(--ink-soft); text-decoration: line-through; text-decoration-color: rgba(232,80,80,0.55); }
-        .prune-num.after  { color: var(--green-deep); }
-        .prune-bar { height: 8px; background: var(--off-white); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
-        .prune-bar span { display: block; height: 100%; background: var(--ink-mute); }
-        .prune-bar.after span { background: linear-gradient(90deg, var(--green) 0%, var(--green-deep) 100%); }
-        .prune-lbl { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; }
-        .insights-visual { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--off-white); padding: 14px; display: flex; flex-direction: column; gap: 12px; height: 100%; }
-        .ins-head { display: flex; justify-content: space-between; align-items: center; }
-        .ins-tabs { display: flex; gap: 2px; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 2px; }
-        .ins-tab { font-size: 11px; padding: 4px 9px; border-radius: 4px; color: var(--ink-mute); }
-        .ins-tab.active { background: var(--off-white); color: var(--ink); font-weight: 500; }
-        .ins-range { font-size: 11px; color: var(--ink-mute); }
-        .ins-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-        .ins-stat-lbl { font-size: 9.5px; color: var(--ink-mute); letter-spacing: 0.1em; }
-        .ins-stat-val { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 22px; color: var(--ink); letter-spacing: -0.02em; margin-top: 2px; display: flex; align-items: baseline; gap: 6px; }
-        .ins-unit { font-size: 12px; color: var(--ink-mute); font-weight: 500; }
-        .ins-delta { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 2px 6px; border-radius: 4px; background: rgba(151,215,0,0.18); color: var(--green-deep); font-weight: 600; }
-        .ins-bars { display: grid; grid-template-columns: repeat(24, 1fr); gap: 3px; align-items: end; height: 70px; }
-        .ins-bar { position: relative; display: flex; align-items: end; justify-content: center; height: 100%; }
-        .ins-bar-base { position: absolute; bottom: 0; width: 100%; background: #d9dad3; border-radius: 2px 2px 0 0; }
-        .ins-bar-saved { position: absolute; bottom: 0; width: 100%; background: var(--green-deep); border-radius: 2px 2px 0 0; }
-        .ins-legend { display: flex; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-mute); }
-        .ins-legend i.dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
-        .ins-legend .dot.base { background: #d9dad3; }
-        .ins-legend .dot.saved { background: var(--green-deep); }
-        .keys-visual { display: flex; flex-direction: column; gap: 6px; height: 100%; }
-        .key-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 10px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
-        .key-name { font-size: 12.5px; font-weight: 500; color: var(--ink); }
-        .key-hash { font-size: 11px; color: var(--ink-mute); }
-        .key-env { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 999px; background: var(--off-white); color: var(--ink-soft); }
-        .key-env.prod { background: rgba(15,76,129,0.08); color: var(--primary); }
-        .key-env.stg  { background: rgba(0,159,227,0.08); color: var(--cyan); }
-        .key-rules { display: flex; gap: 8px; align-items: center; font-size: 10.5px; color: var(--ink-mute); padding: 8px 10px; border: 1px dashed var(--line); border-radius: 6px; }
-        .key-rules .ok { color: var(--green-deep); margin-left: auto; }
+        .mini-chart{width:100%;height:100%;display:block}
+        .mini-chart-line{stroke-dasharray:220;stroke-dashoffset:220;animation:bentoDraw 2.4s ease-out forwards}
+        @keyframes bentoDraw{to{stroke-dashoffset:0}}
+        .chart-legend{position:absolute;left:0;right:0;bottom:-4px;display:flex;gap:14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-mute)}
+        .chart-legend .dot{display:inline-block;width:8px;height:2px;vertical-align:middle;margin-right:6px}
+        .chart-legend .dot.green{background:var(--green-deep);height:2px}
+        .chart-legend .dot.base{background:transparent;border-top:1.4px dashed var(--ink-mute);height:0;width:12px}
+        .cache-visual{width:100%}
+        .cache-row{display:flex;gap:10px;margin-bottom:12px}
+        .cache-cell{flex:1;border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--off-white)}
+        .cache-cell.hit{background:rgba(151,215,0,.08);border-color:rgba(151,215,0,.3)}
+        .cache-cell span{font-size:10px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.08em;display:block}
+        .cache-cell strong{font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px;color:var(--ink);display:block;margin-top:4px;letter-spacing:-.02em}
+        .cache-cell.hit strong{color:var(--green-deep)}
+        .cache-bar{height:6px;background:var(--off-white);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+        .cache-fill{height:100%;background:linear-gradient(90deg,var(--green) 0%,var(--green-deep) 100%);animation:cacheFill 1.6s cubic-bezier(.2,.7,.2,1) forwards;width:0}
+        @keyframes cacheFill{to{width:74%}}
+        .prune-visual{display:flex;flex-direction:column;gap:8px;width:100%}
+        .prune-line{display:grid;grid-template-columns:70px 1fr 90px;align-items:center;gap:8px}
+        .prune-num{font-size:12px;font-weight:600}
+        .prune-num.before{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:rgba(232,80,80,.55)}
+        .prune-num.after{color:var(--green-deep)}
+        .prune-bar{height:8px;background:var(--off-white);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+        .prune-bar span{display:block;height:100%;background:var(--ink-mute)}
+        .prune-bar.after span{background:linear-gradient(90deg,var(--green) 0%,var(--green-deep) 100%)}
+        .prune-lbl{font-size:10px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.08em}
+        .insights-visual{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--off-white);padding:16px 16px 18px;display:flex;flex-direction:column;gap:14px;height:100%;overflow:hidden}
+        .ins-head{display:flex;justify-content:space-between;align-items:center}
+        .ins-tabs{display:flex;gap:2px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:2px}
+        .ins-tab{font-size:11px;padding:4px 9px;border-radius:4px;color:var(--ink-mute)}
+        .ins-tab.active{background:var(--off-white);color:var(--ink);font-weight:500}
+        .ins-range{font-size:11px;color:var(--ink-mute)}
+        .ins-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+        .ins-stat-lbl{font-size:9.5px;color:var(--ink-mute);letter-spacing:.1em}
+        .ins-stat-val{font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px;color:var(--ink);letter-spacing:-.02em;margin-top:2px;display:flex;align-items:baseline;gap:6px}
+        .ins-unit{font-size:12px;color:var(--ink-mute);font-weight:500}
+        .ins-delta{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:2px 6px;border-radius:4px;background:rgba(151,215,0,.18);color:var(--green-deep);font-weight:600}
+        .ins-bars{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;align-items:end;flex:1;min-height:70px}
+        .ins-bar{position:relative;display:flex;align-items:end;justify-content:center;height:100%}
+        .ins-bar-base{position:absolute;bottom:0;width:100%;background:#d9dad3;border-radius:2px 2px 0 0}
+        .ins-bar-saved{position:absolute;bottom:0;width:100%;background:var(--green-deep);border-radius:2px 2px 0 0}
+        .ins-legend{display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-mute)}
+        .ins-legend i.dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle}
+        .ins-legend .dot.base{background:#d9dad3}.ins-legend .dot.saved{background:var(--green-deep)}
+        .keys-visual{display:flex;flex-direction:column;gap:8px;height:100%;padding-bottom:4px}
+        .keys-visual .key-rules{margin-top:auto}
+        .key-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:#fff}
+        .key-name{font-size:12.5px;font-weight:500;color:var(--ink)}
+        .key-hash{font-size:11px;color:var(--ink-mute)}
+        .key-env{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;padding:2px 6px;border-radius:999px;background:var(--off-white);color:var(--ink-soft)}
+        .key-env.prod{background:rgba(15,76,129,.08);color:var(--primary)}
+        .key-env.stg{background:rgba(0,159,227,.08);color:var(--cyan)}
+        .key-rules{display:flex;gap:8px;align-items:center;font-size:10.5px;color:var(--ink-mute);padding:8px 10px;border:1px dashed var(--line);border-radius:6px}
+        .key-rules .ok{color:var(--green-deep);margin-left:auto}
       `}</style>
     </div>
   );
@@ -1279,8 +1086,8 @@ function FeatureBento() {
 function Logo({ size = 26 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
-      <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81" />
-      <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" strokeWidth="0.6" />
+      <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81"/>
+      <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" strokeWidth="0.6"/>
       <text x="16" y="20.5" textAnchor="middle" fontFamily="Montserrat, sans-serif" fontWeight="800" fontSize="11" fill="#ffffff" letterSpacing="-0.04em">TR</text>
       <circle cx="25" cy="9" r="2.4" fill="#97d700" stroke="#ffffff" strokeWidth="0.8"/>
     </svg>
@@ -1291,26 +1098,15 @@ function NavBar() {
   return (
     <div className="nav-wrap">
       <nav className="nav">
-        <a className="logo" href="#">
-          <Logo />
-          <span className="logo-word">Takoraa</span>
-        </a>
+        <a className="logo" href="#"><Logo /><span className="logo-word">Takoraa</span></a>
         <div className="nav-menu">
-          <a href="#product">Product</a>
-          <a href="#routing">Routing</a>
-          <a href="#integration">Docs</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#customers">Customers</a>
-          <a href="#changelog">Changelog</a>
+          <a href="#product">Product</a><a href="#routing">Routing</a>
+          <a href="#integration">Docs</a><a href="#pricing">Pricing</a>
+          <a href="#customers">Customers</a><a href="#changelog">Changelog</a>
         </div>
         <div className="nav-cta">
           <a className="btn btn-ghost" href="#">Sign in</a>
-          <a className="btn" href="#">
-            Deploy
-            <svg className="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none">
-              <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
+          <a className="btn" href="#">Deploy<svg className="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg></a>
         </div>
       </nav>
     </div>
@@ -1325,34 +1121,23 @@ function Hero({ headline }) {
   };
   return (
     <section className="hero">
-      <div className="hero-left">
-        <div className="eyebrow">
-          <span className="tag">NEW</span>
-          <span>Takoraa Router v2 — semantic + cost-aware ranking</span>
+      <div className="hero-divider" aria-hidden="true"></div>
+      <div className="hero-inner">
+        <div className="hero-left">
+          <div className="eyebrow"><span className="tag">NEW</span><span>Takoraa Router v2 — semantic + cost-aware ranking</span></div>
+          <h1 className="hero-title">{headlines[headline] || headlines.default}</h1>
+          <p className="hero-sub">Takoraa is the dynamic router for LLM workloads. We score every prompt and dispatch it to the most efficient model that meets your quality bar — across OpenAI, Anthropic, Google, Meta and your own private endpoints.</p>
+          <div className="hero-cta">
+            <a className="btn btn-primary btn-lg" href="#">Start routing free<svg className="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></a>
+            <a className="btn btn-lg" href="#integration">View docs</a>
+          </div>
+          <div className="hero-meta">
+            <span className="hero-meta-item"><span className="dot"></span>SOC 2 Type II</span>
+            <span className="hero-meta-item mono">99.99% gateway uptime</span>
+            <span className="hero-meta-item mono">$0 to start</span>
+          </div>
         </div>
-        <h1 className="hero-title">{headlines[headline] || headlines.default}</h1>
-        <p className="hero-sub">
-          Takoraa is the dynamic router for LLM workloads. We score every prompt and dispatch
-          it to the most efficient model that meets your quality bar — across OpenAI, Anthropic, Google,
-          Meta and your own private endpoints.
-        </p>
-        <div className="hero-cta">
-          <a className="btn btn-primary btn-lg" href="#">
-            Start routing free
-            <svg className="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none">
-              <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-          <a className="btn btn-lg" href="#integration">View docs</a>
-        </div>
-        <div className="hero-meta">
-          <span className="hero-meta-item"><span className="dot"></span>SOC 2 Type II</span>
-          <span className="hero-meta-item mono">99.99% gateway uptime</span>
-          <span className="hero-meta-item mono">$0 to start</span>
-        </div>
-      </div>
-      <div className="hero-right">
-        <RouterDemo />
+        <div className="hero-right"><RouterDemo /></div>
       </div>
     </section>
   );
@@ -1360,16 +1145,13 @@ function Hero({ headline }) {
 
 function LogoStrip() {
   return (
-    <section className="logos">
-      <span className="logos-label">Trusted by AI-native teams</span>
-      <div className="logos-row">
-        <span>Mercatto</span>
-        <span>Notable</span>
-        <span>Vector&nbsp;Labs</span>
-        <span>Ravel</span>
-        <span>Northbound</span>
-        <span>Tiber</span>
-        <span>Helix&nbsp;9</span>
+    <section className="logo-strip">
+      <div className="logos">
+        <span className="logos-label">Trusted by AI-native teams</span>
+        <div className="logos-row">
+          <span>Mercatto</span><span>Notable</span><span>Vector&nbsp;Labs</span>
+          <span>Ravel</span><span>Northbound</span><span>Tiber</span><span>Helix&nbsp;9</span>
+        </div>
       </div>
     </section>
   );
@@ -1383,10 +1165,7 @@ function Features() {
           <div className="section-eyebrow">The platform</div>
           <h2 className="section-title">A control plane for every model you run.</h2>
         </div>
-        <p className="section-desc">
-          Routing, caching, pruning, observability and governance — built as one tightly-coupled
-          gateway so a single SDK swap unlocks all of it.
-        </p>
+        <p className="section-desc">Routing, caching, pruning, observability and governance — built as one tightly-coupled gateway so a single SDK swap unlocks all of it.</p>
       </div>
       <FeatureBento />
     </section>
@@ -1395,111 +1174,99 @@ function Features() {
 
 function IntegrationSection() {
   const [tab, setTab] = React.useState("openai");
-
   const openai = [
-    { sign: " ", parts: [<span key="1" className="tk-key">import </span>, <span key="2">OpenAI </span>, <span key="3" className="tk-key">from </span>, <span key="4" className="tk-str">"openai"</span>] },
-    { sign: " ", parts: [] },
-    { sign: " ", parts: [<span key="1" className="tk-key">const </span>, <span key="2">client </span>, <span key="3" className="tk-punc">= </span>, <span key="4" className="tk-key">new </span>, <span key="5" className="tk-fn">OpenAI</span>, <span key="6" className="tk-punc">({"{"}</span>] },
-    { sign: "-", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">baseURL</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"https://api.openai.com/v1"</span>, <span key="5" className="tk-punc">,</span>] },
-    { sign: "+", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">baseURL</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"https://gateway.takoraa.ai/v1"</span>, <span key="5" className="tk-punc">,</span>, <span key="6" className="tk-com">  // ← that's it</span>] },
-    { sign: " ", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">apiKey</span>, <span key="3" className="tk-punc">: </span>, <span key="4">process.env.</span>, <span key="5" className="tk-str">TAKORAA_KEY</span>, <span key="6" className="tk-punc">,</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-punc">{"})"}</span>] },
-    { sign: " ", parts: [] },
-    { sign: " ", parts: [<span key="1" className="tk-key">const </span>, <span key="2">res </span>, <span key="3" className="tk-punc">= </span>, <span key="4" className="tk-key">await </span>, <span key="5">client.chat.completions.</span>, <span key="6" className="tk-fn">create</span>, <span key="7" className="tk-punc">({"{"}</span>] },
-    { sign: "-", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">model</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"gpt-4o"</span>, <span key="5" className="tk-punc">,</span>] },
-    { sign: "+", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">model</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"takoraa/auto"</span>, <span key="5" className="tk-punc">,</span>, <span key="6" className="tk-green">  // routed per request</span>] },
-    { sign: " ", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">messages</span>, <span key="3" className="tk-punc">: prompt,</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-punc">{"})"}</span>] }
+    {sign:" ",parts:[<span key="1" className="tk-key">import </span>,<span key="2">OpenAI </span>,<span key="3" className="tk-key">from </span>,<span key="4" className="tk-str">"openai"</span>]},
+    {sign:" ",parts:[]},
+    {sign:" ",parts:[<span key="1" className="tk-key">const </span>,<span key="2">client </span>,<span key="3" className="tk-punc">= </span>,<span key="4" className="tk-key">new </span>,<span key="5" className="tk-fn">OpenAI</span>,<span key="6" className="tk-punc">({"{"}</span>]},
+    {sign:"-",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">baseURL</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"https://api.openai.com/v1"</span>,<span key="5" className="tk-punc">,</span>]},
+    {sign:"+",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">baseURL</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"https://gateway.takoraa.ai/v1"</span>,<span key="5" className="tk-punc">,</span>,<span key="6" className="tk-com">  // ← that's it</span>]},
+    {sign:" ",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">apiKey</span>,<span key="3" className="tk-punc">: </span>,<span key="4">process.env.</span>,<span key="5" className="tk-str">TAKORAA_KEY</span>,<span key="6" className="tk-punc">,</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-punc">{"})"}</span>]},
+    {sign:" ",parts:[]},
+    {sign:" ",parts:[<span key="1" className="tk-key">const </span>,<span key="2">res </span>,<span key="3" className="tk-punc">= </span>,<span key="4" className="tk-key">await </span>,<span key="5">client.chat.completions.</span>,<span key="6" className="tk-fn">create</span>,<span key="7" className="tk-punc">({"{"}</span>]},
+    {sign:"-",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">model</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"gpt-4o"</span>,<span key="5" className="tk-punc">,</span>]},
+    {sign:"+",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">model</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"takoraa/auto"</span>,<span key="5" className="tk-punc">,</span>,<span key="6" className="tk-green">  // routed per request</span>]},
+    {sign:" ",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">messages</span>,<span key="3" className="tk-punc">: prompt,</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-punc">{"})"}</span>]}
   ];
-
   const anthropic = [
-    { sign: " ", parts: [<span key="1" className="tk-key">import </span>, <span key="2">Anthropic </span>, <span key="3" className="tk-key">from </span>, <span key="4" className="tk-str">"@anthropic-ai/sdk"</span>] },
-    { sign: " ", parts: [] },
-    { sign: " ", parts: [<span key="1" className="tk-key">const </span>, <span key="2">client </span>, <span key="3" className="tk-punc">= </span>, <span key="4" className="tk-key">new </span>, <span key="5" className="tk-fn">Anthropic</span>, <span key="6" className="tk-punc">({"{"}</span>] },
-    { sign: "-", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">baseURL</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"https://api.anthropic.com"</span>, <span key="5" className="tk-punc">,</span>] },
-    { sign: "+", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">baseURL</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"https://gateway.takoraa.ai/anthropic"</span>, <span key="5" className="tk-punc">,</span>] },
-    { sign: " ", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">apiKey</span>, <span key="3" className="tk-punc">: </span>, <span key="4">process.env.</span>, <span key="5" className="tk-str">TAKORAA_KEY</span>, <span key="6" className="tk-punc">,</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-punc">{"})"}</span>] },
-    { sign: " ", parts: [] },
-    { sign: " ", parts: [<span key="1">client.messages.</span>, <span key="2" className="tk-fn">create</span>, <span key="3" className="tk-punc">({"{"}</span>] },
-    { sign: "-", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">model</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"claude-opus-4"</span>, <span key="5" className="tk-punc">,</span>] },
-    { sign: "+", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">model</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">"takoraa/auto"</span>, <span key="5" className="tk-punc">,</span>, <span key="6" className="tk-green">  // smart-routed</span>] },
-    { sign: " ", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">max_tokens</span>, <span key="3" className="tk-punc">: </span>, <span key="4" className="tk-str">1024</span>, <span key="5" className="tk-punc">,</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-punc">{"})"}</span>] }
+    {sign:" ",parts:[<span key="1" className="tk-key">import </span>,<span key="2">Anthropic </span>,<span key="3" className="tk-key">from </span>,<span key="4" className="tk-str">"@anthropic-ai/sdk"</span>]},
+    {sign:" ",parts:[]},
+    {sign:" ",parts:[<span key="1" className="tk-key">const </span>,<span key="2">client </span>,<span key="3" className="tk-punc">= </span>,<span key="4" className="tk-key">new </span>,<span key="5" className="tk-fn">Anthropic</span>,<span key="6" className="tk-punc">({"{"}</span>]},
+    {sign:"-",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">baseURL</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"https://api.anthropic.com"</span>,<span key="5" className="tk-punc">,</span>]},
+    {sign:"+",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">baseURL</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"https://gateway.takoraa.ai/anthropic"</span>,<span key="5" className="tk-punc">,</span>]},
+    {sign:" ",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">apiKey</span>,<span key="3" className="tk-punc">: </span>,<span key="4">process.env.</span>,<span key="5" className="tk-str">TAKORAA_KEY</span>,<span key="6" className="tk-punc">,</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-punc">{"})"}</span>]},
+    {sign:" ",parts:[]},
+    {sign:" ",parts:[<span key="1">client.messages.</span>,<span key="2" className="tk-fn">create</span>,<span key="3" className="tk-punc">({"{"}</span>]},
+    {sign:"-",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">model</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"claude-opus-4"</span>,<span key="5" className="tk-punc">,</span>]},
+    {sign:"+",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">model</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">"takoraa/auto"</span>,<span key="5" className="tk-punc">,</span>,<span key="6" className="tk-green">  // smart-routed</span>]},
+    {sign:" ",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">max_tokens</span>,<span key="3" className="tk-punc">: </span>,<span key="4" className="tk-str">1024</span>,<span key="5" className="tk-punc">,</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-punc">{"})"}</span>]}
   ];
-
   const curl = [
-    { sign: " ", parts: [<span key="1" className="tk-fn">curl </span>, <span key="2" className="tk-str">https://gateway.takoraa.ai/v1/chat/completions</span>, <span key="3"> \</span>] },
-    { sign: " ", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">-H</span>, <span key="3"> </span>, <span key="4" className="tk-str">"Authorization: Bearer $TAKORAA_KEY"</span>, <span key="5"> \</span>] },
-    { sign: " ", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">-H</span>, <span key="3"> </span>, <span key="4" className="tk-str">"Content-Type: application/json"</span>, <span key="5"> \</span>] },
-    { sign: " ", parts: [<span key="1">  </span>, <span key="2" className="tk-prop">-d</span>, <span key="3"> </span>, <span key="4" className="tk-str">'{`{`}</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-str">    "model": "takoraa/auto",</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-str">    "messages": [</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-str">      {"{"}"role": "user", "content": "Summarize Q3 earnings"{"}"}</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-str">    ]</span>] },
-    { sign: " ", parts: [<span key="1" className="tk-str">  {"}"}'</span>] }
+    {sign:" ",parts:[<span key="1" className="tk-fn">curl </span>,<span key="2" className="tk-str">https://gateway.takoraa.ai/v1/chat/completions</span>,<span key="3"> \</span>]},
+    {sign:" ",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">-H</span>,<span key="3"> </span>,<span key="4" className="tk-str">"Authorization: Bearer $TAKORAA_KEY"</span>,<span key="5"> \</span>]},
+    {sign:" ",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">-H</span>,<span key="3"> </span>,<span key="4" className="tk-str">"Content-Type: application/json"</span>,<span key="5"> \</span>]},
+    {sign:" ",parts:[<span key="1">  </span>,<span key="2" className="tk-prop">-d</span>,<span key="3"> </span>,<span key="4" className="tk-str">'{`{`}</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-str">    "model": "takoraa/auto",</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-str">    "messages": [</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-str">      {"{"}"role": "user", "content": "Summarize Q3 earnings"{"}"}</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-str">    ]</span>]},
+    {sign:" ",parts:[<span key="1" className="tk-str">  {"}"}'</span>]}
   ];
-
-  const active = tab === "openai" ? openai : tab === "anthropic" ? anthropic : curl;
-  const file = tab === "openai" ? "src/llm.ts" : tab === "anthropic" ? "src/claude.ts" : "shell";
-
+  const active = tab==="openai"?openai:tab==="anthropic"?anthropic:curl;
+  const file = tab==="openai"?"src/llm.ts":tab==="anthropic"?"src/claude.ts":"shell";
   return (
-    <section id="integration" className="integrate">
-      <div className="integrate-copy">
-        <div className="section-eyebrow">Integration</div>
-        <h2><span className="num">02</span>Two lines of code.</h2>
-        <p>
-          Keep your existing SDK. Swap the <span className="mono" style={{ color: 'var(--primary)' }}>baseURL</span> and one
-          model string. Takoraa handles fallback, retries, schema-preserving translation between providers, and live cost ceilings.
-        </p>
-        <div className="integrate-stats">
-          <div className="integrate-stat">
-            <div className="num">&lt; 60s</div>
-            <div className="lbl">to integrate</div>
-          </div>
-          <div className="integrate-stat">
-            <div className="num green">−63%</div>
-            <div className="lbl">avg spend drop</div>
-          </div>
-          <div className="integrate-stat">
-            <div className="num">100%</div>
-            <div className="lbl">API compatible</div>
+    <section id="integration" style={{borderBottom:'1px solid var(--line)'}}>
+      <div className="integrate">
+        <div className="integrate-copy">
+          <div className="section-eyebrow">Integration</div>
+          <h2><span className="num">02</span>Two lines of code.</h2>
+          <p>Keep your existing SDK. Swap the <span className="mono" style={{color:'var(--primary)'}}>baseURL</span> and one model string. Takoraa handles fallback, retries, schema-preserving translation between providers, and live cost ceilings.</p>
+          <div className="integrate-stats">
+            <div className="integrate-stat"><div className="num">&lt; 60s</div><div className="lbl">to integrate</div></div>
+            <div className="integrate-stat"><div className="num green">−63%</div><div className="lbl">avg spend drop</div></div>
+            <div className="integrate-stat"><div className="num">100%</div><div className="lbl">API compatible</div></div>
           </div>
         </div>
-      </div>
-
-      <div className="diff">
-        <div className="diff-head">
-          <div className="diff-tabs">
-            <button className={`diff-tab ${tab === 'openai' ? 'active' : ''}`} onClick={() => setTab('openai')}>OpenAI SDK</button>
-            <button className={`diff-tab ${tab === 'anthropic' ? 'active' : ''}`} onClick={() => setTab('anthropic')}>Anthropic SDK</button>
-            <button className={`diff-tab ${tab === 'curl' ? 'active' : ''}`} onClick={() => setTab('curl')}>cURL</button>
-          </div>
-          <div className="file">{file}</div>
-        </div>
-        <div className="diff-body">
-          {active.map((row, i) => (
-            <div key={i} className={`diff-row ${row.sign === '+' ? 'add' : row.sign === '-' ? 'del' : ''}`}>
-              <span className="ln">{i + 1}</span>
-              <span className="sign">{row.sign === ' ' ? '' : row.sign}</span>
-              <span>{row.parts}</span>
+        <div className="diff">
+          <div className="diff-head">
+            <div className="diff-tabs">
+              <button className={`diff-tab ${tab==='openai'?'active':''}`} onClick={()=>setTab('openai')}>OpenAI SDK</button>
+              <button className={`diff-tab ${tab==='anthropic'?'active':''}`} onClick={()=>setTab('anthropic')}>Anthropic SDK</button>
+              <button className={`diff-tab ${tab==='curl'?'active':''}`} onClick={()=>setTab('curl')}>cURL</button>
             </div>
-          ))}
+            <div className="file">{file}</div>
+          </div>
+          <div className="diff-body">
+            {active.map((row,i) => (
+              <div key={i} className={`diff-row ${row.sign==='+'?'add':row.sign==='-'?'del':''}`}>
+                <span className="ln">{i+1}</span>
+                <span className="sign">{row.sign===' '?'':row.sign}</span>
+                <span>{row.parts}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
+// ─── Metrics Strip ─────────────────────────────────────────────────────────────
+
 function MetricsStrip() {
   return (
-    <section className="logos" style={{ borderTop: '1px solid var(--line)' }}>
-      <span className="logos-label">// gateway · last 24h</span>
-      <div className="logos-row">
-        <span style={{ color: 'var(--ink)', opacity: 1 }}>4.2B<span className="mono" style={{ color: 'var(--ink-mute)', fontSize: 11, fontWeight: 500, marginLeft: 6 }}>tokens routed</span></span>
-        <span style={{ color: 'var(--green-deep)', opacity: 1 }}>$1.84M<span className="mono" style={{ color: 'var(--ink-mute)', fontSize: 11, fontWeight: 500, marginLeft: 6 }}>customer spend saved</span></span>
-        <span style={{ color: 'var(--ink)', opacity: 1 }}>27<span className="mono" style={{ color: 'var(--ink-mute)', fontSize: 11, fontWeight: 500, marginLeft: 6 }}>models integrated</span></span>
-        <span style={{ color: 'var(--ink)', opacity: 1 }}>p50 412ms<span className="mono" style={{ color: 'var(--ink-mute)', fontSize: 11, fontWeight: 500, marginLeft: 6 }}>added overhead &lt;3ms</span></span>
+    <section className="logo-strip">
+      <div className="logos">
+        <span className="logos-label">// gateway · last 24h</span>
+        <div className="logos-row">
+          <span style={{color:'var(--ink)',opacity:1}}>4.2B<span className="mono" style={{color:'var(--ink-mute)',fontSize:11,fontWeight:500,marginLeft:6}}>tokens routed</span></span>
+          <span style={{color:'var(--green-deep)',opacity:1}}>$1.84M<span className="mono" style={{color:'var(--ink-mute)',fontSize:11,fontWeight:500,marginLeft:6}}>customer spend saved</span></span>
+          <span style={{color:'var(--ink)',opacity:1}}>27<span className="mono" style={{color:'var(--ink-mute)',fontSize:11,fontWeight:500,marginLeft:6}}>models integrated</span></span>
+          <span style={{color:'var(--ink)',opacity:1}}>p50 412ms<span className="mono" style={{color:'var(--ink-mute)',fontSize:11,fontWeight:500,marginLeft:6}}>added overhead &lt;3ms</span></span>
+        </div>
       </div>
     </section>
   );
@@ -1508,60 +1275,21 @@ function MetricsStrip() {
 function Footer() {
   return (
     <footer className="foot">
-      <div className="foot-grid">
-        <div className="foot-brand">
-          <a className="logo" href="#"><Logo /><span className="logo-word">Takoraa</span></a>
-          <p className="foot-tag">The intelligence layer between your application and every model worth running.</p>
-          <span className="foot-status">All systems normal · 99.997%</span>
+      <div className="foot-inner">
+        <div className="foot-grid">
+          <div className="foot-brand">
+            <a className="logo" href="#"><Logo /><span className="logo-word">Takoraa</span></a>
+            <p className="foot-tag">The intelligence layer between your application and every model worth running.</p>
+            <span className="foot-status">All systems normal · 99.997%</span>
+          </div>
+          <div className="foot-col"><h5>Product</h5><ul><li><a href="#">Router</a></li><li><a href="#">Cache</a></li><li><a href="#">Insights</a></li><li><a href="#">Governance</a></li><li><a href="#">Changelog</a></li></ul></div>
+          <div className="foot-col"><h5>Developers</h5><ul><li><a href="#">Docs</a></li><li><a href="#">API Reference</a></li><li><a href="#">SDKs</a></li><li><a href="#">Status</a></li><li><a href="#">Open source</a></li></ul></div>
+          <div className="foot-col"><h5>Company</h5><ul><li><a href="#">About</a></li><li><a href="#">Customers</a></li><li><a href="#">Pricing</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+          <div className="foot-col"><h5>Resources</h5><ul><li><a href="#">Blog</a></li><li><a href="#">Routing playbook</a></li><li><a href="#">Model leaderboard</a></li><li><a href="#">Security</a></li><li><a href="#">Trust center</a></li></ul></div>
         </div>
-        <div className="foot-col">
-          <h5>Product</h5>
-          <ul>
-            <li><a href="#">Router</a></li>
-            <li><a href="#">Cache</a></li>
-            <li><a href="#">Insights</a></li>
-            <li><a href="#">Governance</a></li>
-            <li><a href="#">Changelog</a></li>
-          </ul>
-        </div>
-        <div className="foot-col">
-          <h5>Developers</h5>
-          <ul>
-            <li><a href="#">Docs</a></li>
-            <li><a href="#">API Reference</a></li>
-            <li><a href="#">SDKs</a></li>
-            <li><a href="#">Status</a></li>
-            <li><a href="#">Open source</a></li>
-          </ul>
-        </div>
-        <div className="foot-col">
-          <h5>Company</h5>
-          <ul>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Customers</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-        <div className="foot-col">
-          <h5>Resources</h5>
-          <ul>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Routing playbook</a></li>
-            <li><a href="#">Model leaderboard</a></li>
-            <li><a href="#">Security</a></li>
-            <li><a href="#">Trust center</a></li>
-          </ul>
-        </div>
-      </div>
-      <div className="foot-bottom">
-        <span>© 2026 Takora AI, Inc.</span>
-        <div className="legal">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">DPA</a>
-          <a href="#">SOC&nbsp;2</a>
+        <div className="foot-bottom">
+          <span>© 2026 Takora AI, Inc.</span>
+          <div className="legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">DPA</a><a href="#">SOC&nbsp;2</a></div>
         </div>
       </div>
     </footer>
@@ -1569,30 +1297,13 @@ function Footer() {
 }
 
 function App() {
-  const defaults = JSON.parse(
-    document.getElementById('tweak-defaults').textContent
-      .replace('/*EDITMODE-BEGIN*/', '').replace('/*EDITMODE-END*/', '').trim()
-  );
+  const defaults = JSON.parse(document.getElementById('tweak-defaults').textContent.replace('/*EDITMODE-BEGIN*/','').replace('/*EDITMODE-END*/','').trim());
   const [t, setTweak] = useTweaks(defaults);
-
   React.useEffect(() => {
     document.documentElement.style.setProperty('--primary', t.primaryColor);
-    const deepMap = { '#0f4c81': '#0a3a64', '#000000': '#1a1a1a', '#1f8a5b': '#176944', '#7b3fe4': '#5e2bc0' };
+    const deepMap = {'#0f4c81':'#0a3a64','#000000':'#1a1a1a','#1f8a5b':'#176944','#7b3fe4':'#5e2bc0'};
     document.documentElement.style.setProperty('--primary-700', deepMap[t.primaryColor] || t.primaryColor);
   }, [t.primaryColor]);
-
-  React.useEffect(() => {
-    const bentoEl = document.querySelector('.bento');
-    if (!bentoEl) return;
-    if (t.bentoDensity === 'compact') {
-      bentoEl.style.gap = '8px';
-      bentoEl.style.gridAutoRows = '150px';
-    } else {
-      bentoEl.style.gap = '14px';
-      bentoEl.style.gridAutoRows = '170px';
-    }
-  }, [t.bentoDensity]);
-
   return (
     <div className="page">
       <NavBar />
@@ -1602,38 +1313,19 @@ function App() {
       <IntegrationSection />
       <MetricsStrip />
       <Footer />
-
       <TweaksPanel title="Tweaks">
         <TweakSection label="Brand">
-          <TweakColor
-            label="Primary color"
-            value={t.primaryColor}
-            options={['#0f4c81', '#000000', '#1f8a5b', '#7b3fe4']}
-            onChange={(v) => setTweak('primaryColor', v)}
-          />
+          <TweakColor label="Primary color" value={t.primaryColor} options={['#0f4c81','#000000','#1f8a5b','#7b3fe4']} onChange={(v)=>setTweak('primaryColor',v)}/>
         </TweakSection>
         <TweakSection label="Hero">
-          <TweakSelect
-            label="Headline"
-            value={t.heroHeadline}
-            options={[
-              { value: 'default', label: 'Thinks before it spends' },
-              { value: 'routing', label: 'One endpoint, every model' },
-              { value: 'saving',  label: 'Cut your LLM bill 80%' }
-            ]}
-            onChange={(v) => setTweak('heroHeadline', v)}
-          />
+          <TweakSelect label="Headline" value={t.heroHeadline}
+            options={[{value:'default',label:'Thinks before it spends'},{value:'routing',label:'One endpoint, every model'},{value:'saving',label:'Cut your LLM bill 80%'}]}
+            onChange={(v)=>setTweak('heroHeadline',v)}/>
         </TweakSection>
         <TweakSection label="Features">
-          <TweakRadio
-            label="Density"
-            value={t.bentoDensity}
-            options={[
-              { value: 'compact', label: 'Compact' },
-              { value: 'comfortable', label: 'Comfy' }
-            ]}
-            onChange={(v) => setTweak('bentoDensity', v)}
-          />
+          <TweakRadio label="Density" value={t.bentoDensity}
+            options={[{value:'compact',label:'Compact'},{value:'comfortable',label:'Comfy'}]}
+            onChange={(v)=>setTweak('bentoDensity',v)}/>
         </TweakSection>
       </TweaksPanel>
     </div>
