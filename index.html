@@ -457,7 +457,7 @@
   }
   .foot-grid {
     display: grid;
-    grid-template-columns: 1.4fr repeat(4, 1fr);
+    grid-template-columns: 1.6fr repeat(3, 1fr);
     gap: 40px;
     padding-bottom: 56px;
     border-bottom: 1px solid var(--line);
@@ -1330,12 +1330,11 @@ function Logo({ size = 26 }) {
 }
 
 const NAV_LINKS = [
-  { href: "#product",     label: "Product" },
-  { href: "#routing",     label: "Routing" },
-  { href: "#integration", label: "Docs" },
-  { href: "#billing",     label: "Billing" },
-  { href: "#customers",   label: "Customers" },
-  { href: "#changelog",   label: "Changelog" },
+  { href: "#product",      label: "Product" },
+  { href: "docs.html",     label: "Docs" },
+  { href: "#billing",      label: "Billing" },
+  { href: "customers.html", label: "Customers" },
+  { href: "about.html",    label: "About us" },
 ];
 
 function NavBar() {
@@ -1427,17 +1426,11 @@ function Hero({ headline }) {
       <div className="hero-divider" aria-hidden="true"></div>
       <div className="hero-inner">
         <div className="hero-left">
-          <div className="eyebrow"><span className="tag">NEW</span><span>Takoraa Router v2 — semantic + cost-aware ranking</span></div>
           <h1 className="hero-title">{headlines[headline] || headlines.default}</h1>
           <p className="hero-sub">Takoraa is the dynamic router for LLM workloads. We score every prompt and dispatch it to the most efficient model that meets your quality bar — across OpenAI, Anthropic, Google, Meta and your own private endpoints.</p>
           <div className="hero-cta">
             <a className="btn btn-primary btn-lg" href="#">Start routing free<svg className="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></a>
-            <a className="btn btn-lg" href="#integration">View docs</a>
-          </div>
-          <div className="hero-meta">
-            <span className="hero-meta-item"><span className="dot"></span>SOC 2 Type II</span>
-            <span className="hero-meta-item mono">99.99% gateway uptime</span>
-            <span className="hero-meta-item mono">$0 to start</span>
+            <a className="btn btn-lg" href="docs.html">View docs</a>
           </div>
         </div>
         <div className="hero-right"><RouterDemo /></div>
@@ -1676,16 +1669,13 @@ function Footer() {
           <div className="foot-brand">
             <a className="logo" href="#"><Logo /><span className="logo-word">Takoraa</span></a>
             <p className="foot-tag">The intelligence layer between your application and every model worth running.</p>
-            <span className="foot-status">All systems normal · 99.997%</span>
           </div>
-          <div className="foot-col"><h5>Product</h5><ul><li><a href="#">Router</a></li><li><a href="#">Cache</a></li><li><a href="#">Insights</a></li><li><a href="#">Governance</a></li><li><a href="#">Changelog</a></li></ul></div>
-          <div className="foot-col"><h5>Developers</h5><ul><li><a href="#">Docs</a></li><li><a href="#">API Reference</a></li><li><a href="#">SDKs</a></li><li><a href="#">Status</a></li><li><a href="#">Open source</a></li></ul></div>
-          <div className="foot-col"><h5>Company</h5><ul><li><a href="#">About</a></li><li><a href="#">Customers</a></li><li><a href="#billing">Billing</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
-          <div className="foot-col"><h5>Resources</h5><ul><li><a href="#">Blog</a></li><li><a href="#">Routing playbook</a></li><li><a href="#">Model leaderboard</a></li><li><a href="#">Security</a></li><li><a href="#">Trust center</a></li></ul></div>
+          <div className="foot-col"><h5>Product</h5><ul><li><a href="#product">Platform</a></li><li><a href="#integration">Integration</a></li><li><a href="#billing">Billing</a></li></ul></div>
+          <div className="foot-col"><h5>Developers</h5><ul><li><a href="docs.html">Docs</a></li><li><a href="docs.html#api">API reference</a></li><li><a href="docs.html#quickstart">Quickstart</a></li></ul></div>
+          <div className="foot-col"><h5>Company</h5><ul><li><a href="about.html">About us</a></li><li><a href="customers.html">Customers</a></li></ul></div>
         </div>
         <div className="foot-bottom">
           <span>© 2026 Takora AI, Inc.</span>
-          <div className="legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">DPA</a><a href="#">SOC&nbsp;2</a></div>
         </div>
       </div>
     </footer>
@@ -1704,11 +1694,9 @@ function App() {
     <div className="page">
       <NavBar />
       <Hero headline={t.heroHeadline} />
-      <LogoStrip />
       <Features />
       <IntegrationSection />
       <BillingSection />
-      <MetricsStrip />
       <Footer />
       <TweaksPanel title="Tweaks">
         <TweakSection label="Brand">

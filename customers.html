@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Customers — Takoraa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0f4c81;
+    --primary-700: #0a3a64;
+    --cyan: #009fe3;
+    --green: #97d700;
+    --green-deep: #6fa300;
+    --off-white: #f4f5f0;
+    --bg: #ffffff;
+    --ink: #373a3c;
+    --ink-soft: #5b6063;
+    --ink-mute: #8a8f93;
+    --line: #e7e8e2;
+    --line-strong: #d9dad3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink); background: var(--bg);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    font-size: 15px; line-height: 1.5;
+  }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .display { font-family: 'Montserrat', sans-serif; letter-spacing: -0.025em; }
+
+  /* Nav */
+  .nav-wrap {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .logo-word { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
+  .nav-menu { display: flex; gap: 4px; }
+  .nav-menu a { color: var(--ink-soft); text-decoration: none; font-size: 13.5px; padding: 7px 12px; border-radius: 6px; transition: color .15s, background .15s; }
+  .nav-menu a:hover { color: var(--ink); background: var(--off-white); }
+  .nav-menu a.active { color: var(--ink); background: var(--off-white); }
+  .nav-cta { display: flex; align-items: center; gap: 6px; }
+  .btn {
+    font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13.5px;
+    padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line-strong);
+    background: #fff; color: var(--ink); cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px; transition: all .15s; line-height: 1;
+  }
+  .btn:hover { border-color: var(--ink); }
+  .btn-ghost { border-color: transparent; background: transparent; color: var(--ink-soft); }
+  .btn-ghost:hover { color: var(--ink); background: var(--off-white); border-color: transparent; }
+  .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 0 rgba(15,76,129,0.25); }
+  .btn-primary:hover { background: var(--primary-700); border-color: var(--primary-700); }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(2px); }
+
+  /* Customers — light palette */
+  .customers { background: var(--off-white); }
+  .customers-head {
+    max-width: 1240px; width: 100%; margin: 0 auto;
+    padding: 96px 32px 12px;
+    display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: end;
+  }
+  .customers-eyebrow {
+    font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.12em;
+    margin-bottom: 18px; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .customers-eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--primary); }
+  .customers-title {
+    font-family: 'Montserrat', sans-serif; font-weight: 700;
+    font-size: 54px; line-height: 1.0; letter-spacing: -0.035em; margin: 0; color: var(--ink); max-width: 14ch;
+  }
+  .customers-desc { color: var(--ink-soft); font-size: 16px; line-height: 1.6; max-width: 440px; margin: 0 0 8px; }
+
+  .cust-list {
+    max-width: 1240px; width: 100%; margin: 0 auto;
+    padding: 44px 32px 100px; display: flex; flex-direction: column; gap: 20px;
+  }
+  .cust-panel {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    padding: 44px; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 48px; align-items: center;
+  }
+  .cust-panel.reverse { grid-template-columns: 1.08fr 0.92fr; }
+  .cust-panel.reverse .cust-copy { order: 2; }
+  .cust-panel.reverse .cust-art { order: 1; }
+
+  .cust-brand { font-weight: 800; font-size: 18px; color: var(--ink); letter-spacing: -0.015em; margin-bottom: 7px; }
+  .cust-tag { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 22px; }
+  .cust-headline { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 29px; line-height: 1.12; letter-spacing: -0.025em; color: var(--ink); margin: 0 0 16px; max-width: 19ch; }
+  .cust-body { font-size: 15px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 26px; max-width: 47ch; }
+  .cust-stats { display: flex; gap: 30px; margin-bottom: 28px; flex-wrap: wrap; }
+  .cust-stat { display: flex; flex-direction: column; gap: 5px; }
+  .cs-num { font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--green-deep); line-height: 1; }
+  .cs-lbl { font-size: 11.5px; color: var(--ink-mute); }
+  .cust-person { display: flex; align-items: center; gap: 12px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .cust-avatar { width: 38px; height: 38px; border-radius: 50%; flex: none; background: linear-gradient(135deg, var(--primary), var(--cyan)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+  .cp-name { display: block; color: var(--ink); font-size: 13.5px; font-weight: 600; }
+  .cp-role { display: block; color: var(--ink-mute); font-size: 12px; margin-top: 1px; }
+
+  .cust-art { position: relative; overflow: hidden; border-radius: 14px; padding: 40px 36px; min-height: 380px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line); }
+  .cust-art::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(55,58,60,0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+    mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 75%);
+  }
+  .cust-art--blue { background: radial-gradient(circle at 25% 12%, rgba(0,159,227,0.12), transparent 55%), radial-gradient(circle at 92% 92%, rgba(15,76,129,0.10), transparent 52%), var(--off-white); }
+  .cust-art--green { background: radial-gradient(circle at 82% 15%, rgba(151,215,0,0.20), transparent 52%), radial-gradient(circle at 10% 90%, rgba(0,159,227,0.10), transparent 55%), var(--off-white); }
+
+  .cust-window { position: relative; z-index: 2; width: 100%; max-width: 560px; background: #0d1014; border: 1px solid #1c2128; border-radius: 11px; overflow: hidden; box-shadow: 0 34px 70px -34px rgba(15,76,129,0.4), 0 12px 28px -16px rgba(0,0,0,0.25); }
+  .cust-win-bar { position: relative; display: flex; align-items: center; padding: 11px 14px; background: #11151a; border-bottom: 1px solid #1c2128; }
+  .cw-dots { display: flex; gap: 6px; }
+  .cw-dots i { width: 9px; height: 9px; border-radius: 50%; background: #2b313a; display: block; }
+  .cw-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 11.5px; color: #8a929b; white-space: nowrap; }
+
+  .cust-win-body { display: grid; grid-template-columns: 0.82fr 1.18fr; min-height: 300px; }
+  .cw-rail { border-right: 1px solid #1c2128; padding: 15px 14px; }
+  .cw-rail-label, .cw-metric-label, .cw-routes-label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: #6e7681; }
+  .cw-rail-label { margin-bottom: 12px; }
+  .cw-task { display: flex; gap: 9px; padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); align-items: flex-start; }
+  .cw-task:last-child { border-bottom: none; }
+  .cw-task-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 4px; flex: none; }
+  .cw-task-dot.run { background: var(--cyan); box-shadow: 0 0 0 3px rgba(0,159,227,0.18); }
+  .cw-task-dot.ok { background: var(--green); }
+  .cw-task-dot.queue { background: #3b424b; }
+  .cw-task-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .cw-task-name { font-size: 11.5px; color: #c9d1d9; line-height: 1.3; }
+  .cw-task-sub { font-size: 9.5px; color: #6e7681; }
+  .cw-task-meta { font-size: 9.5px; color: #6e7681; flex: none; }
+
+  .cw-main { padding: 18px 18px 20px; }
+  .cw-metric-label { margin-bottom: 6px; }
+  .cw-metric { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 30px; color: var(--green); letter-spacing: -0.02em; line-height: 1; margin-bottom: 22px; }
+  .cw-routes-label { margin-bottom: 10px; }
+  .cw-route { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid #1c2128; border-radius: 7px; margin-bottom: 7px; background: #0a0d11; }
+  .cw-route:last-child { margin-bottom: 0; }
+  .cw-route svg { color: #4a525b; flex: none; }
+  .cw-route-from { font-size: 10.5px; color: #8a929b; text-decoration: line-through; text-decoration-color: #4a525b; }
+  .cw-route-to { font-size: 10.5px; color: #79c0ff; }
+  .cw-route-save { font-size: 10.5px; color: var(--green); margin-left: auto; font-weight: 600; }
+
+  /* Footer */
+  footer.foot { padding: 64px 0 28px; background: #fff; border-top: 1px solid var(--line); }
+  .foot-inner { max-width: 1240px; width: 100%; margin: 0 auto; padding: 0 32px; }
+  .foot-grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 40px; padding-bottom: 56px; border-bottom: 1px solid var(--line); }
+  .foot-brand .logo-word { font-size: 18px; }
+  .foot-tag { color: var(--ink-soft); font-size: 13px; margin: 14px 0 18px; max-width: 260px; line-height: 1.5; }
+  .foot-col h5 { font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 600; color: var(--ink); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 14px; }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+  .foot-col a { color: var(--ink-soft); text-decoration: none; font-size: 13px; transition: color .15s; }
+  .foot-col a:hover { color: var(--ink); }
+  .foot-bottom { padding-top: 22px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-mute); font-family: 'JetBrains Mono', monospace; }
+  .foot-bottom .legal { display: flex; gap: 16px; }
+  .foot-bottom a { color: var(--ink-mute); text-decoration: none; }
+  .foot-bottom a:hover { color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .nav-menu { display: none; }
+    .customers-head { grid-template-columns: 1fr; padding: 64px 20px 12px; gap: 20px; }
+    .customers-title { font-size: 38px; }
+    .cust-list { padding: 28px 20px 64px; }
+    .cust-panel, .cust-panel.reverse { grid-template-columns: 1fr; padding: 24px; gap: 30px; }
+    .cust-panel.reverse .cust-copy { order: 1; }
+    .cust-panel.reverse .cust-art { order: 2; }
+    .cust-headline { font-size: 24px; }
+    .cust-art { min-height: 0; padding: 28px 22px; }
+    .cust-win-body { grid-template-columns: 1fr; }
+    .cw-rail { border-right: none; border-bottom: 1px solid #1c2128; }
+    .foot-inner { padding: 0 20px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a class="logo" href="index.html">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81"/>
+          <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" stroke-width="0.6"/>
+          <text x="16" y="20.5" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="11" fill="#ffffff" letter-spacing="-0.04em">TR</text>
+          <circle cx="25" cy="9" r="2.4" fill="#97d700" stroke="#ffffff" stroke-width="0.8"/>
+        </svg>
+        <span class="logo-word">Takoraa</span>
+      </a>
+      <div class="nav-menu">
+        <a href="index.html#product">Product</a>
+        <a href="docs.html">Docs</a>
+        <a href="index.html#billing">Billing</a>
+        <a href="customers.html" class="active">Customers</a>
+        <a href="about.html">About us</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="index.html">Sign in</a>
+        <a class="btn btn-primary" href="index.html">
+          Deploy
+          <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none">
+            <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- CUSTOMERS -->
+  <section class="customers" data-screen-label="Customers">
+    <div class="customers-head">
+      <div>
+        <div class="customers-eyebrow mono">Customers</div>
+        <h1 class="customers-title">Teams running real AI workloads on Takoraa.</h1>
+      </div>
+      <p class="customers-desc">
+        From regulated finance to remote healthcare — the gateway sits quietly between their
+        apps and the models, cutting spend without touching the product experience.
+      </p>
+    </div>
+
+    <div class="cust-list">
+
+      <!-- Buena Vista -->
+      <div class="cust-panel">
+        <div class="cust-copy">
+          <div class="cust-brand display">Buena Vista Wealth Management</div>
+          <div class="cust-tag mono">// Financial services · portfolio management</div>
+          <h2 class="cust-headline">Portfolio research at the speed of the market — at a third of the cost.</h2>
+          <p class="cust-body">
+            Our advisors generate client-ready portfolio summaries, risk briefs, and market
+            commentary on demand. After routing everything through Takoraa, we run three times the
+            research volume while our monthly model bill dropped by more than half.
+          </p>
+          <div class="cust-stats">
+            <div class="cust-stat"><span class="cs-num display">−61%</span><span class="cs-lbl">AI spend / month</span></div>
+            <div class="cust-stat"><span class="cs-num display">3×</span><span class="cs-lbl">research throughput</span></div>
+            <div class="cust-stat"><span class="cs-num display">$48K</span><span class="cs-lbl">saved / quarter</span></div>
+          </div>
+          <div class="cust-person">
+            <span class="cust-avatar display">MO</span>
+            <span class="cust-person-info">
+              <span class="cp-name">Marcela Ortiz</span>
+              <span class="cp-role">Head of Platform Engineering, Buena Vista</span>
+            </span>
+          </div>
+        </div>
+        <div class="cust-art cust-art--blue">
+          <div class="cust-window">
+            <div class="cust-win-bar">
+              <span class="cw-dots"><i></i><i></i><i></i></span>
+              <span class="cw-title mono">Takoraa · Buena Vista</span>
+            </div>
+            <div class="cust-win-body">
+              <div class="cw-rail">
+                <div class="cw-rail-label">Workflows · live</div>
+                <div class="cw-task"><span class="cw-task-dot run"></span><span class="cw-task-main"><span class="cw-task-name">Portfolio summary</span><span class="cw-task-sub mono">client reporting</span></span><span class="cw-task-meta mono">live</span></div>
+                <div class="cw-task"><span class="cw-task-dot ok"></span><span class="cw-task-main"><span class="cw-task-name">Risk brief</span><span class="cw-task-sub mono">compliance review</span></span><span class="cw-task-meta mono">2m</span></div>
+                <div class="cw-task"><span class="cw-task-dot ok"></span><span class="cw-task-main"><span class="cw-task-name">Market commentary</span><span class="cw-task-sub mono">daily digest</span></span><span class="cw-task-meta mono">8m</span></div>
+                <div class="cw-task"><span class="cw-task-dot queue"></span><span class="cw-task-main"><span class="cw-task-name">Advisor copilot</span><span class="cw-task-sub mono">meeting prep</span></span><span class="cw-task-meta mono">queued</span></div>
+              </div>
+              <div class="cw-main">
+                <div class="cw-metric-label">Estimated savings · this quarter</div>
+                <div class="cw-metric">$48,210</div>
+                <div class="cw-routes-label">Routing decisions · 24h</div>
+                <div class="cw-route"><span class="cw-route-from mono">gpt-4o</span><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6h6M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cw-route-to mono">takoraa/auto</span><span class="cw-route-save mono">−58%</span></div>
+                <div class="cw-route"><span class="cw-route-from mono">claude-opus</span><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6h6M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cw-route-to mono">claude-sonnet</span><span class="cw-route-save mono">−44%</span></div>
+                <div class="cw-route"><span class="cw-route-from mono">gpt-4o</span><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6h6M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cw-route-to mono">cache hit</span><span class="cw-route-save mono">−100%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EllieCare -->
+      <div class="cust-panel reverse">
+        <div class="cust-copy">
+          <div class="cust-brand display">EllieCare</div>
+          <div class="cust-tag mono">// Remote care · telehealth &amp; assisted living</div>
+          <h2 class="cust-headline">Compassionate check-ins at scale, on a budget that scales with us.</h2>
+          <p class="cust-body">
+            Every remote check-in is transcribed, summarized, triaged, and flagged for our care
+            team. Takoraa let us expand from senior care into a younger membership tier without our
+            inference cost growing alongside it — caching and context pruning absorbed almost all of
+            the new load.
+          </p>
+          <div class="cust-stats">
+            <div class="cust-stat"><span class="cs-num display">−54%</span><span class="cs-lbl">cost / check-in</span></div>
+            <div class="cust-stat"><span class="cs-num display">2.1M</span><span class="cs-lbl">check-ins / month</span></div>
+            <div class="cust-stat"><span class="cs-num display">+1</span><span class="cs-lbl">new care segment</span></div>
+          </div>
+          <div class="cust-person">
+            <span class="cust-avatar display">DR</span>
+            <span class="cust-person-info">
+              <span class="cp-name">Daniel Rose</span>
+              <span class="cp-role">VP Engineering, EllieCare</span>
+            </span>
+          </div>
+        </div>
+        <div class="cust-art cust-art--green">
+          <div class="cust-window">
+            <div class="cust-win-bar">
+              <span class="cw-dots"><i></i><i></i><i></i></span>
+              <span class="cw-title mono">Takoraa · EllieCare</span>
+            </div>
+            <div class="cust-win-body">
+              <div class="cw-rail">
+                <div class="cw-rail-label">Workflows · live</div>
+                <div class="cw-task"><span class="cw-task-dot run"></span><span class="cw-task-main"><span class="cw-task-name">Check-in summary</span><span class="cw-task-sub mono">voice → notes</span></span><span class="cw-task-meta mono">live</span></div>
+                <div class="cw-task"><span class="cw-task-dot run"></span><span class="cw-task-main"><span class="cw-task-name">Triage &amp; alerts</span><span class="cw-task-sub mono">risk flagging</span></span><span class="cw-task-meta mono">live</span></div>
+                <div class="cw-task"><span class="cw-task-dot ok"></span><span class="cw-task-main"><span class="cw-task-name">Care-team handoff</span><span class="cw-task-sub mono">escalation</span></span><span class="cw-task-meta mono">1m</span></div>
+                <div class="cw-task"><span class="cw-task-dot queue"></span><span class="cw-task-main"><span class="cw-task-name">Wellness trend</span><span class="cw-task-sub mono">weekly report</span></span><span class="cw-task-meta mono">queued</span></div>
+              </div>
+              <div class="cw-main">
+                <div class="cw-metric-label">Cost per check-in · 30-day avg</div>
+                <div class="cw-metric">$0.041</div>
+                <div class="cw-routes-label">Routing decisions · 24h</div>
+                <div class="cw-route"><span class="cw-route-from mono">gpt-4o</span><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6h6M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cw-route-to mono">takoraa/auto</span><span class="cw-route-save mono">−51%</span></div>
+                <div class="cw-route"><span class="cw-route-from mono">whisper-lg</span><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6h6M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cw-route-to mono">whisper-fast</span><span class="cw-route-save mono">−38%</span></div>
+                <div class="cw-route"><span class="cw-route-from mono">gpt-4o</span><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6h6M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cw-route-to mono">pruned ctx</span><span class="cw-route-save mono">−62%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="foot-inner">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="logo" href="index.html">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+              <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81"/>
+              <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" stroke-width="0.6"/>
+              <text x="16" y="20.5" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="11" fill="#ffffff" letter-spacing="-0.04em">TR</text>
+              <circle cx="25" cy="9" r="2.4" fill="#97d700" stroke="#ffffff" stroke-width="0.8"/>
+            </svg>
+            <span class="logo-word">Takoraa</span>
+          </a>
+          <p class="foot-tag">The intelligence layer between your application and every model worth running.</p>
+        </div>
+        <div class="foot-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="index.html#product">Platform</a></li>
+            <li><a href="index.html#integration">Integration</a></li>
+            <li><a href="index.html#billing">Billing</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5>Developers</h5>
+          <ul>
+            <li><a href="docs.html">Docs</a></li>
+            <li><a href="docs.html#api">API reference</a></li>
+            <li><a href="docs.html#quickstart">Quickstart</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="customers.html">Customers</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Takora AI, Inc.</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

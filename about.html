@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About Takoraa — Maximize AI performance, minimize API spend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0f4c81;
+    --primary-700: #0a3a64;
+    --cyan: #009fe3;
+    --green: #97d700;
+    --green-deep: #6fa300;
+    --off-white: #f4f5f0;
+    --bg: #ffffff;
+    --ink: #373a3c;
+    --ink-soft: #5b6063;
+    --ink-mute: #8a8f93;
+    --line: #e7e8e2;
+    --line-strong: #d9dad3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .display { font-family: 'Montserrat', sans-serif; letter-spacing: -0.025em; }
+  section { border-bottom: 1px solid var(--line); }
+
+  /* Nav */
+  .nav-wrap {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    max-width: 1240px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .logo-word { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
+  .nav-menu { display: flex; gap: 4px; }
+  .nav-menu a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13.5px;
+    padding: 7px 12px;
+    border-radius: 6px;
+    transition: color .15s, background .15s;
+  }
+  .nav-menu a:hover { color: var(--ink); background: var(--off-white); }
+  .nav-menu a.active { color: var(--ink); background: var(--off-white); }
+  .nav-cta { display: flex; align-items: center; gap: 6px; }
+  .btn {
+    font-family: 'Inter', sans-serif; font-weight: 500;
+    font-size: 13.5px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all .15s;
+    line-height: 1;
+  }
+  .btn:hover { border-color: var(--ink); }
+  .btn-ghost { border-color: transparent; background: transparent; color: var(--ink-soft); }
+  .btn-ghost:hover { color: var(--ink); background: var(--off-white); border-color: transparent; }
+  .btn-primary {
+    background: var(--primary); color: #fff; border-color: var(--primary);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 0 rgba(15,76,129,0.25);
+  }
+  .btn-primary:hover { background: var(--primary-700); border-color: var(--primary-700); }
+  .btn-lg { padding: 12px 18px; font-size: 14px; border-radius: 7px; }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(2px); }
+
+  /* Hero */
+  .about-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--off-white);
+  }
+  .about-hero::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(55,58,60,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at 30% 40%, #000 25%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 30% 40%, #000 25%, transparent 70%);
+    pointer-events: none;
+  }
+  .about-hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1240px; margin: 0 auto;
+    padding: 120px 32px 110px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .about-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 22px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .about-eyebrow::before {
+    content: ""; width: 18px; height: 1px; background: var(--primary);
+  }
+  .about-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.0;
+    letter-spacing: -0.035em;
+    margin: 0 0 0;
+    color: var(--ink);
+    max-width: 760px;
+  }
+  .about-title em {
+    font-style: normal;
+    background: linear-gradient(180deg, transparent 60%, rgba(151,215,0,0.45) 60%);
+    padding: 0 2px;
+  }
+  .about-sub {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 420px;
+    padding-bottom: 8px;
+  }
+  .about-sub .label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
+
+  /* Mission */
+  .mission {
+    background: #fff;
+  }
+  .mission-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 96px 32px;
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .mission-side h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 14px;
+    font-weight: 600;
+  }
+  .mission-side .display {
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .mission-body p {
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.6;
+    margin: 0 0 22px;
+    max-width: 640px;
+  }
+  .mission-body p strong { font-weight: 600; color: var(--ink); }
+  .mission-body p.lead {
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .mission-body p.lead em {
+    font-style: normal;
+    color: var(--primary);
+    font-weight: 600;
+  }
+  .mission-body p.muted { color: var(--ink-soft); font-size: 16px; }
+
+  /* Pillars */
+  .pillars {
+    background: var(--off-white);
+  }
+  .pillars-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 88px 32px;
+  }
+  .pillars-head {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    align-items: end;
+    margin-bottom: 36px;
+  }
+  .pillars-head h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 14px 0 0;
+    max-width: 460px;
+  }
+  .pillars-head p {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 440px;
+  }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .pillar {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px 26px 30px;
+    display: flex; flex-direction: column;
+    min-height: 240px;
+  }
+  .pillar-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+  }
+  .pillar h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .pillar p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .pillar .verb {
+    display: inline-block;
+    margin-top: auto;
+    padding-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* The why */
+  .why {
+    background: #0d1014;
+    color: #e6edf3;
+    border-bottom: none;
+  }
+  .why-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 96px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .why-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 18px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .why-eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--green); }
+  .why h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 0 0 20px;
+    color: #fff;
+    max-width: 480px;
+  }
+  .why p {
+    color: #b1bac4;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 18px;
+    max-width: 480px;
+  }
+  .why-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    border: 1px solid #1c2128;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #11151a;
+  }
+  .why-stat {
+    background: #0d1014;
+    padding: 32px 28px;
+  }
+  .why-stat .num {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    color: #e6edf3;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .why-stat .num.green { color: var(--green); }
+  .why-stat .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #6e7681;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 14px;
+  }
+  .why-stat .sub {
+    color: #b1bac4;
+    font-size: 13px;
+    margin-top: 8px;
+    line-height: 1.45;
+  }
+
+  /* CTA */
+  .cta {
+    background: #fff;
+  }
+  .cta-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 96px 32px;
+    text-align: center;
+  }
+  .cta h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 0 0 16px;
+    max-width: 680px;
+    margin-left: auto; margin-right: auto;
+  }
+  .cta p {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0 auto 28px;
+    max-width: 520px;
+  }
+  .cta-row { display: inline-flex; gap: 10px; }
+
+  /* Footer */
+  footer.foot {
+    padding: 64px 0 28px;
+    background: #fff;
+    border-top: 1px solid var(--line);
+  }
+  .foot-inner {
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 40px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .foot-brand .logo-word { font-size: 18px; }
+  .foot-tag {
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin: 14px 0 18px;
+    max-width: 260px;
+    line-height: 1.5;
+  }
+  .foot-col h5 {
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 14px;
+  }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+  .foot-col a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .15s;
+  }
+  .foot-col a:hover { color: var(--ink); }
+  .foot-bottom {
+    padding-top: 22px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .foot-bottom a { color: var(--ink-mute); text-decoration: none; }
+  .foot-bottom a:hover { color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .about-hero-inner { grid-template-columns: 1fr; padding: 72px 20px 64px; gap: 32px; align-items: start; }
+    .about-title { font-size: 44px; }
+    .mission-inner { grid-template-columns: 1fr; padding: 64px 20px; gap: 32px; }
+    .mission-side .display { font-size: 28px; }
+    .mission-body p.lead { font-size: 19px; }
+    .pillars-inner { padding: 64px 20px; }
+    .pillars-head { grid-template-columns: 1fr; gap: 16px; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .why-inner { grid-template-columns: 1fr; padding: 64px 20px; gap: 36px; }
+    .why h2 { font-size: 32px; }
+    .cta-inner { padding: 64px 20px; }
+    .cta h2 { font-size: 32px; }
+    .foot-inner { padding: 0 20px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a class="logo" href="index.html">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81"/>
+          <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" stroke-width="0.6"/>
+          <text x="16" y="20.5" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="11" fill="#ffffff" letter-spacing="-0.04em">TR</text>
+          <circle cx="25" cy="9" r="2.4" fill="#97d700" stroke="#ffffff" stroke-width="0.8"/>
+        </svg>
+        <span class="logo-word">Takoraa</span>
+      </a>
+      <div class="nav-menu">
+        <a href="index.html#product">Product</a>
+        <a href="docs.html">Docs</a>
+        <a href="index.html#billing">Billing</a>
+        <a href="customers.html">Customers</a>
+        <a href="about.html" class="active">About us</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="index.html">Sign in</a>
+        <a class="btn btn-primary" href="index.html">
+          Deploy
+          <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none">
+            <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section class="about-hero" data-screen-label="01 About Hero">
+    <div class="about-hero-inner">
+      <div>
+        <div class="about-eyebrow">About Takoraa</div>
+        <h1 class="about-title">We help companies maximize AI performance while <em>minimizing API spend</em>.</h1>
+      </div>
+      <p class="about-sub">
+        <span class="label">// Our role</span>
+        The intelligence layer between your application and every model worth running — built for the era where AI usage and AI bills scale together.
+      </p>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="mission" data-screen-label="02 Mission">
+    <div class="mission-inner">
+      <div class="mission-side">
+        <h3>Mission</h3>
+        <p class="display">Run AI more efficiently at every level.</p>
+      </div>
+      <div class="mission-body">
+        <p class="lead">
+          From smarter request handling to full cost visibility, Takoraa helps companies
+          <em>run AI more efficiently at every level</em> — especially as AI adoption keeps growing
+          and infrastructure costs scale right alongside it.
+        </p>
+        <p>
+          We give teams the tools to <strong>understand, control, and optimize their AI spend</strong>
+          before it becomes a problem — not after the invoice arrives.
+        </p>
+        <p class="muted">
+          Most teams ship AI features faster than their finance org can model the cost. By the time
+          a CFO asks "what are we actually spending on inference?", the answer is usually "we'll get back to you."
+          Takoraa exists to make that answer immediate, accurate, and actionable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars" data-screen-label="03 Pillars">
+    <div class="pillars-inner">
+      <div class="pillars-head">
+        <div>
+          <div class="about-eyebrow">What we do</div>
+          <h2>Three levers, one gateway.</h2>
+        </div>
+        <p>
+          Every prompt your product fires off goes through a decision: which model, at what cost,
+          for what quality bar. Takoraa makes that decision faster, cheaper, and observable.
+        </p>
+      </div>
+      <div class="pillars-grid">
+        <div class="pillar">
+          <div class="pillar-num">01 / Understand</div>
+          <h4>See where the money actually goes.</h4>
+          <p>Token-level attribution by feature, team, prompt template and provider. No more "we think it's GPT-4 doing it" — we know.</p>
+          <span class="verb">Visibility</span>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02 / Control</div>
+          <h4>Set ceilings before bills hit them.</h4>
+          <p>Per-feature budgets, hard cutoffs, model allowlists, and routing policies that respect the limits your finance team actually signed off on.</p>
+          <span class="verb">Governance</span>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03 / Optimize</div>
+          <h4>Route to the cheapest model that's good enough.</h4>
+          <p>Every request is scored and dispatched — semantic match, cache, prune, or send to the most efficient model that meets your quality bar.</p>
+          <span class="verb">Routing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="why" data-screen-label="04 Why">
+    <div class="why-inner">
+      <div>
+        <div class="why-eyebrow">Why we exist</div>
+        <h2>AI adoption is up. AI bills are up faster.</h2>
+        <p>
+          The companies winning with AI are the ones that ship features quickly — and the ones that
+          don't lose the margin back in inference cost. Those are usually not the same companies.
+        </p>
+        <p>
+          Takoraa was built so they can be. We sit between your application and every model worth running,
+          and we earn our keep only when we save you more than we cost.
+        </p>
+      </div>
+      <div class="why-stats">
+        <div class="why-stat">
+          <div class="num green">63%</div>
+          <div class="lbl">Avg spend reduction</div>
+          <div class="sub">Across customers running production workloads on Takoraa.</div>
+        </div>
+        <div class="why-stat">
+          <div class="num">&lt; 3ms</div>
+          <div class="lbl">Routing overhead</div>
+          <div class="sub">Added latency from the gateway, p50. Faster than your retry policy.</div>
+        </div>
+        <div class="why-stat">
+          <div class="num">27</div>
+          <div class="lbl">Models integrated</div>
+          <div class="sub">OpenAI, Anthropic, Google, Meta, Mistral, plus your private endpoints.</div>
+        </div>
+        <div class="why-stat">
+          <div class="num green">$0</div>
+          <div class="lbl">Success fee when savings are zero</div>
+          <div class="sub">If we don't cut your bill, we don't charge a performance fee. Simple.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" data-screen-label="05 CTA">
+    <div class="cta-inner">
+      <h2>Find out what you're actually spending on AI.</h2>
+      <p>Connect your existing SDK in under 60 seconds. See the first cost breakdown by tomorrow.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="index.html">
+          Start routing free
+          <svg class="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none">
+            <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="btn btn-lg" href="index.html#billing">See billing model</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="foot-inner">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="logo" href="index.html">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+              <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81"/>
+              <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" stroke-width="0.6"/>
+              <text x="16" y="20.5" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="11" fill="#ffffff" letter-spacing="-0.04em">TR</text>
+              <circle cx="25" cy="9" r="2.4" fill="#97d700" stroke="#ffffff" stroke-width="0.8"/>
+            </svg>
+            <span class="logo-word">Takoraa</span>
+          </a>
+          <p class="foot-tag">The intelligence layer between your application and every model worth running.</p>
+        </div>
+        <div class="foot-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="index.html#product">Platform</a></li>
+            <li><a href="index.html#integration">Integration</a></li>
+            <li><a href="index.html#billing">Billing</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5>Developers</h5>
+          <ul>
+            <li><a href="docs.html">Docs</a></li>
+            <li><a href="docs.html#api">API reference</a></li>
+            <li><a href="docs.html#quickstart">Quickstart</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="customers.html">Customers</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Takora AI, Inc.</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

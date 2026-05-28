@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docs — Takoraa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a class="logo" href="index.html">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81"/>
+          <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" stroke-width="0.6"/>
+          <text x="16" y="20.5" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="11" fill="#ffffff" letter-spacing="-0.04em">TR</text>
+          <circle cx="25" cy="9" r="2.4" fill="#97d700" stroke="#ffffff" stroke-width="0.8"/>
+        </svg>
+        <span class="logo-word">Takoraa</span>
+      </a>
+      <div class="nav-menu">
+        <a href="index.html#product">Product</a>
+        <a href="docs.html" class="active">Docs</a>
+        <a href="index.html#billing">Billing</a>
+        <a href="customers.html">Customers</a>
+        <a href="about.html">About us</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="index.html">Sign in</a>
+        <a class="btn btn-primary" href="#quickstart">
+          Quickstart
+          <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none">
+            <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- MOBILE BAR -->
+  <div class="doc-mobile-bar">
+    <button id="navToggle" aria-label="Open documentation navigation">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Menu
+    </button>
+    <span class="mono" style="font-size:12px;color:var(--ink-mute);">Documentation</span>
+  </div>
+
+  <div class="doc-scrim" id="scrim"></div>
+
+  <div class="docs">
+
+    <!-- SIDEBAR -->
+    <aside class="doc-sidebar" id="sidebar">
+      <div class="doc-search">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.4"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Search docs
+        <kbd>⌘K</kbd>
+      </div>
+
+      <nav class="doc-nav">
+        <div class="doc-nav-group">
+          <h4>Getting Started</h4>
+          <ul>
+            <li><a href="#overview" data-spy="overview">Overview</a></li>
+            <li><a href="#start-here" data-spy="start-here">Start here</a></li>
+            <li><a href="#quickstart" data-spy="quickstart">Quickstart</a></li>
+          </ul>
+        </div>
+        <div class="doc-nav-group">
+          <h4>Integration</h4>
+          <ul>
+            <li><a href="#integration-guides" data-spy="integration-guides">Integration guides</a></li>
+            <li><a href="#production" data-spy="production">Production rollout</a></li>
+          </ul>
+        </div>
+        <div class="doc-nav-group">
+          <h4>Dashboard</h4>
+          <ul>
+            <li><a href="#dashboard-guide" data-spy="dashboard-guide">Dashboard guide</a></li>
+            <li><a href="#controls" data-spy="controls">Optimization controls</a></li>
+          </ul>
+        </div>
+        <div class="doc-nav-group">
+          <h4>Reference</h4>
+          <ul>
+            <li><a href="#api" data-spy="api">API reference</a></li>
+            <li><a href="#security" data-spy="security">Security</a></li>
+          </ul>
+        </div>
+        <div class="doc-nav-group">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#troubleshooting" data-spy="troubleshooting">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="doc-content">
+      <div class="doc-breadcrumb">
+        <span>Docs</span><span class="sep">/</span><span>Getting started</span><span class="sep">/</span><span style="color:var(--ink-soft)">Overview</span>
+      </div>
+
+      <div class="doc-lede-eyebrow">Documentation</div>
+      <h1 class="doc-h1">Build, operate, and monitor Takoraa with confidence.</h1>
+      <p class="doc-lede">
+        Takoraa sits between your application and AI providers. It routes model traffic, applies
+        optimization controls, tracks estimated savings, and gives your team visibility into
+        requests, keys, provider status, and cost behavior.
+      </p>
+      <p class="doc-lede" style="font-size:15px;color:var(--ink-mute);">Choose where to start.</p>
+
+      <div class="path-cards">
+        <a class="path-card" href="#quickstart">
+          <span class="pc-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12h11M11 7l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 4v16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <h4>I want to integrate Takoraa</h4>
+          <p>Connect your backend, send your first request, and confirm traffic is flowing through Takoraa.</p>
+          <span class="pc-go">Quickstart <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 6H9M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="path-card" href="#dashboard-guide">
+          <span class="pc-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="3" width="7" height="5" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="12" width="7" height="9" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="16" width="7" height="5" rx="1.4" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <h4>I want to operate the dashboard</h4>
+          <p>Manage app keys, provider connections, optimization controls, live traffic, and savings reports.</p>
+          <span class="pc-go">Dashboard <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 6H9M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="path-card" href="#troubleshooting">
+          <span class="pc-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 4.5-3.2 7.5-8 9-4.8-1.5-8-4.5-8-9V7l8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8v4M12 15.5v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <h4>I want to debug an issue</h4>
+          <p>Find the cause of failed requests, missing traffic, provider errors, key problems, or spend sync issues.</p>
+          <span class="pc-go">Troubleshoot <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 6H9M6.5 3.5 9 6 6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+
+      <!-- OVERVIEW -->
+      <section class="doc-section" id="overview" data-screen-label="Docs · Overview">
+        <h2><span class="ix">00</span>Overview</h2>
+        <p>
+          Takoraa is the optimization and observability layer for AI applications. You point your
+          existing SDK at the Takoraa gateway, and from that moment every model request can be routed,
+          cached, pruned, measured, and governed — without rewriting your application logic.
+        </p>
+        <p>
+          The rest of this documentation is organized around three jobs: <strong>integrating</strong> the
+          gateway into your backend, <strong>operating</strong> the dashboard day to day, and
+          <strong>debugging</strong> when something behaves unexpectedly.
+        </p>
+      </section>
+
+      <!-- START HERE -->
+      <section class="doc-section" id="start-here" data-screen-label="Docs · Start here">
+        <h2><span class="ix">01</span>Start here</h2>
+        <p>Takoraa is an optimization layer for AI applications.</p>
+        <p>
+          Your application sends AI requests to Takoraa instead of calling providers directly. Takoraa
+          then forwards those requests to the appropriate provider, applies enabled optimization rules,
+          records request metadata, and surfaces performance and savings data in the dashboard.
+        </p>
+
+        <h3>Use Takoraa to</h3>
+        <ul class="prose">
+          <li>Reduce AI spend through routing, caching, and context pruning.</li>
+          <li>Monitor request traffic across clients and app keys.</li>
+          <li>Manage provider access without exposing provider secrets to every integration.</li>
+          <li>Compare estimated baseline cost against optimized usage.</li>
+          <li>Control optimization behavior per customer or per app key.</li>
+        </ul>
+
+        <div class="callout tip">
+          <svg class="co-icon" viewBox="0 0 20 20" fill="none"><path d="M10 2a6 6 0 0 0-3.5 10.9c.3.2.5.6.5 1V15h6v-1.1c0-.4.2-.8.5-1A6 6 0 0 0 10 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 18h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <div class="co-body">
+            <strong>Adopt gradually.</strong>
+            A client can start with a single app key, route a small amount of traffic, review results in
+            the dashboard, and expand only after the pilot is stable.
+          </div>
+        </div>
+      </section>
+
+      <!-- QUICKSTART -->
+      <section class="doc-section" id="quickstart" data-screen-label="Docs · Quickstart">
+        <h2><span class="ix">02</span>Quickstart</h2>
+        <p>Use this guide to connect a backend application to Takoraa.</p>
+
+        <h3>Before you begin</h3>
+        <div class="spec-card">
+          <div class="sc-head">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 8l1.8 1.8L11 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            You need
+          </div>
+          <ul>
+            <li><span class="dot"></span>A Takoraa app key.</li>
+            <li><span class="dot"></span>A backend environment where secrets can be stored safely.</li>
+            <li><span class="dot"></span>At least one tested provider connection.</li>
+            <li><span class="dot"></span>Access to the Takoraa dashboard.</li>
+          </ul>
+        </div>
+
+        <div class="callout warn">
+          <svg class="co-icon" viewBox="0 0 20 20" fill="none"><path d="M10 2.5 18 16.5H2L10 2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 8v3.5M10 14v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <div class="co-body">
+            <strong>Never expose app keys in the browser.</strong>
+            Do not place Takoraa app keys in frontend code. Use them only from a trusted backend service.
+          </div>
+        </div>
+
+        <h3>Integration steps</h3>
+        <ol class="prose">
+          <li>Set the Takoraa API URL in your backend configuration.</li>
+          <li>Store the Takoraa app key as a server-side secret.</li>
+          <li>Send AI requests to Takoraa instead of calling the provider directly.</li>
+          <li>Include the Takoraa app key with each request.</li>
+          <li>Confirm the request appears in the dashboard.</li>
+          <li>Review the route decision, token usage, latency, and estimated savings.</li>
+          <li>Adjust optimization controls only after the first request path is verified.</li>
+        </ol>
+
+        <div class="code-block">
+          <div class="cb-head">
+            <span class="cb-file">src/llm.ts</span>
+            <span class="cb-dot"><span></span><span></span><span></span></span>
+          </div>
+          <pre><span class="tk-key">import</span> OpenAI <span class="tk-key">from</span> <span class="tk-str">"openai"</span>;
+
+<span class="tk-key">const</span> client = <span class="tk-key">new</span> <span class="tk-fn">OpenAI</span>({
+  baseURL: <span class="tk-str">"https://gateway.takoraa.ai/v1"</span>,  <span class="tk-com">// point at Takoraa</span>
+  apiKey: process.env.<span class="tk-prop">TAKORAA_KEY</span>,           <span class="tk-com">// server-side secret</span>
+});
+
+<span class="tk-key">const</span> res = <span class="tk-key">await</span> client.chat.completions.<span class="tk-fn">create</span>({
+  model: <span class="tk-str">"takoraa/auto"</span>,    <span class="tk-com">// routed per request</span>
+  messages: prompt,
+});</pre>
+        </div>
+
+        <h3>First success criteria</h3>
+        <p>The integration is working when:</p>
+        <div class="spec-card">
+          <div class="sc-head">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 8l1.8 1.8L11 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Checklist
+          </div>
+          <ul>
+            <li><svg class="chk" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Requests return successfully from Takoraa.</li>
+            <li><svg class="chk" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Traffic appears in the Requests view.</li>
+            <li><svg class="chk" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>The app key is active.</li>
+            <li><svg class="chk" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>The provider connection is ready.</li>
+            <li><svg class="chk" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Estimated spend and optimization metadata appear in reports.</li>
+            <li><svg class="chk" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>The client application no longer calls the provider directly for that workflow.</li>
+          </ul>
+        </div>
+
+        <h3>Recommended first pilot</h3>
+        <p>
+          Start with one controlled workflow. Choose a request path that is frequent enough to measure,
+          but not so critical that a configuration mistake affects core production behavior.
+        </p>
+        <p>
+          Keep optimization conservative at first. Confirm reliability, observability, and billing
+          attribution before expanding.
+        </p>
+      </section>
+
+      <!-- INTEGRATION GUIDES -->
+      <section class="doc-section" id="integration-guides" data-screen-label="Docs · Integration guides">
+        <h2><span class="ix">03</span>Integration guides</h2>
+        <p>Use these guides when adapting an existing AI application to Takoraa.</p>
+
+        <h3>Migrating from direct provider calls</h3>
+        <p>
+          Replace direct provider calls with Takoraa calls from your backend. Keep provider secrets
+          managed inside Takoraa or your secure server environment. The application should treat Takoraa
+          as the AI gateway for the selected workflow.
+        </p>
+
+        <h3>Backend integration</h3>
+        <p>
+          Takoraa app keys must be used from backend services only. Store keys in environment variables
+          or a secure secrets manager. Rotate keys when changing environments, handing off ownership, or
+          ending a pilot.
+        </p>
+
+        <h3>Model routing</h3>
+        <p>
+          Takoraa can route requests based on configured optimization rules. Auto-routing is useful when
+          the application cares about quality, cost, and reliability but does not need to manually select
+          the final provider model for every request.
+        </p>
+
+        <h3>Streaming</h3>
+        <p>
+          Streaming should be enabled only after the basic non-streaming request path is verified. Confirm
+          that client timeouts, partial responses, and retries behave correctly before using streaming in
+          production.
+        </p>
+
+        <h3>Tool calling</h3>
+        <p>
+          Tool calling requires stricter validation. Review tool schemas, response shape, and fallback
+          behavior before enabling aggressive optimization on tool-heavy workflows.
+        </p>
+
+        <h3>Structured outputs</h3>
+        <p>
+          Structured output workflows should prioritize correctness. Use conservative controls until
+          output validity is stable across the selected provider routes.
+        </p>
+      </section>
+
+      <!-- PRODUCTION ROLLOUT -->
+      <section class="doc-section" id="production" data-screen-label="Docs · Production rollout">
+        <h2><span class="ix">04</span>Production rollout</h2>
+        <p>
+          Production rollout should happen gradually. Start with one workflow, one app key, and clear
+          monitoring. Expand after request success rate, latency, savings, and fallback behavior are
+          understood.
+        </p>
+        <div class="callout info">
+          <svg class="co-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M10 9v5M10 6.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div class="co-body">
+            <strong>Expand on evidence, not optimism.</strong>
+            Treat each expansion as its own small pilot: widen traffic only once the previous step's
+            success rate and savings have held steady across a representative window.
+          </div>
+        </div>
+      </section>
+
+      <!-- DASHBOARD GUIDE -->
+      <section class="doc-section" id="dashboard-guide" data-screen-label="Docs · Dashboard guide">
+        <h2><span class="ix">05</span>Dashboard guide</h2>
+        <p>
+          The Takoraa dashboard is where operators manage clients, keys, provider access, controls,
+          traffic, and reports.
+        </p>
+
+        <div class="view-list">
+          <div class="view-item">
+            <div class="vi-name"><svg class="vi-ic" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="9.5" y="2.5" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="2.5" y="9.5" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="9.5" y="9.5" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.4"/></svg>Dashboard</div>
+            <div class="vi-desc">Shows estimated savings, request activity, token usage, model routes, and optimization impact. Use it to understand whether Takoraa is reducing cost without harming reliability.</div>
+          </div>
+          <div class="view-item">
+            <div class="vi-name"><svg class="vi-ic" viewBox="0 0 18 18" fill="none"><path d="M2.5 4.5h13M2.5 9h13M2.5 13.5h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Requests</div>
+            <div class="vi-desc">Shows recent AI traffic. Inspect request timing, model routing, cache reuse, pruning behavior, provider calls, token usage, and estimated cost impact.</div>
+          </div>
+          <div class="view-item">
+            <div class="vi-name"><svg class="vi-ic" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M8 6h6M4 12h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Controls</div>
+            <div class="vi-desc">Manages optimization behavior at the customer level or app-key level. Use defaults for broad behavior and key-level overrides for specific workflows.</div>
+          </div>
+          <div class="view-item">
+            <div class="vi-name"><svg class="vi-ic" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="9" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M9 9h6M13 7v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>API keys</div>
+            <div class="vi-desc">Manages Takoraa app keys used by client backends. Keys can be created, renamed, assigned provider access, made default, revoked, or inspected for spend.</div>
+          </div>
+          <div class="view-item">
+            <div class="vi-name"><svg class="vi-ic" viewBox="0 0 18 18" fill="none"><path d="M9 2.5 15 5.5v4c0 3.5-2.5 5.8-6 7-3.5-1.2-6-3.5-6-7v-4L9 2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Provider connections</div>
+            <div class="vi-desc">Manages access to providers such as OpenAI and Anthropic. Test a connection before app keys use it — failed or untested credentials should not receive production traffic.</div>
+          </div>
+          <div class="view-item">
+            <div class="vi-name"><svg class="vi-ic" viewBox="0 0 18 18" fill="none"><path d="M3 14V8M7 14V4M11 14v-4M15 14V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Reports</div>
+            <div class="vi-desc">Summarizes spend, savings, request volume, token usage, and optimization performance over time. Use it to evaluate whether the pilot is ready to expand.</div>
+          </div>
+          <div class="view-item">
+            <div class="vi-name"><svg class="vi-ic" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 14.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Owner dashboard</div>
+            <div class="vi-desc">Used to create and manage customer profiles. It should be restricted to trusted operators.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTROLS -->
+      <section class="doc-section" id="controls" data-screen-label="Docs · Optimization controls">
+        <h2><span class="ix">06</span>Optimization controls</h2>
+        <p>Takoraa optimization controls determine how aggressively traffic is optimized.</p>
+
+        <div class="ctrl-grid">
+          <div class="ctrl-card">
+            <span class="cc-tag">Routing</span>
+            <h4>Routing</h4>
+            <p>Sends eligible requests to efficient provider models based on configured behavior. Useful when the application can accept equivalent responses from different model tiers.</p>
+          </div>
+          <div class="ctrl-card">
+            <span class="cc-tag">Cache</span>
+            <h4>Response cache</h4>
+            <p>Reuses matching responses for repeated or highly similar requests. Most useful for repeated prompts, support flows, internal tools, and predictable workloads.</p>
+          </div>
+          <div class="ctrl-card">
+            <span class="cc-tag">Pruning</span>
+            <h4>Context pruning</h4>
+            <p>Removes low-value conversation history before provider calls. Useful for long conversations where older context increases cost without improving the answer.</p>
+          </div>
+          <div class="ctrl-card">
+            <span class="cc-tag">Quality</span>
+            <h4>Quality judge</h4>
+            <p>Reviews suspicious responses before they are returned. Reduces risk when optimization changes the request path or removes context.</p>
+          </div>
+        </div>
+
+        <h3>Recommended control strategy</h3>
+        <p>
+          Use conservative settings for the first production pilot. Increase optimization only after
+          monitoring request quality, support tickets, failed requests, latency, and savings data.
+        </p>
+      </section>
+
+      <!-- API REFERENCE -->
+      <section class="doc-section" id="api" data-screen-label="Docs · API reference">
+        <h2><span class="ix">07</span>API reference</h2>
+        <p>The Takoraa API is used by backend applications to send runtime AI traffic.</p>
+
+        <h3>Authentication</h3>
+        <p>
+          Runtime requests require a Takoraa app key. The key must be sent from a backend service and
+          must never be exposed in browser or mobile client code.
+        </p>
+
+        <h3>Runtime endpoint</h3>
+        <div class="endpoint">
+          <span class="method">POST</span>
+          <span class="path">/v1/chat/completions</span>
+        </div>
+        <p>Use this endpoint to send chat completion requests through Takoraa.</p>
+
+        <h3>Required headers</h3>
+        <div class="def-table">
+          <div class="def-row">
+            <div class="dt-key"><code>Content-Type</code><span class="req">Required</span></div>
+            <div class="dt-val">Must be <code class="ic">application/json</code> for chat completion requests.</div>
+          </div>
+          <div class="def-row">
+            <div class="dt-key"><code>X-API-Key</code><span class="req">Required</span></div>
+            <div class="dt-val">Your Takoraa app key, sent from a trusted backend service. Never expose this in client code.</div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-head">
+            <span class="cb-file">request.sh</span>
+            <span class="cb-dot"><span></span><span></span><span></span></span>
+          </div>
+          <pre><span class="tk-fn">curl</span> <span class="tk-str">https://gateway.takoraa.ai/v1/chat/completions</span> \
+  -H <span class="tk-str">"Content-Type: application/json"</span> \
+  -H <span class="tk-str">"X-API-Key: $TAKORAA_KEY"</span> \
+  -d <span class="tk-str">'{
+    "model": "takoraa/auto",
+    "messages": [
+      { "role": "user", "content": "Summarize Q3 earnings" }
+    ]
+  }'</span></pre>
+        </div>
+
+        <h3>Request behavior</h3>
+        <p>
+          Takoraa receives the request, validates the app key, applies the relevant controls, selects the
+          provider route, forwards the request, records metadata, and returns the provider response.
+        </p>
+
+        <h3>Response behavior</h3>
+        <p>
+          Responses preserve the expected chat completion behavior while adding Takoraa-side observability
+          in the dashboard.
+        </p>
+
+        <h3>Errors</h3>
+        <p>Takoraa returns errors when:</p>
+        <ul class="prose">
+          <li>Authentication fails.</li>
+          <li>The app key is inactive.</li>
+          <li>The provider is unavailable.</li>
+          <li>The request is invalid.</li>
+          <li>The selected route cannot complete successfully.</li>
+        </ul>
+      </section>
+
+      <!-- SECURITY -->
+      <section class="doc-section" id="security" data-screen-label="Docs · Security">
+        <h2><span class="ix">08</span>Security</h2>
+        <p>Takoraa security depends on correct key handling.</p>
+
+        <div class="def-table">
+          <div class="def-row">
+            <div class="dt-key"><code>App keys</code></div>
+            <div class="dt-val">Used by client backends to send runtime traffic. Store them as server-side secrets and rotate them when access changes.</div>
+          </div>
+          <div class="def-row">
+            <div class="dt-key"><code>Admin keys</code></div>
+            <div class="dt-val">Used to access the customer dashboard. They should not be used for runtime API calls.</div>
+          </div>
+          <div class="def-row">
+            <div class="dt-key"><code>Provider keys</code></div>
+            <div class="dt-val">Allow Takoraa to call or sync with external AI providers. Handle provider secrets carefully and add them only in the appropriate provider connection flow.</div>
+          </div>
+        </div>
+
+        <h3>Key rules</h3>
+        <ul class="prose">
+          <li>Never expose app keys in frontend code.</li>
+          <li>Never paste provider secrets into billing attribution fields.</li>
+          <li>Revoke keys that are no longer in use.</li>
+          <li>Use separate keys for sandbox and production.</li>
+          <li>Keep provider access limited to the workflows that need it.</li>
+          <li>Review request logs before expanding a pilot.</li>
+        </ul>
+      </section>
+
+      <!-- TROUBLESHOOTING -->
+      <section class="doc-section" id="troubleshooting" data-screen-label="Docs · Troubleshooting">
+        <h2><span class="ix">09</span>Troubleshooting</h2>
+        <p>Use this section to resolve common setup and runtime issues.</p>
+
+        <div class="trouble">
+          <details open>
+            <summary><span class="t-sym">!</span>Requests are not appearing<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">The application may still be calling the provider directly, the wrong backend URL may be configured, or the app key may not be included in the request.</div>
+          </details>
+          <details>
+            <summary><span class="t-sym">!</span>Authentication fails<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">The app key may be missing, inactive, revoked, copied incorrectly, or from the wrong environment.</div>
+          </details>
+          <details>
+            <summary><span class="t-sym">!</span>Provider needs test<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">The provider credential exists but has not passed validation. Test the provider connection before assigning it to production app keys.</div>
+          </details>
+          <details>
+            <summary><span class="t-sym">!</span>Provider failed<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">The provider credential may be invalid, revoked, expired, rate-limited, or missing required permissions.</div>
+          </details>
+          <details>
+            <summary><span class="t-sym">!</span>Spend sync missing<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">Runtime traffic may still work, but billing or admin access is not connected. Add or validate the provider billing/admin connection to sync real spend.</div>
+          </details>
+          <details>
+            <summary><span class="t-sym">!</span>No estimated savings<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">Savings may not appear until requests pass through enabled optimization controls. Confirm that routing, cache, or pruning is active for the relevant customer or app key.</div>
+          </details>
+          <details>
+            <summary><span class="t-sym">!</span>Unexpected model route<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">The active controls may allow Takoraa to choose a different route. Review routing settings at both customer level and app-key level.</div>
+          </details>
+          <details>
+            <summary><span class="t-sym">!</span>Production traffic fails after key rotation<svg class="t-chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="t-body">The client backend may still be using the old key. Update the server-side secret and redeploy the backend.</div>
+          </details>
+        </div>
+      </section>
+
+      <div class="doc-foot">
+        <span>© 2026 Takora AI, Inc.</span>
+        <a href="index.html">← Back to home</a>
+      </div>
+    </main>
+
+    <!-- ON THIS PAGE -->
+    <aside class="doc-toc" id="toc">
+      <div class="toc-label">On this page</div>
+      <ul>
+        <li><a href="#overview" data-toc="overview">Overview</a></li>
+        <li><a href="#start-here" data-toc="start-here">Start here</a></li>
+        <li><a href="#quickstart" data-toc="quickstart">Quickstart</a></li>
+        <li><a href="#integration-guides" data-toc="integration-guides">Integration guides</a></li>
+        <li><a href="#production" data-toc="production">Production rollout</a></li>
+        <li><a href="#dashboard-guide" data-toc="dashboard-guide">Dashboard guide</a></li>
+        <li><a href="#controls" data-toc="controls">Optimization controls</a></li>
+        <li><a href="#api" data-toc="api">API reference</a></li>
+        <li><a href="#security" data-toc="security">Security</a></li>
+        <li><a href="#troubleshooting" data-toc="troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </aside>
+
+  </div>
+
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.doc-section'));
+      var spyLinks = document.querySelectorAll('[data-spy]');
+      var tocLinks = document.querySelectorAll('[data-toc]');
+
+      function setActive(id) {
+        spyLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-spy') === id); });
+        tocLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-toc') === id); });
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        var visible = entries.filter(function (e) { return e.isIntersecting; });
+        if (visible.length) {
+          visible.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+          setActive(visible[0].target.id);
+        }
+      }, { rootMargin: '-80px 0px -65% 0px', threshold: 0 });
+
+      sections.forEach(function (s) { observer.observe(s); });
+
+      // Mobile sidebar
+      var sidebar = document.getElementById('sidebar');
+      var scrim = document.getElementById('scrim');
+      var toggle = document.getElementById('navToggle');
+      function closeNav() { sidebar.classList.remove('open'); scrim.classList.remove('open'); }
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          sidebar.classList.toggle('open'); scrim.classList.toggle('open');
+        });
+      }
+      scrim.addEventListener('click', closeNav);
+      sidebar.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') closeNav();
+      });
+    })();
+  </script>
+
+</body>
+</html>
