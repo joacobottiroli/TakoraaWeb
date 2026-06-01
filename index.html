@@ -1332,7 +1332,7 @@ function Logo({ size = 26 }) {
 const NAV_LINKS = [
   { href: "#product",      label: "Product" },
   { href: "docs.html",     label: "Docs" },
-  { href: "#billing",      label: "Billing" },
+  // { href: "#billing",      label: "Billing" },
   { href: "", label: "Customers" },
   { href: "about.html",    label: "About us" },
 ];
@@ -1551,7 +1551,7 @@ function IntegrationSection() {
 }
 
 // ─── Billing Section ──────────────────────────────────────────────────────────
-/* 
+
 function BillingSection() {
   const rows = [
     { spend: "$2,000",  saves: "$600",    success: "$120",   admin: "$49", total: "$169",   net: "$431" },
@@ -1642,7 +1642,7 @@ function BillingSection() {
     </section>
   );
 }
- */
+
 // ─── Metrics Strip ─────────────────────────────────────────────────────────────
 
 function MetricsStrip() {
@@ -1670,7 +1670,7 @@ function Footer() {
             <a className="logo" href="#"><Logo /><span className="logo-word">Takoraa</span></a>
             <p className="foot-tag">The intelligence layer between your application and every model worth running.</p>
           </div>
-          <div className="foot-col"><h5>Product</h5><ul><li><a href="#product">Platform</a></li><li><a href="#integration">Integration</a></li><li><a href="#billing">Billing</a></li></ul></div>
+          <div className="foot-col"><h5>Product</h5><ul><li><a href="#product">Platform</a></li><li><a href="#integration">Integration</a></li></ul></div>
           <div className="foot-col"><h5>Developers</h5><ul><li><a href="docs.html">Docs</a></li><li><a href="docs.html#api">API reference</a></li><li><a href="docs.html#quickstart">Quickstart</a></li></ul></div>
           <div className="foot-col"><h5>Company</h5><ul><li><a href="about.html">About us</a></li><li><a href="customers.html">Customers</a></li></ul></div>
         </div>
@@ -1696,7 +1696,7 @@ function App() {
       <Hero headline={t.heroHeadline} />
       <Features />
       <IntegrationSection />
-      <BillingSection />
+      {/* <BillingSection /> */}
       <Footer />
       <TweaksPanel title="Tweaks">
         <TweakSection label="Brand">
