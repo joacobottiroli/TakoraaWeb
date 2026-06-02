@@ -62,20 +62,34 @@
   .nav {
     max-width: 1240px; margin: 0 auto;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 32px;
+    padding: 16px 32px;
   }
   .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
   .logo-word { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
   .nav-menu { display: flex; gap: 4px; }
   .nav-menu a {
+    position: relative;
     color: var(--ink-soft);
     text-decoration: none;
     font-size: 13.5px;
     padding: 7px 12px;
     border-radius: 6px;
-    transition: color .15s, background .15s;
+    transition: color .18s ease, transform .18s cubic-bezier(.2,.7,.2,1);
   }
-  .nav-menu a:hover { color: var(--ink); background: var(--off-white); }
+  .nav-menu a::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: rgba(151,215,0,0.55);
+    border-radius: 5px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .28s cubic-bezier(.2,.7,.2,1);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .nav-menu a:hover { color: var(--ink); transform: translateY(-1px); }
+  .nav-menu a:hover::after { transform: scaleX(1); }
   .nav-cta { display: flex; align-items: center; gap: 6px; }
   .btn {
     font-family: 'Inter', sans-serif; font-weight: 500;
@@ -320,6 +334,7 @@
 
   /* Integration */
   .integrate {
+    max-width: 1240px;
     width: 100%;
     margin: 0 auto;
     padding: 96px 32px;
@@ -1434,7 +1449,7 @@ function NavBar() {
       <div className="nav-wrap">
         <nav className="nav">
           <a className="logo" href="#" onClick={close}>
-            <Logo size={36} />
+            <Logo size={64} />
           </a>
 
           {/* Desktop menu */}
@@ -1445,7 +1460,7 @@ function NavBar() {
           <div className="nav-cta">
             <a className="btn btn-ghost" href="https://dashboard.takoraa.com">Sign in</a>
             <a className="btn btn-primary" href="contact.html">
-              Deploy
+              Contact us
               <svg className="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none">
                 <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -1755,7 +1770,7 @@ function Footer() {
           <div className="foot-col"><h5>Contact</h5><ul><li><a href="mailto:sales@takoraa.com">sales@takoraa.com</a></li><li><a href="mailto:support@takoraa.com">support@takoraa.com</a></li></ul></div>
         </div>
         <div className="foot-bottom">
-          <span>© 2026 Takoraa AI, Inc.</span>
+          <span>© 2026 Takoraa AI. All rights reserved</span>
         </div>
       </div>
     </footer>

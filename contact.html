@@ -29,12 +29,14 @@
 
   /* Nav */
   .nav-wrap { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.82); backdrop-filter: saturate(140%) blur(10px); -webkit-backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
-  .nav { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; }
+  .nav { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; }
   .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .logo img { height: 36px; width: auto; display: block; }
+  .logo img { height: 64px; width: auto; display: block; }
   .nav-menu { display: flex; gap: 4px; }
-  .nav-menu a { color: var(--ink-soft); text-decoration: none; font-size: 13.5px; padding: 7px 12px; border-radius: 6px; transition: color .15s, background .15s; }
-  .nav-menu a:hover { color: var(--ink); background: var(--off-white); }
+  .nav-menu a { position: relative; color: var(--ink-soft); text-decoration: none; font-size: 13.5px; padding: 7px 12px; border-radius: 6px; transition: color .18s ease, transform .18s cubic-bezier(.2,.7,.2,1); }
+  .nav-menu a::after { content: ""; position: absolute; inset: 2px; background: rgba(151,215,0,0.55); border-radius: 5px; transform: scaleX(0); transform-origin: left center; transition: transform .28s cubic-bezier(.2,.7,.2,1); pointer-events: none; z-index: 1; }
+  .nav-menu a:hover { color: var(--ink); transform: translateY(-1px); }
+  .nav-menu a:hover::after { transform: scaleX(1); }
   .nav-cta { display: flex; align-items: center; gap: 6px; }
   .btn { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13.5px; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line-strong); background: #fff; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all .15s; line-height: 1; }
   .btn:hover { border-color: var(--ink); }
@@ -153,7 +155,7 @@
       <div class="nav-cta">
         <a class="btn btn-ghost" href="https://dashboard.takoraa.com">Sign in</a>
         <a class="btn btn-primary" href="#form">
-          Deploy
+          Contact us
           <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
@@ -296,7 +298,7 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>© 2026 Takoraa AI, Inc.</span>
+        <span>© 2026 Takoraa AI. All rights reserved</span>
       </div>
     </div>
   </footer>
