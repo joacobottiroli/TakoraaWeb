@@ -47,7 +47,7 @@
     position: relative;
     background: var(--bg);
     width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
   section { border-bottom: 1px solid var(--line); }
 
@@ -294,9 +294,32 @@
   .b-insights { grid-column: span 4; grid-row: 3 / span 2; }
   .b-keys     { grid-column: span 2; grid-row: 3 / span 2; }
 
+  /* Dashboard showcase */
+  .showcase { background: var(--off-white); }
+  .showcase-stage { max-width: 1240px; margin: 0 auto; padding: 8px 32px 96px; }
+  .browser {
+    max-width: 1180px; margin: 0 auto;
+    border: 1px solid var(--line-strong); border-radius: 12px; overflow: hidden; background: #fff;
+    box-shadow: 0 1px 0 rgba(15,76,129,.04), 0 44px 84px -44px rgba(15,76,129,.42), 0 16px 36px -20px rgba(0,0,0,.22);
+  }
+  .browser-bar { display: flex; align-items: center; gap: 14px; padding: 11px 16px; background: #fafbf7; border-bottom: 1px solid var(--line); }
+  .browser-dots { display: flex; gap: 7px; flex-shrink: 0; }
+  .browser-dots span { width: 11px; height: 11px; border-radius: 50%; background: #e2e3dd; border: 1px solid #d4d5cf; }
+  .browser-dots span:nth-child(1) { background: #f1d3b8; border-color: #e6b78d; }
+  .browser-dots span:nth-child(2) { background: #f5e7a8; border-color: #e6cf75; }
+  .browser-dots span:nth-child(3) { background: #c9e2a3; border-color: #a8c97a; }
+  .browser-urlwrap { flex: 1; display: flex; justify-content: center; min-width: 0; }
+  .browser-url { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-soft);
+    background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 6px 14px; max-width: 340px; }
+  .browser-live { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-soft); flex-shrink: 0; }
+  .browser-live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: scPulse 1.4s ease-out infinite; }
+  @keyframes scPulse { 0% { box-shadow: 0 0 0 0 rgba(0,159,227,.5); } 80% { box-shadow: 0 0 0 7px rgba(0,159,227,0); } 100% { box-shadow: 0 0 0 0 rgba(0,159,227,0); } }
+  .browser-viewport { position: relative; width: 100%; overflow: hidden; background: #f8fafc; }
+  .dash-frame { border: 0; transform-origin: 0 0; display: block; }
+  .showcase-cta { margin: 28px auto 0; display: flex; width: fit-content; }
+
   /* Integration */
   .integrate {
-    max-width: 1240px;
     width: 100%;
     margin: 0 auto;
     padding: 96px 32px;
@@ -933,16 +956,16 @@ function TweakColor({ label, value, options, onChange }) {
 // ─── Router Demo ──────────────────────────────────────────────────────────────
 
 const SCENARIOS = [
-  { prompt: "Summarize this 3-line email in one sentence.", tokensIn: 86, classification: "Simple · low complexity", pickedKey: "haiku", rejected: ["gpt-4o", "claude-sonnet"], fromModel: "GPT-4o", toModel: "Haiku 4.5", fromCost: 0.084, toCost: 0.007, latency: "412ms", quality: "98%" },
+  { prompt: "Summarize this 3-line email in one sentence.", tokensIn: 86, classification: "Simple · low complexity", pickedKey: "haiku", rejected: ["gpt-4o", "sonnet"], fromModel: "GPT-4o", toModel: "Haiku 4.5", fromCost: 0.084, toCost: 0.007, latency: "412ms", quality: "98%" },
   { prompt: "Refactor this 240-line TypeScript module for readability.", tokensIn: 3120, classification: "Code · medium-high complexity", pickedKey: "sonnet", rejected: ["opus", "gpt-4o"], fromModel: "Claude Opus 4", toModel: "Sonnet 4.5", fromCost: 0.612, toCost: 0.118, latency: "1.2s", quality: "99%" },
-  { prompt: "Extract entities and sentiment from 12 customer reviews.", tokensIn: 1840, classification: "Extraction · structured output", pickedKey: "haiku", rejected: ["gpt-4o", "sonnet"], fromModel: "GPT-4o", toModel: "Haiku 4.5", fromCost: 0.244, toCost: 0.021, latency: "680ms", quality: "97%" }
+  { prompt: "Extract entities and sentiment from 12 customer reviews.", tokensIn: 1840, classification: "Extraction · structured output", pickedKey: "haiku", rejected: ["gpt-4o", "opus"], fromModel: "GPT-4o", toModel: "Haiku 4.5", fromCost: 0.244, toCost: 0.021, latency: "680ms", quality: "97%" }
 ];
 const MODELS = [
   { key: "opus",   label: "Opus 4",        tier: "Premium",   cost: "$15 / 1M" },
   { key: "gpt-4o", label: "GPT-4o",        tier: "Premium",   cost: "$10 / 1M" },
+  { key: "gemini", label: "Gemini 2.5 Pro", tier: "Balanced",  cost: "$3.5 / 1M", soon: true },
   { key: "sonnet", label: "Sonnet 4.5",    tier: "Balanced",  cost: "$3.0 / 1M" },
   { key: "haiku",  label: "Haiku 4.5",     tier: "Efficient", cost: "$0.25 / 1M" },
-  { key: "llama",  label: "Llama 3.3 70B", tier: "OSS",       cost: "$0.18 / 1M" },
 ];
 
 function RouterDemo() {
@@ -1000,6 +1023,16 @@ function RouterDemo() {
             </div>
             <div className="rd-models">
               {MODELS.map(m => {
+                if (m.soon) {
+                  return (
+                    <div key={m.key} className="rd-model soon">
+                      <div className="rd-model-tier mono">{m.tier}</div>
+                      <div className="rd-model-name">{m.label}</div>
+                      <div className="rd-model-cost mono">{m.cost}</div>
+                      <div className="rd-model-soon mono">Integrating</div>
+                    </div>
+                  );
+                }
                 const isPicked = phase >= 2 && m.key === scenario.pickedKey;
                 const isRejected = phase >= 2 && scenario.rejected.includes(m.key);
                 const isEvaluating = phase === 1;
@@ -1038,10 +1071,10 @@ function RouterDemo() {
       </div>
       <div className={`rd-badge ${phase >= 3 ? 'show' : ''}`}>
         <div className="rd-badge-row">
-          <div className="rd-badge-pct mono">−{savedPct}%</div>
+          <div className="rd-badge-pct mono">${scenario.toCost.toFixed(3)}</div>
           <div className="rd-badge-meta">
-            <div className="rd-badge-title">Cost saved on this request</div>
-            <div className="rd-badge-sub mono">${saved.toFixed(3)} · {scenario.latency} · quality {scenario.quality}</div>
+            <div className="rd-badge-title">Spend logged for this request</div>
+            <div className="rd-badge-sub mono">{scenario.toModel} · {scenario.latency} · quality {scenario.quality}</div>
           </div>
         </div>
       </div>
@@ -1085,6 +1118,10 @@ function RouterDemo() {
         .rd-model.picked{border-color:var(--green-deep);background:rgba(151,215,0,.07);box-shadow:0 0 0 3px rgba(151,215,0,.12)}
         .rd-model.picked .rd-model-fill{background:var(--green-deep)}
         .rd-model.rejected{opacity:.45}
+        .rd-model.soon{border-style:dashed}
+        .rd-model.soon .rd-model-tier,.rd-model.soon .rd-model-name,.rd-model.soon .rd-model-cost{opacity:.45}
+        .rd-model-soon{margin-top:8px;font-size:8.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--cyan);display:inline-flex;align-items:center;gap:4px;line-height:1}
+        .rd-model-soon::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(0,159,227,.5);animation:rdPulse 1.4s ease-out infinite}
         .rd-decision{padding-bottom:0}
         .rd-decision-row{display:grid;grid-template-columns:1fr 56px 1fr;align-items:center;gap:10px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
         .rd-decision.is-active .rd-decision-row{opacity:1;transform:translateY(0)}
@@ -1184,7 +1221,7 @@ function InsightsVisual() {
         <div className="ins-range mono">last 7d</div>
       </div>
       <div className="ins-stats">
-        <div className="ins-stat"><div className="ins-stat-lbl mono">SPEND</div><div className="ins-stat-val">$1,284<span className="ins-delta">−63%</span></div></div>
+        <div className="ins-stat"><div className="ins-stat-lbl mono">SPEND</div><div className="ins-stat-val">$1,284</div></div>
         <div className="ins-stat"><div className="ins-stat-lbl mono">REQUESTS</div><div className="ins-stat-val">182,402</div></div>
         <div className="ins-stat"><div className="ins-stat-lbl mono">AVG LATENCY</div><div className="ins-stat-val">486<span className="ins-unit">ms</span></div></div>
       </div>
@@ -1196,8 +1233,8 @@ function InsightsVisual() {
         })}
       </div>
       <div className="ins-legend">
-        <span><i className="dot base"></i> Baseline spend</span>
-        <span><i className="dot saved"></i> With Takoraa</span>
+        <span><i className="dot base"></i> Premium models</span>
+        <span><i className="dot saved"></i> Routed models</span>
       </div>
     </div>
   );
@@ -1230,7 +1267,7 @@ function FeatureBento() {
         <span className="card-kicker">01 · Routing</span>
         <h3 className="card-title">Intelligent routing across every major model.</h3>
         <p className="card-desc">Each prompt is scored on complexity, modality and required reasoning depth, then dispatched to the most efficient model that meets your quality bar.</p>
-        <div className="card-body"><MiniChart /><div className="chart-legend"><span><i className="dot base"></i> Baseline cost (single premium model)</span><span><i className="dot green"></i> Takoraa routed</span></div></div>
+        <div className="card-body"><MiniChart /><div className="chart-legend"><span><i className="dot base"></i> Premium-only cost / request</span><span><i className="dot green"></i> Takoraa routed</span></div></div>
       </article>
       <article className="card b-cache">
         <span className="card-kicker">02 · Cache</span>
@@ -1316,25 +1353,66 @@ function FeatureBento() {
   );
 }
 
+// ─── Dashboard Showcase ───────────────────────────────────────────────────────
+
+function DashboardShowcase() {
+  const wrapRef = React.useRef(null);
+  const [scale, setScale] = React.useState(1);
+  const DESIGN_W = 1280, DESIGN_H = 824;
+  React.useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const update = () => setScale(el.clientWidth / DESIGN_W);
+    update();
+    let ro;
+    if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(update); ro.observe(el); }
+    else window.addEventListener('resize', update);
+    return () => { if (ro) ro.disconnect(); else window.removeEventListener('resize', update); };
+  }, []);
+  return (
+    <section id="dashboard" className="showcase">
+      <div className="section-head">
+        <div>
+          <div className="section-eyebrow">The dashboard</div>
+          <h2 className="section-title">Watch every dollar leave the building.</h2>
+        </div>
+        <p className="section-desc">Provider spend reconciled to the invoice and broken out by team, key, model and route — plus live traffic and quality scores. This is the actual product, running below.</p>
+      </div>
+      <div className="showcase-stage">
+        <div className="browser">
+          <div className="browser-bar">
+            <div className="browser-dots"><span></span><span></span><span></span></div>
+            <div className="browser-urlwrap">
+              <div className="browser-url mono">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2.5" y="5.2" width="7" height="4.8" rx="1" stroke="currentColor" strokeWidth="1"/><path d="M4 5.2V3.6a2 2 0 0 1 4 0v1.6" stroke="currentColor" strokeWidth="1"/></svg>
+                dashboard.takoraa.com
+              </div>
+            </div>
+            <div className="browser-live mono"><span className="browser-live-dot"></span>live</div>
+          </div>
+          <div className="browser-viewport" ref={wrapRef} style={{ height: DESIGN_H * scale }}>
+            <iframe className="dash-frame" src="dashboard/index.html" title="Takoraa product dashboard" loading="lazy" scrolling="no"
+              style={{ width: DESIGN_W, height: DESIGN_H, transform: `scale(${scale})` }}></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Main App ─────────────────────────────────────────────────────────────────
 
-function Logo({ size = 26 }) {
+function Logo({ size = 26, src = "assets/takoraa-logo-horizontal.png" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
-      <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="#0f4c81"/>
-      <path d="M16 2 L28.124 9 L28.124 23 L16 30 L3.876 23 L3.876 9 Z" fill="none" stroke="#0a3a64" strokeWidth="0.6"/>
-      <text x="16" y="20.5" textAnchor="middle" fontFamily="Montserrat, sans-serif" fontWeight="800" fontSize="11" fill="#ffffff" letterSpacing="-0.04em">TR</text>
-      <circle cx="25" cy="9" r="2.4" fill="#97d700" stroke="#ffffff" strokeWidth="0.8"/>
-    </svg>
+    <img className="logo-img" src={src} alt="Takoraa"
+      style={{ height: size, width: 'auto', display: 'block' }} />
   );
 }
 
 const NAV_LINKS = [
-  { href: "#product",      label: "Product" },
-  { href: "docs.html",     label: "Docs" },
-  // { href: "#billing",      label: "Billing" },
-  { href: "", label: "Customers" },
-  { href: "about.html",    label: "About us" },
+  { href: "#product",   label: "Product" },
+  { href: "#dashboard", label: "Dashboard" },
+  { href: "about.html", label: "About us" },
 ];
 
 function NavBar() {
@@ -1356,7 +1434,7 @@ function NavBar() {
       <div className="nav-wrap">
         <nav className="nav">
           <a className="logo" href="#" onClick={close}>
-            <Logo /><span className="logo-word">Takoraa</span>
+            <Logo size={36} />
           </a>
 
           {/* Desktop menu */}
@@ -1365,8 +1443,8 @@ function NavBar() {
           </div>
 
           <div className="nav-cta">
-            <a className="btn btn-ghost" href="#">Sign in</a>
-            <a className="btn" href="#">
+            <a className="btn btn-ghost" href="https://dashboard.takoraa.com">Sign in</a>
+            <a className="btn btn-primary" href="contact.html">
               Deploy
               <svg className="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none">
                 <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -1386,7 +1464,7 @@ function NavBar() {
       <div className={`mobile-overlay ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
         <div className="mobile-overlay-head">
           <a className="logo" href="#" onClick={close}>
-            <Logo /><span className="logo-word">Takoraa</span>
+            <Logo size={36} />
           </a>
           <button className="mobile-close" aria-label="Close menu" onClick={close}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -1402,13 +1480,13 @@ function NavBar() {
         </div>
 
         <div className="mobile-overlay-foot">
-          <a className="btn btn-primary btn-lg" href="#" onClick={close}>
-            Start routing free
+          <a className="btn btn-primary btn-lg" href="contact.html" onClick={close}>
+            Request access
             <svg className="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none">
               <path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-          <a className="btn btn-lg" href="#" onClick={close}>Sign in</a>
+          <a className="btn btn-lg" href="https://dashboard.takoraa.com" onClick={close}>Sign in</a>
         </div>
       </div>
     </>
@@ -1419,7 +1497,7 @@ function Hero({ headline }) {
   const headlines = {
     default: <>The AI gateway that <em>thinks</em> before it spends.</>,
     routing: <>One endpoint. <em>Every model.</em> The cheapest one that gets it right.</>,
-    saving:  <>Cut your LLM bill <em>up to 80%</em> without touching your code.</>
+    saving:  <>See exactly where your <em>token spend</em> goes.</>
   };
   return (
     <section className="hero">
@@ -1427,10 +1505,9 @@ function Hero({ headline }) {
       <div className="hero-inner">
         <div className="hero-left">
           <h1 className="hero-title">{headlines[headline] || headlines.default}</h1>
-          <p className="hero-sub">Takoraa is the dynamic router for LLM workloads. We score every prompt and dispatch it to the most efficient model that meets your quality bar — across OpenAI, Anthropic, Google, Meta and your own private endpoints.</p>
+          <p className="hero-sub">Takoraa is the dynamic router for LLM workloads. We score every prompt and dispatch it to the most efficient model that meets your quality bar — across OpenAI and Anthropic, with Google Gemini coming soon.</p>
           <div className="hero-cta">
-            <a className="btn btn-primary btn-lg" href="#">Start routing free<svg className="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></a>
-            <a className="btn btn-lg" href="docs.html">View docs</a>
+            <a className="btn btn-primary btn-lg" href="contact.html">Request access<svg className="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></a>
           </div>
         </div>
         <div className="hero-right"><RouterDemo /></div>
@@ -1522,7 +1599,7 @@ function IntegrationSection() {
           <p>Keep your existing SDK. Swap the <span className="mono" style={{color:'var(--primary)'}}>baseURL</span> and one model string. Takoraa handles fallback, retries, schema-preserving translation between providers, and live cost ceilings.</p>
           <div className="integrate-stats">
             <div className="integrate-stat"><div className="num">&lt; 60s</div><div className="lbl">to integrate</div></div>
-            <div className="integrate-stat"><div className="num green">−63%</div><div className="lbl">avg spend drop</div></div>
+            <div className="integrate-stat"><div className="num green">per-token</div><div className="lbl">cost visibility</div></div>
             <div className="integrate-stat"><div className="num">100%</div><div className="lbl">API compatible</div></div>
           </div>
         </div>
@@ -1667,15 +1744,18 @@ function Footer() {
       <div className="foot-inner">
         <div className="foot-grid">
           <div className="foot-brand">
-            <a className="logo" href="#"><Logo /><span className="logo-word">Takoraa</span></a>
+            <a className="logo" href="#"><Logo size={36} /></a>
             <p className="foot-tag">The intelligence layer between your application and every model worth running.</p>
           </div>
-          <div className="foot-col"><h5>Product</h5><ul><li><a href="#product">Platform</a></li><li><a href="#integration">Integration</a></li></ul></div>
+          <div className="foot-col"><h5>Product</h5><ul><li><a href="#product">Platform</a></li><li><a href="#dashboard">Dashboard</a></li><li><a href="#integration">Integration</a></li></ul></div>
+          {/* Developers column hidden for now
           <div className="foot-col"><h5>Developers</h5><ul><li><a href="docs.html">Docs</a></li><li><a href="docs.html#api">API reference</a></li><li><a href="docs.html#quickstart">Quickstart</a></li></ul></div>
-          <div className="foot-col"><h5>Company</h5><ul><li><a href="about.html">About us</a></li><li><a href="customers.html">Customers</a></li></ul></div>
+          */}
+          <div className="foot-col"><h5>Company</h5><ul><li><a href="about.html">About us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+          <div className="foot-col"><h5>Contact</h5><ul><li><a href="mailto:sales@takoraa.com">sales@takoraa.com</a></li><li><a href="mailto:support@takoraa.com">support@takoraa.com</a></li></ul></div>
         </div>
         <div className="foot-bottom">
-          <span>© 2026 Takora AI, Inc.</span>
+          <span>© 2026 Takoraa AI, Inc.</span>
         </div>
       </div>
     </footer>
@@ -1690,11 +1770,29 @@ function App() {
     const deepMap = {'#0f4c81':'#0a3a64','#000000':'#1a1a1a','#1f8a5b':'#176944','#7b3fe4':'#5e2bc0'};
     document.documentElement.style.setProperty('--primary-700', deepMap[t.primaryColor] || t.primaryColor);
   }, [t.primaryColor]);
+  React.useEffect(() => {
+    // Land directly on a hash target (e.g. arriving at index.html#dashboard from
+    // another page) — React renders after the browser's native anchor jump, so
+    // we re-scroll once the layout (incl. the dashboard iframe) has settled.
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    let tries = 0;
+    const jump = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'auto' });
+      }
+      if (++tries < 4) setTimeout(jump, 180);
+    };
+    const raf = requestAnimationFrame(jump);
+    return () => cancelAnimationFrame(raf);
+  }, []);
   return (
     <div className="page">
       <NavBar />
       <Hero headline={t.heroHeadline} />
       <Features />
+      <DashboardShowcase />
       <IntegrationSection />
       {/* <BillingSection /> */}
       <Footer />
@@ -1704,7 +1802,7 @@ function App() {
         </TweakSection>
         <TweakSection label="Hero">
           <TweakSelect label="Headline" value={t.heroHeadline}
-            options={[{value:'default',label:'Thinks before it spends'},{value:'routing',label:'One endpoint, every model'},{value:'saving',label:'Cut your LLM bill 80%'}]}
+            options={[{value:'default',label:'Thinks before it spends'},{value:'routing',label:'One endpoint, every model'},{value:'saving',label:'See where token spend goes'}]}
             onChange={(v)=>setTweak('heroHeadline',v)}/>
         </TweakSection>
         <TweakSection label="Features">

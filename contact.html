@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact Takoraa — Start routing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0f4c81;
+    --primary-700: #0a3a64;
+    --cyan: #009fe3;
+    --green: #97d700;
+    --green-deep: #6fa300;
+    --off-white: #f4f5f0;
+    --bg: #ffffff;
+    --ink: #373a3c;
+    --ink-soft: #5b6063;
+    --ink-mute: #8a8f93;
+    --line: #e7e8e2;
+    --line-strong: #d9dad3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.5; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  /* Nav */
+  .nav-wrap { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.82); backdrop-filter: saturate(140%) blur(10px); -webkit-backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
+  .nav { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 36px; width: auto; display: block; }
+  .nav-menu { display: flex; gap: 4px; }
+  .nav-menu a { color: var(--ink-soft); text-decoration: none; font-size: 13.5px; padding: 7px 12px; border-radius: 6px; transition: color .15s, background .15s; }
+  .nav-menu a:hover { color: var(--ink); background: var(--off-white); }
+  .nav-cta { display: flex; align-items: center; gap: 6px; }
+  .btn { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13.5px; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line-strong); background: #fff; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all .15s; line-height: 1; }
+  .btn:hover { border-color: var(--ink); }
+  .btn-ghost { border-color: transparent; background: transparent; color: var(--ink-soft); }
+  .btn-ghost:hover { color: var(--ink); background: var(--off-white); border-color: transparent; }
+  .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 0 rgba(15,76,129,0.25); }
+  .btn-primary:hover { background: var(--primary-700); border-color: var(--primary-700); }
+  .btn-lg { padding: 13px 18px; font-size: 14px; border-radius: 8px; }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(2px); }
+
+  /* Layout */
+  .contact { position: relative; overflow: hidden; }
+  .contact::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(55,58,60,0.08) 1px, transparent 1px); background-size: 22px 22px; mask-image: radial-gradient(ellipse at 22% 30%, #000 22%, transparent 68%); -webkit-mask-image: radial-gradient(ellipse at 22% 30%, #000 22%, transparent 68%); pointer-events: none; }
+  .contact-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 72px 32px 96px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: start; }
+
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.12em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; }
+  .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--primary); }
+  .contact-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 46px; line-height: 1.02; letter-spacing: -0.035em; margin: 0; color: var(--ink); }
+  .contact-title em { font-style: normal; background: linear-gradient(180deg, transparent 60%, rgba(151,215,0,0.45) 60%); padding: 0 2px; }
+  .contact-lede { font-size: 17px; color: var(--ink-soft); line-height: 1.55; margin: 22px 0 0; max-width: 420px; }
+
+  .next { margin-top: 34px; display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
+  .next-item { display: grid; grid-template-columns: 32px 1fr; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .next-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--primary); padding-top: 2px; }
+  .next-t { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+  .next-d { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; margin-top: 3px; }
+
+  .trust { margin-top: 30px; display: flex; gap: 28px; }
+  .trust-stat .num { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.02em; color: var(--primary); line-height: 1; }
+  .trust-stat .num.green { color: var(--green-deep); }
+  .trust-stat .lbl { font-size: 11.5px; color: var(--ink-mute); margin-top: 6px; }
+
+  /* Form card */
+  .form-card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 32px 32px 30px; box-shadow: 0 1px 0 rgba(15,76,129,.04), 0 30px 60px -36px rgba(15,76,129,.28); }
+  .form-card-head { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); margin: 0 0 4px; }
+  .form-card-sub { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 24px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 12px; font-weight: 600; color: var(--ink); letter-spacing: 0.01em; }
+  .field label .req { color: var(--primary); }
+  .input, .select, .textarea {
+    font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink);
+    border: 1px solid var(--line-strong); border-radius: 8px; padding: 11px 13px;
+    background: #fff; outline: none; width: 100%; transition: border-color .15s, box-shadow .15s;
+  }
+  .textarea { resize: vertical; min-height: 92px; line-height: 1.5; }
+  .input:focus, .select:focus, .textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15,76,129,.12); }
+  .input.invalid { border-color: var(--green-deep); }
+  .select { appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%238a8f93' d='M0 0h10L5 6z'/></svg>"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 30px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { position: relative; cursor: pointer; user-select: none; }
+  .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .chip span { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ink-soft); border: 1px solid var(--line-strong); border-radius: 999px; padding: 8px 14px; transition: all .15s; }
+  .chip span::before { content: ""; width: 13px; height: 13px; border-radius: 4px; border: 1.5px solid var(--line-strong); transition: all .15s; }
+  .chip input:checked + span { color: var(--primary); border-color: var(--primary); background: rgba(15,76,129,.06); }
+  .chip input:checked + span::before { background: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 2px #fff; }
+  .chip input:focus-visible + span { box-shadow: 0 0 0 3px rgba(15,76,129,.12); }
+  .form-submit { margin-top: 22px; width: 100%; justify-content: center; }
+  .form-foot { margin-top: 14px; font-size: 11.5px; color: var(--ink-mute); text-align: center; line-height: 1.5; }
+  .form-error { display: none; margin-top: 14px; font-size: 12.5px; color: var(--green-deep); font-weight: 500; }
+  .form-error.show { display: block; }
+
+  /* Success */
+  .success { display: none; flex-direction: column; align-items: center; text-align: center; padding: 30px 20px 24px; }
+  .success.show { display: flex; }
+  .success-ic { width: 56px; height: 56px; border-radius: 50%; background: rgba(151,215,0,.16); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+  .success h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; color: var(--ink); margin: 0 0 8px; }
+  .success p { font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 4px; max-width: 360px; }
+  .success .echo { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-mute); margin-top: 14px; }
+
+  .chip.soon { opacity: .6; }
+  .chip.soon span { cursor: not-allowed; }
+
+  /* Footer */
+  footer.foot { padding: 64px 0 28px; background: #fff; border-top: 1px solid var(--line); }
+  .foot-inner { max-width: 1240px; width: 100%; margin: 0 auto; padding: 0 32px; }
+  .foot-grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 40px; padding-bottom: 56px; border-bottom: 1px solid var(--line); }
+  .foot-tag { color: var(--ink-soft); font-size: 13px; margin: 14px 0 18px; max-width: 260px; line-height: 1.5; }
+  .foot-col h5 { font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 600; color: var(--ink); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 14px; }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+  .foot-col a { color: var(--ink-soft); text-decoration: none; font-size: 13px; transition: color .15s; }
+  .foot-col a:hover { color: var(--ink); }
+  .foot-bottom { padding-top: 22px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-mute); font-family: 'JetBrains Mono', monospace; }
+  .foot-bottom .legal { display: flex; gap: 16px; }
+  .foot-bottom a { color: var(--ink-mute); text-decoration: none; }
+  .foot-bottom a:hover { color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .nav { padding: 12px 20px; }
+    .nav-menu { display: none; }
+    .contact-inner { grid-template-columns: 1fr; padding: 48px 20px 64px; gap: 40px; }
+    .contact-title { font-size: 36px; }
+    .form-card { padding: 24px 20px 24px; }
+    .foot-inner { padding: 0 20px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .trust { flex-wrap: wrap; gap: 18px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a class="logo" href="index.html"><img src="assets/takoraa-logo-horizontal.png" alt="Takoraa" /></a>
+      <div class="nav-menu">
+        <a href="index.html#product">Product</a>
+        <a href="index.html#dashboard">Dashboard</a>
+        <a href="about.html">About us</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="https://dashboard.takoraa.com">Sign in</a>
+        <a class="btn btn-primary" href="contact.html">
+          Deploy
+          <svg class="arrow" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <div class="contact-inner">
+      <!-- Left: pitch -->
+      <div>
+        <div class="eyebrow">// Contact</div>
+        <h1 class="contact-title">Let's cut your <em>inference bill</em>.</h1>
+        <p class="contact-lede">Tell us where your AI spend goes and we'll show you exactly how Takoraa routes and attributes every request. No SDK rewrite, no commitment — just a clear view of where your token spend goes.</p>
+
+        <div class="next">
+          <div class="next-item">
+            <div class="next-num">01</div>
+            <div>
+              <div class="next-t">We reply within one business day</div>
+              <div class="next-d">A real engineer reads your stack and sends back a first read on where your token spend is going.</div>
+            </div>
+          </div>
+          <div class="next-item">
+            <div class="next-num">02</div>
+            <div>
+              <div class="next-t">Swap one base URL</div>
+              <div class="next-d">Keep your OpenAI or Anthropic SDK. Point it at the gateway and set <span class="mono">model: "auto"</span>.</div>
+            </div>
+          </div>
+          <div class="next-item">
+            <div class="next-num">03</div>
+            <div>
+              <div class="next-t">See the first cost breakdown</div>
+              <div class="next-d">Live spend, routing decisions and quality scores in the dashboard within a day of real traffic.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trust">
+          <div class="trust-stat"><div class="num">&lt; 60s</div><div class="lbl">To integrate</div></div>
+          <div class="trust-stat"><div class="num green">per-token</div><div class="lbl">Cost visibility</div></div>
+          <div class="trust-stat"><div class="num">100%</div><div class="lbl">API compatible</div></div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="form-card" id="form">
+        <form id="contactForm" novalidate>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0" />
+          <h2 class="form-card-head">Start routing</h2>
+          <p class="form-card-sub">Request access and we'll get you a gateway key.</p>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="email">Work email <span class="req">*</span></label>
+              <input class="input" type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="name">Full name <span class="req">*</span></label>
+              <input class="input" type="text" id="name" name="name" placeholder="Daniela Rossi" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="company">Company</label>
+              <input class="input" type="text" id="company" name="company" placeholder="Mercatto" autocomplete="organization" />
+            </div>
+            <div class="field full">
+              <label for="spend">Monthly AI spend</label>
+              <select class="select" id="spend" name="spend">
+                <option value="under-2k">Under $2,000 / mo</option>
+                <option value="2k-10k" selected>$2,000 – $10,000 / mo</option>
+                <option value="10k-50k">$10,000 – $50,000 / mo</option>
+                <option value="over-50k">$50,000+ / mo</option>
+                <option value="unknown">Not sure yet</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Providers in use</label>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="providers" value="OpenAI" checked /><span>OpenAI</span></label>
+                <label class="chip"><input type="checkbox" name="providers" value="Anthropic" checked /><span>Anthropic</span></label>
+                <label class="chip soon"><input type="checkbox" name="providers" value="Google Gemini" disabled /><span>Google Gemini · soon</span></label>
+              </div>
+            </div>
+            <div class="field full">
+              <label for="message">Anything we should know?</label>
+              <textarea class="textarea" id="message" name="message" placeholder="What are you building, and where does the spend hurt?"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg form-submit">
+            Request access
+            <svg class="arrow" width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M3 6 H9 M6.5 3.5 L9 6 L6.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="form-error" id="formError">Add a valid work email so we can reach you.</div>
+          <div class="form-foot">By requesting access you agree to our terms. We don't share your data or train on your prompts.</div>
+        </form>
+
+        <div class="success" id="success">
+          <div class="success-ic">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M6 13.5 L11 18.5 L20 8" stroke="#6fa300" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Request received.</h3>
+          <p>Thanks — we'll be in touch within one business day with a gateway key and a first read on your token spend.</p>
+          <div class="echo" id="successEcho"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="foot-inner">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="logo" href="index.html">
+            <img class="logo-img" src="assets/takoraa-logo-horizontal.png" alt="Takoraa" style="height:36px;width:auto;display:block" />
+          </a>
+          <p class="foot-tag">The intelligence layer between your application and every model worth running.</p>
+        </div>
+        <div class="foot-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="index.html#product">Platform</a></li>
+            <li><a href="index.html#dashboard">Dashboard</a></li>
+            <li><a href="index.html#integration">Integration</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="mailto:sales@takoraa.com">sales@takoraa.com</a></li>
+            <li><a href="mailto:support@takoraa.com">support@takoraa.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Takoraa AI, Inc.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('contactForm');
+      var email = document.getElementById('email');
+      var name = document.getElementById('name');
+      var err = document.getElementById('formError');
+      var success = document.getElementById('success');
+      var echo = document.getElementById('successEcho');
+      var submitBtn = form.querySelector('.form-submit');
+      var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // ── Email delivery ──────────────────────────────────────────────
+      // Sends the form straight to sales@takoraa.com with NO mail client,
+      // via Formspree (free, no backend). To turn it on:
+      //   1. Create a form at https://formspree.io and set its recipient
+      //      to sales@takoraa.com.
+      //   2. Replace YOUR_FORM_ID below with the form's ID.
+      // Until then it falls back to opening the user's mail client.
+      var FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzyerjv';
+
+      function gather() {
+        var company = (document.getElementById('company') || {}).value || '';
+        var spend = (document.getElementById('spend') || {}).value || '';
+        var message = (document.getElementById('message') || {}).value || '';
+        var providers = [].slice.call(document.querySelectorAll('input[name="providers"]:checked')).map(function (c) { return c.value; }).join(', ');
+        return { company: company, spend: spend, message: message, providers: providers,
+          subject: 'Deploy request \u2014 ' + name.value.trim() + (company ? ' (' + company + ')' : '') };
+      }
+      function showSuccess() { echo.textContent = '\u2192 ' + email.value.trim(); form.style.display = 'none'; success.classList.add('show'); }
+      function fallbackMailto(g) {
+        var body = ['Name: ' + name.value.trim(), 'Work email: ' + email.value.trim(), 'Company: ' + g.company,
+          'Monthly AI spend: ' + g.spend, 'Providers in use: ' + g.providers, '', 'Message:', g.message].join('\n');
+        window.location.href = 'mailto:sales@takoraa.com?subject=' + encodeURIComponent(g.subject) + '&body=' + encodeURIComponent(body);
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var okEmail = emailRe.test(email.value.trim());
+        var okName = name.value.trim().length > 0;
+        email.classList.toggle('invalid', !okEmail);
+        name.classList.toggle('invalid', !okName);
+        if (!okEmail || !okName) {
+          err.textContent = !okName ? 'Add your name and a valid work email.' : 'Add a valid work email so we can reach you.';
+          err.classList.add('show');
+          (!okEmail ? email : name).focus();
+          return;
+        }
+        err.classList.remove('show');
+        var g = gather();
+
+        // Not configured yet \u2192 fall back to the mail client.
+        if (FORMSPREE_ENDPOINT.indexOf('YOUR_FORM_ID') !== -1) {
+          showSuccess();
+          fallbackMailto(g);
+          return;
+        }
+
+        // Configured \u2192 send silently via Formspree.
+        var data = new FormData(form);
+        data.append('_subject', g.subject);
+        var origHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending\u2026';
+        fetch(FORMSPREE_ENDPOINT, { method: 'POST', headers: { 'Accept': 'application/json' }, body: data })
+          .then(function (r) {
+            if (r.ok) { showSuccess(); return; }
+            return r.json().then(function (j) { throw new Error((j.errors && j.errors[0] && j.errors[0].message) || 'Submission failed'); });
+          })
+          .catch(function () {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = origHtml;
+            err.textContent = 'Could not send right now \u2014 email sales@takoraa.com directly.';
+            err.classList.add('show');
+          });
+      });
+
+      // clear invalid state on input
+      [email, name].forEach(function (el) {
+        el.addEventListener('input', function () { el.classList.remove('invalid'); err.classList.remove('show'); });
+      });
+    })();
+  </script>
+
+</body>
+</html>
