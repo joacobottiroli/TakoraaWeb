@@ -48,6 +48,7 @@ function Controls() {
   const [saved, setSaved] = React.useState(CTRL_DEFAULTS);
   const [preset, setPreset] = React.useState('use_defaults');
   const dirty = JSON.stringify(st) !== JSON.stringify(saved);
+  const savedIsDefault = JSON.stringify(saved) === JSON.stringify(CTRL_DEFAULTS);
   const set = (patch) => setSt((s) => ({ ...s, ...patch }));
   const setPol = (k, patch) => setSt((s) => ({ ...s, pol: { ...s.pol, [k]: { ...s.pol[k], ...patch } } }));
 
@@ -82,7 +83,7 @@ function Controls() {
       <div className="panel" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
         <span className="ctrl-chip"><Icon name="receipt_long" size={16} /> Source: {st.scope === 'Client defaults' ? 'Defaults' : 'Override'}</span>
         <span className="ctrl-chip"><Icon name="tune" size={16} /> Profile: {preset === 'use_defaults' ? 'Defaults' : PRESETS.find((p) => p.key === preset).title}</span>
-        <span className="ctrl-chip"><Icon name="timer" size={16} /> Last updated: {dirty ? 'Unsaved changes' : 'Defaults'}</span>
+        <span className="ctrl-chip"><Icon name="timer" size={16} /> Last updated: {dirty ? 'Unsaved changes' : (savedIsDefault ? 'Defaults' : 'Saved')}</span>
         <button className="btn btn-outlined" style={{ marginLeft: 'auto', padding: '8px 16px' }}><Icon name="refresh" /> Refresh</button>
       </div>
       <div style={{ height: 16 }} />

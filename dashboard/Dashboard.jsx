@@ -1,5 +1,11 @@
 // Takoraa Dashboard — provider spend dashboard
 const MODEL_COLORS = ['#4157A6','#8B5A7E','#557064','#E0B84D','#B65A4B','#5D7FB1','#2F827C'];
+const RANGE_LABELS = {
+  MTD: 'Jan 1, 2026 – Jan 30, 2026',
+  '7D': 'Jan 24, 2026 – Jan 30, 2026',
+  '30D': 'Jan 1, 2026 – Jan 30, 2026',
+  '90D': 'Nov 1, 2025 – Jan 30, 2026',
+};
 
 function Dashboard() {
   const [range, setRange] = React.useState('30D');
@@ -30,7 +36,7 @@ function Dashboard() {
       <div className="panel" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Icon name="calendar_today" size={18} color="var(--primary)" />
-          <span style={{ fontSize: 14, fontWeight: 700 }}>Jan 1, 2026 – Jan 30, 2026</span>
+          <span style={{ fontSize: 14, fontWeight: 700 }}>{RANGE_LABELS[range]}</span>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {['MTD', '7D', '30D', '90D'].map((r) => (

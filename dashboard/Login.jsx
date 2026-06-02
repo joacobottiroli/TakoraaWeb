@@ -1,6 +1,5 @@
 // Takoraa Dashboard — login screen
 function Login({ onLogin }) {
-  const [mode, setMode] = React.useState('customer');
   const instruction = 'Verify your dashboard admin key to open the dashboard.';
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)', padding: 24 }}>

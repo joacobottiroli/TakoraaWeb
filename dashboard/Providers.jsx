@@ -1,6 +1,6 @@
 // Takoraa Dashboard — provider connections
 function Providers() {
-  const [provs, setProvs] = React.useState([
+  const [provs] = React.useState([
     { key: 'openai', name: 'OpenAI', models: '9 models', status: 'connected', synced: '2 min ago' },
     { key: 'anthropic', name: 'Anthropic', models: '6 models', status: 'connected', synced: '2 min ago' },
     { key: 'google', name: 'Google Gemini', models: 'Coming soon', status: 'integrating', synced: 'in progress' },

@@ -1,6 +1,6 @@
 // Takoraa Dashboard — API keys
 function ApiKeys() {
-  const [keys, setKeys] = React.useState([
+  const [keys] = React.useState([
     { name: 'prod-gateway', prefix: 'tk_live_a91c', created: 'Nov 12, 2025', last: '2 min ago', status: 'active' },
     { name: 'batch-jobs', prefix: 'tk_live_3f02', created: 'Dec 03, 2025', last: '1 min ago', status: 'active' },
     { name: 'staging', prefix: 'tk_live_77be', created: 'Jan 08, 2026', last: '3 hours ago', status: 'active' },
@@ -23,7 +23,14 @@ function ApiKeys() {
             <div style={{ fontSize: 14, fontWeight: 700 }}>{k.name}</div>
             <div className="mono" style={{ fontSize: 12.5, color: 'var(--on-surface-var)', display: 'flex', alignItems: 'center', gap: 8 }}>
               {reveal === k.name ? `${k.prefix}_b82f1d09c4` : `${k.prefix}••••••••`}
-              <Icon name={reveal === k.name ? 'visibility_off' : 'visibility'} size={16} color="var(--primary)" />
+              <span
+                role="button"
+                aria-label={reveal === k.name ? 'Hide key' : 'Reveal key'}
+                style={{ display: 'inline-flex', cursor: 'pointer' }}
+                onClick={() => setReveal(reveal === k.name ? null : k.name)}
+              >
+                <Icon name={reveal === k.name ? 'visibility_off' : 'visibility'} size={16} color="var(--primary)" />
+              </span>
             </div>
             <div style={{ fontSize: 13, color: 'var(--on-surface-var)' }}>{k.created}</div>
             <div style={{ fontSize: 13, color: 'var(--on-surface-var)' }}>{k.last}</div>
