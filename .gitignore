@@ -1,2 +1,5 @@
 custom/
 .claude/
+/.playwright-cli/
+/output/playwright/
+/tmp/pdfs/
