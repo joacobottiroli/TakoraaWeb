@@ -1,5 +1,48 @@
 (() => {
   const root = document.documentElement;
+  if (root.dataset.page !== 'home') return;
+
+  let language = 'es';
+  const readPreference = (key) => {
+    try { return window.localStorage.getItem(key); } catch { return null; }
+  };
+  const savePreference = (key, value) => {
+    try { window.localStorage.setItem(key, value); } catch { /* Preferences are optional. */ }
+  };
+  const localize = (spanish, english) => language === 'en' ? english : spanish;
+  // Only these explicitly marked homepage strings are translated; markup and links stay intact.
+  const translations = [...document.querySelectorAll('[data-en]')].map((element) => ({
+    element,
+    es: [...element.childNodes].map((node) => node.nodeName === 'BR' ? '\n' : node.textContent).join(''),
+    en: element.dataset.en,
+  }));
+  const translatedAttributes = ['aria-label', 'title'].flatMap((attribute) =>
+    [...document.querySelectorAll('[data-en-' + attribute + ']')].map((element) => ({
+      element, attribute, es: element.getAttribute(attribute), en: element.getAttribute('data-en-' + attribute),
+    })));
+  const spanishTitle = document.title;
+  const description = document.querySelector('meta[name="description"]');
+  const spanishDescription = description.content;
+  const themeButton = document.querySelector('.theme-toggle');
+  const languageButton = document.querySelector('.language-toggle');
+  const syncPreferenceLabels = () => {
+    const dark = root.dataset.theme === 'dark';
+    themeButton.setAttribute('aria-checked', String(dark));
+    themeButton.setAttribute('aria-label', localize('Modo oscuro', 'Dark mode'));
+    themeButton.title = dark ? localize('Cambiar a modo claro', 'Switch to light mode') : localize('Cambiar a modo oscuro', 'Switch to dark mode');
+    const languageLabel = localize('Switch to English', 'Cambiar a español');
+    languageButton.setAttribute('aria-label', languageLabel);
+    languageButton.title = languageLabel;
+    languageButton.lang = language === 'en' ? 'es' : 'en';
+  };
+  themeButton.addEventListener('click', () => {
+    const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#081120' : '#f7f6f2';
+    savePreference('takoraa-theme', theme);
+    syncPreferenceLabels();
+  });
+  themeButton.hidden = false;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const motionButton = document.querySelector('.motion-toggle');
   const scene = document.querySelector('.playground');
@@ -22,9 +65,10 @@
 
   const setMotion = (enabled, persist = false) => {
     root.dataset.motion = enabled ? 'on' : 'off';
-    const label = enabled ? 'Pausar animaciones' : 'Activar animaciones';
+    const label = enabled ? localize('Pausar animaciones', 'Pause animations') : localize('Activar animaciones', 'Enable animations');
     motionButton?.setAttribute('aria-label', label);
     motionButton?.setAttribute('title', label);
+    if (motionButton) motionButton.querySelector('.motion-label').textContent = label;
     if (!enabled) {
       resetScene();
       revealItems.forEach((item) => item.classList.add('is-visible'));
@@ -50,7 +94,7 @@
   const menuButton = document.querySelector('.menu-toggle');
   const navigation = document.querySelector('#site-nav');
   if (menuButton && navigation) {
-    const mobileViewport = window.matchMedia('(max-width: 760px)');
+    const mobileViewport = window.matchMedia('(max-width: 980px)');
     const closeMenu = ({ restoreFocus = false } = {}) => {
       menuButton.setAttribute('aria-expanded', 'false');
       navigation.hidden = mobileViewport.matches;
@@ -148,10 +192,12 @@
   const ticker = document.querySelector('.ticker');
   const tickerTrack = ticker?.querySelector('.ticker-track');
   const tickerCycle = tickerTrack?.firstElementChild;
+  let fitTicker = () => {};
   if (tickerCycle) {
-    const fitTicker = () => {
+    fitTicker = (refreshCopies = false) => {
       const cycleWidth = tickerCycle.getBoundingClientRect().width;
       if (!cycleWidth) return;
+      if (refreshCopies) tickerTrack.replaceChildren(tickerCycle);
       // Keep a full viewport of text after the cycle that is sliding out.
       const copies = Math.max(2, Math.ceil(ticker.clientWidth / cycleWidth) + 1);
       while (tickerTrack.children.length < copies) tickerTrack.append(tickerCycle.cloneNode(true));
@@ -160,23 +206,31 @@
       tickerTrack.style.setProperty('--ticker-duration', cycleWidth / 45 + 's');
       tickerTrack.dataset.loopReady = '';
     };
-    document.fonts.ready.then(fitTicker);
-    if ('ResizeObserver' in window) new ResizeObserver(fitTicker).observe(ticker);
-    else window.addEventListener('resize', fitTicker);
+    document.fonts.ready.then(() => fitTicker());
+    if ('ResizeObserver' in window) new ResizeObserver(() => fitTicker()).observe(ticker);
+    else window.addEventListener('resize', () => fitTicker());
   }
 
   const services = {
-    apps: { title: 'Apps', description: 'Software a medida para empresas y profesionales.', icon: 'app', color: '#8268ff' },
-    portales: { title: 'Portales', description: 'Portales a medida para empresas y profesionales.', icon: 'portal', color: '#20d4bf' },
-    dashboards: { title: 'Dashboards', description: 'Un dashboard de métricas entregado con el MVP.', icon: 'chart', color: '#e4ddfa' },
-    agentes: { title: 'Agentes', description: 'La IA acelera el trabajo. El criterio es humano y no se delega.', icon: 'agent', color: '#d96491' },
-    automatizaciones: { title: 'Automatizaciones', description: 'Automatizaciones a medida para empresas y profesionales.', icon: 'flow', color: '#081120', ink: '#f7f6f2' },
-    integraciones: { title: 'Integraciones', description: 'Integraciones a medida para empresas y profesionales.', icon: 'connect', color: '#bce9e2' },
-    mantenimiento: { title: 'Mantenimiento', description: 'Operación y mantenimiento desde el mes siguiente a la entrega.', icon: 'support', color: '#e8a24c' },
+    apps: { title: ['Apps', 'Apps'], description: ['Software a medida para empresas y profesionales.', 'Custom software for businesses and professionals.'], icon: 'app', color: '#8268ff' },
+    portales: { title: ['Portales', 'Portals'], description: ['Portales a medida para empresas y profesionales.', 'Custom portals for businesses and professionals.'], icon: 'portal', color: '#20d4bf' },
+    dashboards: { title: ['Dashboards', 'Dashboards'], description: ['Un dashboard de métricas entregado con el MVP.', 'A metrics dashboard delivered with your MVP.'], icon: 'chart', color: '#e4ddfa' },
+    agentes: { title: ['Agentes', 'Agents'], description: ['La IA acelera el trabajo. El criterio es humano y no se delega.', 'AI speeds up the work. Judgment stays human and is never delegated.'], icon: 'agent', color: '#d96491' },
+    automatizaciones: { title: ['Automatizaciones', 'Automations'], description: ['Automatizaciones a medida para empresas y profesionales.', 'Custom automations for businesses and professionals.'], icon: 'flow', color: '#081120', ink: '#f7f6f2' },
+    integraciones: { title: ['Integraciones', 'Integrations'], description: ['Integraciones a medida para empresas y profesionales.', 'Custom integrations for businesses and professionals.'], icon: 'connect', color: '#bce9e2' },
+    mantenimiento: { title: ['Mantenimiento', 'Maintenance'], description: ['Operación y mantenimiento desde el mes siguiente a la entrega.', 'Operations and maintenance starting the month after delivery.'], icon: 'support', color: '#e8a24c' },
   };
   const servicePreview = document.querySelector('#service-preview');
   const serviceButtons = [...document.querySelectorAll('button[data-service]')];
   let serviceTimer = 0;
+  const translateService = () => {
+    if (!servicePreview) return;
+    const service = services[servicePreview.dataset.service];
+    const title = localize(...service.title);
+    servicePreview.querySelector('h3').textContent = title;
+    servicePreview.querySelector('.service-preview-bottom p').textContent = localize(...service.description);
+    servicePreview.querySelector('.service-preview-bottom a').setAttribute('aria-label', localize('Hablar sobre ', 'Talk about ') + title.toLowerCase());
+  };
   if (servicePreview) {
     serviceButtons.forEach((button, index) => {
       button.disabled = false;
@@ -187,11 +241,9 @@
         servicePreview.dataset.service = button.dataset.service;
         servicePreview.style.setProperty('--plate', service.color);
         servicePreview.style.setProperty('--plate-ink', service.ink || '#081120');
-        servicePreview.querySelector('h3').textContent = service.title;
-        servicePreview.querySelector('.service-preview-bottom p').textContent = service.description;
+        translateService();
         servicePreview.querySelector('.service-position').textContent = String(index + 1).padStart(2, '0') + ' / 07';
         servicePreview.querySelectorAll('.service-sculpture use').forEach((icon) => icon.setAttribute('href', '#icon-' + service.icon));
-        servicePreview.querySelector('.service-preview-bottom a').setAttribute('aria-label', 'Hablar sobre ' + service.title.toLowerCase());
         clearTimeout(serviceTimer);
         servicePreview.classList.remove('is-changing');
         if (motionEnabled()) {
@@ -203,6 +255,27 @@
       });
     });
   }
+
+  const setLanguage = (value, persist = false) => {
+    language = value === 'en' ? 'en' : 'es';
+    root.lang = language === 'en' ? 'en' : 'es-AR';
+    root.dataset.language = language;
+    translations.forEach(({ element, ...text }) => {
+      const lines = text[language].split('\n');
+      element.replaceChildren(...lines.flatMap((line, index) => index ? [document.createElement('br'), document.createTextNode(line)] : [document.createTextNode(line)]));
+    });
+    translatedAttributes.forEach(({ element, attribute, ...text }) => element.setAttribute(attribute, text[language]));
+    document.title = localize(spanishTitle, 'Takoraa | Custom software. We build it. You see it.');
+    description.content = localize(spanishDescription, 'Custom software for businesses and professionals. And we stay on to run what we build.');
+    syncPreferenceLabels();
+    setMotion(motionEnabled());
+    translateService();
+    fitTicker(true);
+    if (persist) savePreference('takoraa-language', language);
+  };
+  languageButton.addEventListener('click', () => setLanguage(language === 'en' ? 'es' : 'en', true));
+  setLanguage(readPreference('takoraa-language'));
+  languageButton.hidden = false;
 
   const track = document.querySelector('#principles-track');
   const carouselControls = document.querySelector('.carousel-controls');

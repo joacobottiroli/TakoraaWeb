@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es-AR">
+<html lang="es-AR" data-page="home" data-theme="light" data-language="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,8 +23,16 @@
   <meta name="twitter:image" content="https://takoraa.com/assets/studio-social-light.png">
   <link rel="icon" href="/assets/takoraa-isotipo.png" type="image/png">
   <link rel="preload" href="/_next/static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/studio.css?v=playful-3">
-  <script src="/studio.js?v=playful-3" defer></script>
+  <script>
+    (() => {
+      let theme = 'light';
+      try { if (localStorage.getItem('takoraa-theme') === 'dark') theme = 'dark'; } catch {}
+      document.documentElement.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#081120' : '#f7f6f2';
+    })();
+  </script>
+  <link rel="stylesheet" href="/studio.css?v=preferences-1">
+  <script src="/studio.js?v=preferences-1" defer></script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -44,10 +52,14 @@
   </script>
 </head>
 <body id="inicio">
-  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <a class="skip-link" href="#contenido" data-en="Skip to content">Saltar al contenido</a>
   <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></g></symbol>
+      <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.5 14.5A9 9 0 0 1 9.5 3.5a9 9 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M19 8a8 8 0 1 0 1 8M19 3v5h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-asterisk" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
       <symbol id="icon-flower" viewBox="0 0 100 100">
         <g fill="currentColor"><ellipse cx="50" cy="28" rx="13" ry="26"/><ellipse cx="50" cy="28" rx="13" ry="26" transform="rotate(45 50 50)"/><ellipse cx="50" cy="28" rx="13" ry="26" transform="rotate(90 50 50)"/><ellipse cx="50" cy="28" rx="13" ry="26" transform="rotate(135 50 50)"/><ellipse cx="50" cy="28" rx="13" ry="26" transform="rotate(180 50 50)"/><ellipse cx="50" cy="28" rx="13" ry="26" transform="rotate(225 50 50)"/><ellipse cx="50" cy="28" rx="13" ry="26" transform="rotate(270 50 50)"/><ellipse cx="50" cy="28" rx="13" ry="26" transform="rotate(315 50 50)"/></g>
       </symbol>
@@ -65,15 +77,17 @@
 
   <header class="site-header">
     <div class="header-inner shell">
-      <a class="brand" href="#inicio" aria-label="Takoraa, inicio"><img src="/takoraa-logo-white.png" alt="TAKORAA" width="1961" height="805"><span>Software Studio</span></a>
+      <a class="brand" href="#inicio" aria-label="Takoraa, inicio" data-en-aria-label="Takoraa, home"><img src="/takoraa-logo-white.png" alt="TAKORAA" width="1961" height="805"><span>Software Studio</span></a>
       <div class="header-controls">
-        <button class="motion-toggle" type="button" aria-label="Pausar animaciones" title="Pausar animaciones" hidden><span class="pause-icon" aria-hidden="true"></span></button>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden><span>Menú</span><span class="menu-icon" aria-hidden="true"></span></button>
+        <button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Modo oscuro" title="Cambiar a modo oscuro" hidden><svg class="theme-moon" aria-hidden="true"><use href="#icon-moon"/></svg><svg class="theme-sun" aria-hidden="true"><use href="#icon-sun"/></svg></button>
+        <button class="language-toggle" type="button" aria-label="Switch to English" title="Switch to English" hidden><span lang="es" aria-hidden="true">ES</span><span lang="en" aria-hidden="true">EN</span></button>
+        <button class="menu-toggle" type="button" aria-label="Menú" data-en-aria-label="Menu" aria-expanded="false" aria-controls="site-nav" hidden><span class="menu-icon" aria-hidden="true"></span></button>
       </div>
-      <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
-        <a href="#servicios">Qué construimos</a>
-        <a href="#como-trabajamos">Cómo trabajamos</a>
-        <a class="nav-contact" href="#contacto">Hablemos <svg aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+      <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-en-aria-label="Main navigation">
+        <a href="#servicios" data-en="What we build">Qué construimos</a>
+        <a href="#como-trabajamos" data-en="How we work">Cómo trabajamos</a>
+        <a class="nav-contact" href="#contacto"><span data-en="Let’s talk">Hablemos</span> <svg aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+        <button class="motion-toggle" type="button" aria-label="Pausar animaciones" title="Pausar animaciones" hidden><span class="pause-icon" aria-hidden="true"></span><span class="motion-label">Pausar animaciones</span></button>
       </nav>
     </div>
   </header>
@@ -81,76 +95,75 @@
   <main id="contenido" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy shell">
-        <p class="eyebrow"><span class="small-flower" aria-hidden="true">✳</span> SOFTWARE A MEDIDA. CRITERIO HUMANO.</p>
-        <h1 id="hero-title"><span>Lo construimos.</span><span>Vos <span class="title-highlight">lo ves.<svg viewBox="0 0 500 45" preserveAspectRatio="none" aria-hidden="true"><path d="M8 28C111 4 344 6 491 18M50 38C216 18 368 21 448 28"/></svg></span></span></h1>
-        <p class="hero-lede">Software a medida para empresas y profesionales.<br> Y nos quedamos operando lo que construimos.</p>
-        <a class="button button-dark" href="#contacto">Contanos tu proyecto <svg aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+        <p class="eyebrow"><svg class="small-flower" aria-hidden="true"><use href="#icon-asterisk"/></svg> <span data-en="CUSTOM SOFTWARE. HUMAN JUDGMENT.">SOFTWARE A MEDIDA. CRITERIO HUMANO.</span></p>
+        <h1 id="hero-title"><span data-en="We build it.">Lo construimos.</span><span><span data-en="You ">Vos </span><span class="title-highlight"><span data-en="see it.">lo ves.</span><svg viewBox="0 0 500 45" preserveAspectRatio="none" aria-hidden="true"><path d="M8 28C111 4 344 6 491 18M50 38C216 18 368 21 448 28"/></svg></span></span></h1>
+        <p class="hero-lede" data-en="Custom software for businesses and professionals.&#10; And we stay on to run what we build.">Software a medida para empresas y profesionales.<br> Y nos quedamos operando lo que construimos.</p>
+        <a class="button button-dark" href="#contacto"><span data-en="Tell us about your project">Contanos tu proyecto</span> <svg aria-hidden="true"><use href="#icon-arrow"/></svg></a>
       </div>
 
       <div class="playground shell" data-layout="0" data-demo="app">
         <div class="playground-backdrop" aria-hidden="true"></div>
         <div class="stage-orbit" aria-hidden="true"></div>
         <div class="stage-window">
-          <div class="window-topbar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Tu próxima idea</span><span class="window-mark" aria-hidden="true">↗</span></div>
-          <div class="demo-panel demo-app" id="demo-app" aria-label="Exploración visual de una app">
+          <div class="window-topbar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span data-en="Your next idea">Tu próxima idea</span><svg class="window-mark arrow-diagonal" aria-hidden="true"><use href="#icon-arrow"/></svg></div>
+          <div class="demo-panel demo-app" id="demo-app" aria-label="Exploración visual de una app" data-en-aria-label="App visual exploration">
             <div class="app-sidebar" aria-hidden="true"><svg><use href="#icon-app"/></svg><i></i><i></i><i></i></div>
             <div class="app-content">
-              <div class="app-topline"><span>HECHO A TU MEDIDA</span><span class="app-avatar" aria-hidden="true">T</span></div>
-              <p class="app-title">Tu espacio.<br>A tu manera.</p>
-              <div class="app-tiles" aria-hidden="true"><div class="app-tile"><svg><use href="#icon-flower"/></svg></div><div class="app-tile tile-cyan"><span>Una idea<br>toma forma.</span><svg><use href="#icon-arrow"/></svg></div></div>
+              <div class="app-topline"><span data-en="MADE FOR YOU">HECHO A TU MEDIDA</span><span class="app-avatar" aria-hidden="true">T</span></div>
+              <p class="app-title" data-en="Your space.&#10;Your way.">Tu espacio.<br>A tu manera.</p>
+              <div class="app-tiles" aria-hidden="true"><div class="app-tile"><svg><use href="#icon-flower"/></svg></div><div class="app-tile tile-cyan"><span data-en="An idea&#10;takes shape.">Una idea<br>toma forma.</span><svg><use href="#icon-arrow"/></svg></div></div>
             </div>
           </div>
-          <div class="demo-panel demo-dashboard" id="demo-dashboard" aria-label="Exploración visual de un dashboard" hidden>
-            <div class="demo-dashboard-header"><span>DASHBOARD</span><span>Métricas a la vista</span></div>
-            <p class="app-title">Cada avance,<br>en perspectiva.</p>
+          <div class="demo-panel demo-dashboard" id="demo-dashboard" aria-label="Exploración visual de un dashboard" data-en-aria-label="Dashboard visual exploration" hidden>
+            <div class="demo-dashboard-header"><span>DASHBOARD</span><span data-en="Metrics at a glance">Métricas a la vista</span></div>
+            <p class="app-title" data-en="Every step,&#10;in perspective.">Cada avance,<br>en perspectiva.</p>
             <div class="demo-chart" aria-hidden="true"><i style="--bar:36%"></i><i style="--bar:52%"></i><i style="--bar:43%"></i><i style="--bar:70%"></i><i style="--bar:62%"></i><i style="--bar:88%"></i><i style="--bar:78%"></i></div>
-            <p class="demo-small">Alcance por escrito · Hitos con fecha</p>
+            <p class="demo-small" data-en="Written scope · Dated milestones">Alcance por escrito · Hitos con fecha</p>
           </div>
-          <div class="demo-panel demo-automation" id="demo-automation" aria-label="Exploración visual de una automatización" hidden>
-            <span class="demo-overline">AUTOMATIZACIONES E INTEGRACIONES</span>
-            <p class="app-title">Conectá las piezas.</p>
+          <div class="demo-panel demo-automation" id="demo-automation" aria-label="Exploración visual de una automatización" data-en-aria-label="Automation visual exploration" hidden>
+            <span class="demo-overline" data-en="AUTOMATIONS &amp; INTEGRATIONS">AUTOMATIZACIONES E INTEGRACIONES</span>
+            <p class="app-title" data-en="Connect the pieces.">Conectá las piezas.</p>
             <div class="flow-visual" aria-hidden="true"><span class="flow-node"><svg><use href="#icon-app"/></svg></span><span class="flow-connection"><i></i></span><span class="flow-node flow-middle"><svg><use href="#icon-flow"/></svg></span><span class="flow-connection"><i></i></span><span class="flow-node"><svg><use href="#icon-check"/></svg></span></div>
-            <div class="flow-labels"><span>Tu sistema</span><span>Tu flujo</span><span>Todo conectado</span></div>
+            <div class="flow-labels"><span data-en="Your system">Tu sistema</span><span data-en="Your workflow">Tu flujo</span><span data-en="All connected">Todo conectado</span></div>
           </div>
-          <div class="window-bottom"><span>Takoraa / Exploración visual</span><span class="window-bottom-dot" aria-hidden="true"></span></div>
+          <div class="window-bottom"><span data-en="Takoraa / Visual exploration">Takoraa / Exploración visual</span><span class="window-bottom-dot" aria-hidden="true"></span></div>
         </div>
-        <div class="code-object floating-object" aria-hidden="true"><svg><use href="#icon-code"/></svg><p>El código<br><strong>es tuyo.</strong></p><span class="object-pin"></span></div>
-        <div class="mobile-object floating-object" aria-hidden="true"><span class="phone-speaker"></span><div class="phone-screen"><span>Tu idea,<br>en marcha.</span><div class="phone-flower"><svg><use href="#icon-flower"/></svg></div><div class="phone-line"></div><div class="phone-line short"></div></div><span class="phone-home"></span></div>
-        <span class="you-cursor" aria-hidden="true"><svg viewBox="0 0 24 28"><path d="M2 1 22 16l-10 1-5 9Z" fill="currentColor" stroke="#081120" stroke-width="1.2"/></svg><span>Vos</span></span>
-        <div class="support-sticker floating-object" aria-hidden="true"><svg><use href="#icon-support"/></svg><span>Lo construimos.<br><strong>Y seguimos.</strong></span></div>
-        <button class="flower-toy" type="button" aria-label="Hacer girar la flor" title="Dale una vuelta" hidden><svg aria-hidden="true"><use href="#icon-flower"/></svg><span aria-hidden="true">↻</span></button>
-        <div class="demo-controls" role="group" aria-label="Elegí una vista de ejemplo" hidden>
+        <div class="code-object floating-object" aria-hidden="true"><svg><use href="#icon-code"/></svg><p><span data-en="The code">El código</span><br><strong data-en="is yours.">es tuyo.</strong></p><span class="object-pin"></span></div>
+        <div class="mobile-object floating-object" aria-hidden="true"><span class="phone-speaker"></span><div class="phone-screen"><span data-en="Your idea,&#10;in motion.">Tu idea,<br>en marcha.</span><div class="phone-flower"><svg><use href="#icon-flower"/></svg></div><div class="phone-line"></div><div class="phone-line short"></div></div><span class="phone-home"></span></div>
+        <span class="you-cursor" aria-hidden="true"><svg viewBox="0 0 24 28"><path d="M2 1 22 16l-10 1-5 9Z" fill="currentColor" stroke="#081120" stroke-width="1.2"/></svg><span data-en="You">Vos</span></span>
+        <div class="support-sticker floating-object" aria-hidden="true"><svg><use href="#icon-support"/></svg><span><span data-en="We build it.">Lo construimos.</span><br><strong data-en="And stay on.">Y seguimos.</strong></span></div>
+        <button class="flower-toy" type="button" aria-label="Hacer girar la flor" data-en-aria-label="Spin the flower" title="Dale una vuelta" data-en-title="Give it a spin" hidden><svg aria-hidden="true"><use href="#icon-flower"/></svg><span aria-hidden="true"><svg><use href="#icon-refresh"/></svg></span></button>
+        <div class="demo-controls" role="group" aria-label="Elegí una vista de ejemplo" data-en-aria-label="Choose a demo view" hidden>
           <button type="button" data-demo="app" aria-pressed="true" aria-controls="demo-app">App</button>
           <button type="button" data-demo="dashboard" aria-pressed="false" aria-controls="demo-dashboard">Dashboard</button>
-          <button type="button" data-demo="automation" aria-pressed="false" aria-controls="demo-automation">Automatización</button>
+          <button type="button" data-demo="automation" aria-pressed="false" aria-controls="demo-automation" data-en="Automation">Automatización</button>
         </div>
-        <button class="shuffle-scene" type="button" hidden><span aria-hidden="true">↻</span> Mezclar las piezas</button>
+        <button class="shuffle-scene" type="button" hidden><svg aria-hidden="true"><use href="#icon-refresh"/></svg> <span data-en="Mix the pieces">Mezclar las piezas</span></button>
       </div>
-      <div class="hero-foot shell"><span>Buenos Aires, Argentina</span><span>Una idea puede tomar muchas formas. <strong>Probá.</strong></span><a href="#servicios" aria-label="Bajar a qué construimos">Bajá un poco <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-foot shell"><span>Buenos Aires, Argentina</span><span><span data-en="An idea can take many shapes. ">Una idea puede tomar muchas formas. </span><strong data-en="Try it.">Probá.</strong></span><a href="#servicios" aria-label="Bajar a qué construimos" data-en-aria-label="Scroll to what we build"><span data-en="Scroll a little">Bajá un poco</span> <svg class="arrow-down" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div>
     </section>
 
     <div class="ticker-wrap" aria-hidden="true"><div class="ticker"><div class="ticker-track">
-      <span>Apps <i>✳</i> Portales <i>✳</i> Dashboards <i>✳</i> Agentes <i>✳</i> Automatizaciones <i>✳</i> Integraciones <i>✳</i></span>
-      <span>Apps <i>✳</i> Portales <i>✳</i> Dashboards <i>✳</i> Agentes <i>✳</i> Automatizaciones <i>✳</i> Integraciones <i>✳</i></span>
+      <span><span>Apps</span><svg><use href="#icon-asterisk"/></svg><span data-en="Portals">Portales</span><svg><use href="#icon-asterisk"/></svg><span>Dashboards</span><svg><use href="#icon-asterisk"/></svg><span data-en="Agents">Agentes</span><svg><use href="#icon-asterisk"/></svg><span data-en="Automations">Automatizaciones</span><svg><use href="#icon-asterisk"/></svg><span data-en="Integrations">Integraciones</span><svg><use href="#icon-asterisk"/></svg></span>
     </div></div></div>
 
     <section class="services section-space shell" id="servicios" aria-labelledby="services-title" tabindex="-1">
       <div class="services-copy reveal">
-        <p class="eyebrow">QUÉ CONSTRUIMOS</p>
-        <h2 id="services-title">Tu idea puede<br>tomar <em>muchas formas.</em></h2>
-        <p class="section-description">Apps, portales, dashboards, agentes…<br>Elegí por dónde querés empezar.</p>
-        <div class="service-options" role="group" aria-label="Servicios de Takoraa">
+        <p class="eyebrow" data-en="WHAT WE BUILD">QUÉ CONSTRUIMOS</p>
+        <h2 id="services-title"><span data-en="Your idea can">Tu idea puede</span><br><span data-en="take ">tomar </span><em data-en="many shapes.">muchas formas.</em></h2>
+        <p class="section-description" data-en="Apps, portals, dashboards, agents…&#10;Choose where you’d like to start.">Apps, portales, dashboards, agentes…<br>Elegí por dónde querés empezar.</p>
+        <div class="service-options" role="group" aria-label="Servicios de Takoraa" data-en-aria-label="Takoraa services">
           <button type="button" data-service="apps" aria-pressed="true" aria-controls="service-preview" disabled>Apps</button>
-          <button type="button" data-service="portales" aria-pressed="false" aria-controls="service-preview" disabled>Portales</button>
+          <button type="button" data-service="portales" aria-pressed="false" aria-controls="service-preview" data-en="Portals" disabled>Portales</button>
           <button type="button" data-service="dashboards" aria-pressed="false" aria-controls="service-preview" disabled>Dashboards</button>
-          <button type="button" data-service="agentes" aria-pressed="false" aria-controls="service-preview" disabled>Agentes</button>
-          <button type="button" data-service="automatizaciones" aria-pressed="false" aria-controls="service-preview" disabled>Automatizaciones</button>
-          <button type="button" data-service="integraciones" aria-pressed="false" aria-controls="service-preview" disabled>Integraciones</button>
-          <button class="service-maintenance" type="button" data-service="mantenimiento" aria-pressed="false" aria-controls="service-preview" disabled>Mantenimiento <span aria-hidden="true">↗</span></button>
+          <button type="button" data-service="agentes" aria-pressed="false" aria-controls="service-preview" data-en="Agents" disabled>Agentes</button>
+          <button type="button" data-service="automatizaciones" aria-pressed="false" aria-controls="service-preview" data-en="Automations" disabled>Automatizaciones</button>
+          <button type="button" data-service="integraciones" aria-pressed="false" aria-controls="service-preview" data-en="Integrations" disabled>Integraciones</button>
+          <button class="service-maintenance" type="button" data-service="mantenimiento" aria-pressed="false" aria-controls="service-preview" disabled><span data-en="Maintenance">Mantenimiento</span> <svg class="arrow-diagonal" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
         </div>
       </div>
       <div class="service-preview reveal" id="service-preview" data-service="apps" aria-live="polite" aria-atomic="true" style="--plate:#8268ff;--plate-ink:#081120">
-        <div class="service-preview-top"><span>Hecho a tu medida</span><span class="service-position">01 / 07</span></div>
+        <div class="service-preview-top"><span data-en="Made for you">Hecho a tu medida</span><span class="service-position">01 / 07</span></div>
         <div class="service-sculpture" aria-hidden="true"><span class="sculpture-shadow"></span><svg class="sculpture-back"><use href="#icon-app"/></svg><svg class="sculpture-front"><use href="#icon-app"/></svg></div>
         <div class="service-preview-bottom"><div><h3>Apps</h3><p>Software a medida para empresas y profesionales.</p></div><a href="#contacto" aria-label="Hablar sobre un proyecto de apps"><svg aria-hidden="true"><use href="#icon-arrow"/></svg></a></div>
       </div>
@@ -158,29 +171,29 @@
 
     <section class="approach section-space" id="como-trabajamos" aria-labelledby="approach-title" tabindex="-1">
       <div class="approach-heading shell reveal">
-        <div><p class="eyebrow">CÓMO TRABAJAMOS</p><h2 id="approach-title">El software importa.<br><em>El cómo, también.</em></h2></div>
-        <div class="approach-controls"><p>Cinco cosas que podés<br>esperar de nosotros.</p><div class="carousel-controls" hidden><button type="button" class="carousel-prev" aria-label="Ver compromiso anterior" aria-controls="principles-track" disabled><svg aria-hidden="true"><use href="#icon-arrow"/></svg></button><button type="button" class="carousel-next" aria-label="Ver compromiso siguiente" aria-controls="principles-track"><svg aria-hidden="true"><use href="#icon-arrow"/></svg></button></div></div>
+        <div><p class="eyebrow" data-en="HOW WE WORK">CÓMO TRABAJAMOS</p><h2 id="approach-title"><span data-en="Software matters.">El software importa.</span><br><em data-en="So does the how.">El cómo, también.</em></h2></div>
+        <div class="approach-controls"><p data-en="Five things you can&#10;expect from us.">Cinco cosas que podés<br>esperar de nosotros.</p><div class="carousel-controls" hidden><button type="button" class="carousel-prev" aria-label="Ver compromiso anterior" data-en-aria-label="View previous commitment" aria-controls="principles-track" disabled><svg aria-hidden="true"><use href="#icon-arrow"/></svg></button><button type="button" class="carousel-next" aria-label="Ver compromiso siguiente" data-en-aria-label="View next commitment" aria-controls="principles-track"><svg aria-hidden="true"><use href="#icon-arrow"/></svg></button></div></div>
       </div>
-      <div class="principles-track" id="principles-track" tabindex="0" role="region" aria-label="Nuestros cinco compromisos, desplazamiento horizontal">
+      <div class="principles-track" id="principles-track" tabindex="0" role="region" aria-label="Nuestros cinco compromisos, desplazamiento horizontal" data-en-aria-label="Our five commitments, scroll horizontally">
         <ol class="principles">
-          <li class="principle principle-cyan"><div class="principle-top"><span>01</span><svg aria-hidden="true"><use href="#icon-portal"/></svg></div><h3>Ves el proyecto mientras se construye</h3><p>Alcance por escrito, hitos con fecha y un dashboard de métricas entregado con el MVP.</p><span class="principle-foot">Todo a la vista <span aria-hidden="true">↗</span></span></li>
-          <li class="principle principle-violet"><div class="principle-top"><span>02</span><svg aria-hidden="true"><use href="#icon-flower"/></svg></div><h3>No cobramos<br>por hora</h3><p>Honorario cerrado por complejidad, equipo e impacto. La hora estima; no factura.</p><span class="principle-foot">Honorario cerrado <span aria-hidden="true">↗</span></span></li>
-          <li class="principle principle-support"><div class="principle-top"><span>03</span><svg aria-hidden="true"><use href="#icon-support"/></svg></div><h3>No entregamos y desaparecemos</h3><p>Operación y mantenimiento desde el mes siguiente a la entrega.</p><span class="principle-foot">Seguimos con vos <span aria-hidden="true">↗</span></span></li>
-          <li class="principle principle-ink"><div class="principle-top"><span>04</span><svg aria-hidden="true"><use href="#icon-code"/></svg></div><h3>El código<br>es tuyo</h3><p>Sistema, código y datos del cliente. Arquitectura independiente. Irte no cuesta nada.</p><span class="principle-foot">Tu proyecto, de verdad <span aria-hidden="true">↗</span></span></li>
-          <li class="principle principle-rose"><div class="principle-top"><span>05</span><svg aria-hidden="true"><use href="#icon-agent"/></svg></div><h3>Expertos que usan IA, no al revés</h3><p>La IA acelera el trabajo. El criterio es humano y no se delega.</p><span class="principle-foot">Criterio humano <span aria-hidden="true">↗</span></span></li>
+          <li class="principle principle-cyan"><div class="principle-top"><span>01</span><svg aria-hidden="true"><use href="#icon-portal"/></svg></div><h3 data-en="See your project as it’s built">Ves el proyecto mientras se construye</h3><p data-en="A written scope, dated milestones, and a metrics dashboard delivered with your MVP.">Alcance por escrito, hitos con fecha y un dashboard de métricas entregado con el MVP.</p><span class="principle-foot"><span data-en="Everything in view">Todo a la vista</span> <svg class="arrow-diagonal" aria-hidden="true"><use href="#icon-arrow"/></svg></span></li>
+          <li class="principle principle-violet"><div class="principle-top"><span>02</span><svg aria-hidden="true"><use href="#icon-flower"/></svg></div><h3 data-en="We don’t charge&#10;by the hour">No cobramos<br>por hora</h3><p data-en="A fixed fee based on complexity, team, and impact. Hours inform the estimate, not the invoice.">Honorario cerrado por complejidad, equipo e impacto. La hora estima; no factura.</p><span class="principle-foot"><span data-en="A fixed fee">Honorario cerrado</span> <svg class="arrow-diagonal" aria-hidden="true"><use href="#icon-arrow"/></svg></span></li>
+          <li class="principle principle-support"><div class="principle-top"><span>03</span><svg aria-hidden="true"><use href="#icon-support"/></svg></div><h3 data-en="We don’t deliver and disappear">No entregamos y desaparecemos</h3><p data-en="Operations and maintenance starting the month after delivery.">Operación y mantenimiento desde el mes siguiente a la entrega.</p><span class="principle-foot"><span data-en="We stay with you">Seguimos con vos</span> <svg class="arrow-diagonal" aria-hidden="true"><use href="#icon-arrow"/></svg></span></li>
+          <li class="principle principle-ink"><div class="principle-top"><span>04</span><svg aria-hidden="true"><use href="#icon-code"/></svg></div><h3 data-en="The code&#10;is yours">El código<br>es tuyo</h3><p data-en="Your system, your code, your data. Independent architecture. No fees to leave.">Sistema, código y datos del cliente. Arquitectura independiente. Irte no cuesta nada.</p><span class="principle-foot"><span data-en="Your project, truly">Tu proyecto, de verdad</span> <svg class="arrow-diagonal" aria-hidden="true"><use href="#icon-arrow"/></svg></span></li>
+          <li class="principle principle-rose"><div class="principle-top"><span>05</span><svg aria-hidden="true"><use href="#icon-agent"/></svg></div><h3 data-en="Experts using AI, not the other way around">Expertos que usan IA, no al revés</h3><p data-en="AI speeds up the work. Judgment stays human and is never delegated.">La IA acelera el trabajo. El criterio es humano y no se delega.</p><span class="principle-foot"><span data-en="Human judgment">Criterio humano</span> <svg class="arrow-diagonal" aria-hidden="true"><use href="#icon-arrow"/></svg></span></li>
         </ol>
       </div>
-      <div class="carousel-hint shell"><span>Arrastrá o deslizá para conocernos un poco más</span><span aria-hidden="true">← &nbsp; →</span></div>
+      <div class="carousel-hint shell"><span data-en="Drag or swipe to get to know us">Arrastrá o deslizá para conocernos un poco más</span><span class="carousel-hint-arrows" aria-hidden="true"><svg class="arrow-left"><use href="#icon-arrow"/></svg><svg><use href="#icon-arrow"/></svg></span></div>
     </section>
 
     <section class="contact" id="contacto" aria-labelledby="contact-title" tabindex="-1">
       <div class="contact-inner shell">
-        <div class="contact-copy reveal"><p class="eyebrow">DE ESA IDEA, HAGAMOS ALGO.</p><h2 id="contact-title">Contanos qué<br>necesitás <span>construir<svg viewBox="0 0 500 35" preserveAspectRatio="none" aria-hidden="true"><path d="M5 22Q234-2 494 18"/></svg></span>.</h2><address><a class="contact-email" href="mailto:ventas@takoraa.com">ventas@takoraa.com <svg aria-hidden="true"><use href="#icon-arrow"/></svg></a><a class="contact-phone" href="tel:+5491150492007" aria-label="Llamar al +54 9 11 5049-2007">+54 9 11 5049-2007</a></address></div>
-        <a class="contact-orbit" href="mailto:ventas@takoraa.com" aria-label="Escribir a Takoraa"><span class="orbit-ring" aria-hidden="true">TU PRÓXIMA IDEA EMPIEZA ACÁ</span><svg class="contact-flower" aria-hidden="true"><use href="#icon-flower"/></svg><svg class="contact-arrow" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+        <div class="contact-copy reveal"><p class="eyebrow" data-en="LET’S MAKE SOMETHING OF THAT IDEA.">DE ESA IDEA, HAGAMOS ALGO.</p><h2 id="contact-title"><span class="contact-title-line" data-en="Tell us what">Contanos qué</span><br><span class="contact-title-line" data-en="you need to ">necesitás </span><span class="contact-highlight"><span data-en="build">construir</span><svg viewBox="0 0 500 35" preserveAspectRatio="none" aria-hidden="true"><path d="M5 22Q234-2 494 18"/></svg></span>.</h2><address><a class="contact-email" href="mailto:ventas@takoraa.com">ventas@takoraa.com <svg aria-hidden="true"><use href="#icon-arrow"/></svg></a><a class="contact-phone" href="tel:+5491150492007" aria-label="Llamar al +54 9 11 5049-2007" data-en-aria-label="Call +54 9 11 5049-2007">+54 9 11 5049-2007</a></address></div>
+        <a class="contact-orbit" href="mailto:ventas@takoraa.com" aria-label="Escribir a Takoraa" data-en-aria-label="Email Takoraa"><span class="orbit-ring" aria-hidden="true" data-en="YOUR NEXT IDEA STARTS HERE">TU PRÓXIMA IDEA EMPIEZA ACÁ</span><svg class="contact-flower" aria-hidden="true"><use href="#icon-flower"/></svg><svg class="contact-arrow" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer"><div class="footer-inner shell"><a class="brand" href="#inicio" aria-label="Takoraa, volver al inicio"><img src="/takoraa-logo-white.png" alt="TAKORAA" width="1961" height="805" loading="lazy"><span>Software Studio</span></a><p>Buenos Aires, Argentina<br><span>© 2026 Takoraa</span></p><a class="back-top" href="#inicio">Arriba otra vez <span aria-hidden="true">↑</span></a></div></footer>
+  <footer class="site-footer"><div class="footer-inner shell"><a class="brand" href="#inicio" aria-label="Takoraa, volver al inicio" data-en-aria-label="Takoraa, back to top"><img src="/takoraa-logo-white.png" alt="TAKORAA" width="1961" height="805" loading="lazy"><span>Software Studio</span></a><p>Buenos Aires, Argentina<br><span>© 2026 Takoraa</span></p><a class="back-top" href="#inicio"><span class="back-top-label" data-en="Back to top">Arriba otra vez</span> <span class="back-top-icon" aria-hidden="true"><svg class="arrow-up"><use href="#icon-arrow"/></svg></span></a></div></footer>
 </body>
 </html>
